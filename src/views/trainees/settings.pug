@@ -1,0 +1,58 @@
+extends ../layout
+block title
+  title Settings
+block style
+  link(rel='stylesheet' href='/css/mystyles/trainee.css')
+block content
+  body
+    section.signup
+      .container
+        form#traineeSignup(action='/traineeProfile/settings', method="POST", onchange="saveChanges()")
+          .form-group
+            input(class="form-control", type='text', name='firstname', placeholder='First Name', value=user.user.firstName, minlength='4', maxlength='25', autofocus)
+          .form-group
+            input#lname(class="form-control", type='text', name='lastname', value=user.user.lastName, placeholder='Last Name', minlength='4', maxlength='25')
+          .form-group
+            input#oldPassword(class="form-control", type='password', name='oldPassword', placeholder='Old Password')
+            input#newPassword(class="form-control", type='password', name='newPassword', placeholder='New Password')
+            input#cNewPassword(class="form-control", type='password', name='cNewPassword', placeholder='Confirm Password')
+          .form-group
+            input#em(class="form-control", type='email', name='email', value=trainee.email, placeholder='Email')
+          .form-group
+            input#tel(class="form-control", type='tel', name='phone', value="0"+user.user.phone, placeholder='Mobile Number', pattern='[0-9]{11}', maxlength='11')
+          //
+            .form-group
+              select(class="form-control", name="coachId")
+                option(value="") Choose Coach
+                if coaches
+                  each coach in coaches
+                    if coach.coachId == user.coachId
+                      option(value=coach.coachId, selected)= coach.user.userName
+                    else
+                      option(value=coach.coachId)= coach.user.userName
+          .form-group
+            input#saveChange(class="btn btn-primary py-3 px-5 col-sm-12", type='submit', value='Save Changes', disabled)
+        if errors
+          each error in errors
+            .alert.alert-danger= error.msg
+        if passwordError
+          .alert.alert-danger= passwordError
+block scripts
+  script.
+    let password = document.getElementById("newPassword")
+    let confirm_password = document.getElementById("cNewPassword");
+
+    function validatePassword(){
+      if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords Don't Match");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+    function saveChanges() {
+      $('#saveChange').attr('disabled', false);
+    }

@@ -1,0 +1,114 @@
+/* Overriding The Current Template */
+.ftco-navbar-light {
+  position: relative;
+}
+
+/* All Trainee Pages */
+.dropdown .dropbtn {
+  font-size: 13px;  
+  border: none;
+  color: white;
+  background-color: inherit;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.navbar a:hover, .dropdown:hover .dropbtn {
+  color: #e5ce48;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 225px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: black;
+  padding: 10px 0px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Sign up */     
+.signup #traineeSignup {
+  margin: 10px 0px 40px 0px;
+}
+
+/* Complete Registration */
+.completeRegistration #completeRegistration {
+  margin: 25px 0px 40px 0px;
+}
+
+/* Before Starting Date */
+.beforeStartingDate {
+  margin: 60px 0px 80px 0px;
+}
+
+/* Trainee Home Page */
+.daysAdded {
+  padding: 65px 0px;
+}
+.day {
+  padding: 10px;
+}
+.done {
+  margin-top: 5px;
+}
+.noDaysAdd {
+  padding: 120px 0px;
+}
+
+/* Workout Details */
+.exercises {
+  padding: 50px 0px;
+}
+.frame {
+  padding: 20px;
+  border: 1px solid;
+}
+
+/* Rest Day Details */
+.restDay {
+  padding: 20px 0px;
+}
+
+/* Available Time Slots */
+.timeSlots {
+  background: url(/images/image_2.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: #fff;
+}
+.timeSlotsContainer {
+  background: rgba(0.5, 0.5, 0.5, 0.7);
+  padding: 80px 0px;
+}
+.timeSlotsContainer .table tbody tr .dayName {
+  border: 1px solid #fff
+}
+.noTimeSlots {
+  padding: 120px 0px;
+}
+
+/* Trainee General Account Settings */
+.signup #traineeSignup {
+  margin: 10px 0px 40px 0px;
+}
+
+/* Choose Hour For Private Sessions */
+.availableTimeSlots, .noAvailableTimeSlots {
+  padding: 58px 0px;
+}
+.availableTimeSlots .dayData {
+  padding: 15px 0px;
+}

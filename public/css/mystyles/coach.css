@@ -1,0 +1,267 @@
+/* Overriding The Current Template */
+.ftco-navbar-light {
+  position: relative;
+}
+
+/* All Coach Pages */
+.dropdown .dropbtn {
+  font-size: 13px;  
+  border: none;
+  color: white;
+  background-color: inherit;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.navbar a:hover, .dropdown:hover .dropbtn {
+  color: #e5ce48;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 225px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: black;
+  padding: 10px 0px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Sign up */
+.signup #traineeSignup {
+  margin: 10px 0px 40px 0px;
+}
+
+/* Coach Home Page */
+.traineeStatus {
+  margin-left: 20px;
+}
+.traineesContainer {
+  background: rgba(0, 0, 0, 0.4);
+}
+.traineesContainer .trainee td form button {
+  background: transparent;
+  color: #e5ce48;
+  border: none;
+  cursor: pointer;
+}
+.traineesContainer .trainee td  {
+  padding: 15px;
+}
+.noTrainees {
+  padding: 20px;
+}
+.ftco-footer {
+  background: none
+}
+
+/* Manage User */
+.daysAdded {
+  padding: 40px 0px;
+}
+.noDaysAdd {
+  padding: 40px 0px;
+}
+.addMethods .createMethods {
+  padding: 20px 0px;
+}
+.addMethods .createMethods #addByDay {
+  color: #e5ce48;
+}
+.addMethods .createMethods span {
+  cursor: pointer;
+}
+.addMethods .createMethodsForms .addByWeek {
+  display: none
+}
+.addMethods .createMethodsForms .addRestDay {
+  display: none
+}
+.addMethods .createMethodsForms .addRestDay textarea {
+  background: rgba(0, 0, 0, 0.6);
+  color: #e5ce48
+}
+.day {
+  padding: 10px;
+}
+.addDay, .addRestDay, .addWeek {
+  cursor: pointer;
+}
+
+/* Manage Workouts */
+.ftco-footer {
+  background: none
+}
+.workouts #exercises {
+  margin-top: 20px;
+}
+
+/* Manage Rest Days */
+.ftco-footer {
+  background: none
+}
+.restDays #restDayData {
+  margin-top: 20px;
+}
+
+/* Manage Weeks Details */
+.ftco-footer {
+  background: none
+}
+
+/* Create New Workout */
+.ftco-footer {
+  background: none
+}
+.createWorkout {
+  padding: 20px 0px 40px 0px;
+}
+.createWorkout .notAddedExercise, .exercises {
+  margin: 5px 0px;
+}
+
+/* Create New Rest Day */
+.ftco-footer {
+  background: none
+}
+.createRestDay {
+  padding: 20px 0px;
+}
+
+/* Create New Weel Plan */
+.ftco-footer {
+  background: none
+}
+.createWeekPlan #createWeekPlan #weekPlanName {
+  margin: 20px 0px;
+}
+.createWeekPlan input[type="submit"] {
+  margin: 20px 0px;
+}
+
+/* Coach Time Slots */  
+.timeSlots {
+  background: url(/images/image_2.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: #fff;
+}
+.timeSlotsContainer {
+  background: rgba(0.5, 0.5, 0.5, 0.7);
+  padding: 80px 0px;
+}
+.timeSlotsContainer .table tbody tr .dayName {
+  border: 1px solid #fff
+}
+.timeSlots .timeSlot .removeTimeSlot {
+  display: none;
+}
+.timeSlots .timeSlot .removeTimeSlot button {
+  cursor: pointer;
+}
+.noTimeSlots {
+  padding: 40px 0px;
+}
+.addTimeSlots {
+  padding: 20px;
+}
+.addTimeSlots .dayWay strong {
+  color: blue
+}
+.removeHour {
+  cursor: pointer;
+  position: relative;
+  left: 80px;
+  bottom: 45px;
+}
+.timeSlotsContainer input[type="time"] {
+  display: block;
+}
+.timeSlotsContainer .changeGym {
+  display: inline-block;
+  width: auto
+}
+.timeSlotsContainer .changeSelectedGym {
+  display: inline-block;
+  width: auto;
+  background: rgba(0,0,0,0.2);
+}
+.dayWay, .weekWay {
+  cursor: pointer
+}
+#addFreeTimeWeekWay {
+  display: block
+}
+.weekWayDay {
+  margin: 10px;
+  border: 1px solid #123;
+  display: inline-grid;
+  padding: 10px;
+  text-align: center;
+}
+.weekWayDay input {
+  margin-bottom: 10px
+}
+.dayHours {
+  padding: 10px 25px;
+}
+.dayHours .newHour {
+  display: block;
+  height: 50px;
+}
+.saveHours {
+  margin-top: 10px;
+}
+.addHour {
+  cursor: pointer;
+  padding: 10px;
+  color: #fff;
+  background-color: blue;
+  border-radius: 20px;
+}
+.notAvailable {
+  top: -30px;
+  margin-top: 10;
+  background-color: green;
+  padding: 3px;
+  cursor: pointer
+}
+.hour {
+  margin: 5px;
+  background-color: blue;
+  color: white;
+  padding: 5px;
+  border-radius: 10px;
+}
+.gymName {
+  margin: 5px;
+  background-color: blue;
+  color: white;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+/* Private Sessions */
+.privateSessions {
+  padding: 20px 0px;
+}
+.privateSessions .privateSession {
+  margin: 10px 0px;
+}
+
+/* Coach General Account Settings */    
+.signup #traineeSignup {
+  margin: 10px 0px 40px 0px;
+}

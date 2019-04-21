@@ -1,0 +1,36 @@
+extends ../layout
+block title
+  title Choose Hour
+block style
+  link(rel='stylesheet' href='/css/mystyles/trainee.css')
+block content
+  body
+    if timeSlots.length > 0
+      section.availableTimeSlots.text-center
+        .container
+          h4= timeSlots[0].dayName
+            |  available hour(s)
+          each timeSlot in timeSlots
+            div.dayData
+              form(action="/traineeProfile/timeSlots/requestSession" method="POST", onsubmit="return validateMyForm(this.dayHour)")
+                input(type="hidden", name="dayNumber", value=dayNumber)
+                input(type="hidden", name="dayHour", value=timeSlot.hour)
+                input(type="hidden", name="dayName", value=timeSlots[0].dayName)
+                button(class="btn btn-primary", type="submit")
+                  span.text-info= timeSlot.hour
+                  | 
+                  span.text-secondary= timeSlot.gyms[0].name
+    else
+      section.noAvailableTimeSlots.text-center
+        .container
+          .alert.alert-info Your Coach have no available time slots in this day
+
+block scripts
+  script.
+    function validateMyForm(hour) {
+      let ask = confirm("Are you sure you want to reserve " + hour.value + " with 25 Gondy?");
+      if (!ask) {
+        return false;
+      }
+      return true;
+    }

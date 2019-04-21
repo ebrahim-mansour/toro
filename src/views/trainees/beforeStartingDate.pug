@@ -1,0 +1,23 @@
+extends ../layout
+block title
+  title Home
+block style
+  link(rel='stylesheet' href='/css/mystyles/trainee.css')
+block content
+  body
+    section.beforeStartingDate.text-center
+      .container
+        .h3 Your starting date is: 
+          strong= user.startingDate
+        p.lead If You Are Ready To Start Now
+        form(action="traineeProfile/startNow" method="POST", onsubmit="return validateMyForm()")
+          button(class="btn btn-primary py-3 px-5" type="submit") Let's Start
+block scripts
+  script.
+    function validateMyForm() {
+      let ask = confirm("Are you sure you want to start training?");
+      if (!ask) {
+        return false;
+      }
+      return true;
+    }

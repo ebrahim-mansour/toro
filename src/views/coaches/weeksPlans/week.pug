@@ -1,0 +1,15 @@
+.weekPlan
+  - let i = 0;
+  - let j = 0;
+  - let k = 0;
+  while i < weekPlanDetails.length
+    if weekPlanDetails[i].workoutId != null
+      div(class="alert alert-primary text-center")= workouts[j].workoutName
+      - j++;
+    else
+      div(class="alert alert-light text-center")
+        span= restDays[k].name
+        | 
+        span(class="badge badge-success") Rest
+      - k++;
+    - i++;

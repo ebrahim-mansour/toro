@@ -1,0 +1,482 @@
+extends layout
+block title
+  title Toro
+block style
+  style.
+    .dropdown .dropbtn {
+      font-size: 13px;  
+      border: none;
+      color: white;
+      background-color: inherit;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .navbar a:hover, .dropdown:hover .dropbtn {
+      color: #e5ce48;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .dropdown-content a {
+      color: black;
+      padding: 6px 0px;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+block content
+
+  section.home-slider.owl-carousel
+    .slider-item(style='background-image: url(images/bg_1.jpg);')
+      .overlay
+      .container
+        .row.slider-text.align-items-center(data-scrollax-parent='true')
+          .col-md-5.col-sm-12.ftco-animate
+            h1.mb-4 TORO
+            p.mb-4.mb-md-5
+              | Remember the name because we're going to be the reason for the change that's going to happen in your life, we're going to make you achieve your highest potentials.
+            p
+              a.btn.btn-primary.p-3.px-xl-4.py-xl-3(href='/user/login') Get Started Now
+    .slider-item(style='background-image: url(images/bg_5.jpg);')
+      .overlay
+      .container
+        .row.slider-text.align-items-center(data-scrollax-parent='true')
+          .col-md-5.col-sm-12.ftco-animate
+            h1.mb-4 Challenge Yourself
+            p.mb-4.mb-md-5
+              | You have a long way to go through but remember the shortest way between two points is a straight line so stop all the whining and start your fitness journey with us.
+            p
+              a.btn.btn-primary.p-3.px-xl-4.py-xl-3(href='#') Get Started Now
+  section.ftco-intro
+    .container-wrap
+      .wrap.d-md-flex.justify-content-end.align-items-xl-end
+        .info
+          .row.no-gutters
+            .col-md-6.d-flex.ftco-animate
+              .icon
+                span.icon-phone
+              .text
+                h3 +20 122 672 8544
+                p For more details, you are more than welcome to contact us.
+            .col-md-6.d-flex.ftco-animate
+              .icon
+                span.icon-chat
+              .text
+                h3 Live chat
+                p 	opening soon to be here for you 24/7
+  section.ftco-about.d-md-flex
+    .one-half.img(style='background-image: url(images/image_2.jpg);')
+      a.icon.popup-vimeo.d-flex.justify-content-center.align-items-center(href='https://www.youtube.com/watch?v=Jv2hf7My0eo')
+        span.icon-play
+    .one-half.ftco-animate
+      .heading-section.ftco-animate
+        h2.mb-4
+          | welcome to 
+          span toro
+      div
+        p On this website we aim to provide you an affordable program made specially for your body type and lifestyle to help you achieve your goal, we also not only provide training plans but also nutrition and supplements plans to be sure that you get all the tools needed for you to achieve your dream body in no time, remember that our coaches are all certified and well experienced so you are in good hands don't worry.
+  section.ftco-section.ftco-bg-dark
+    .container
+      .row.justify-content-center.mb-5
+        .col-md-7.heading-section.text-center.ftco-animate
+          h2.mb-4 Our Process
+      .row
+        .col-md-6.ftco-animate
+          .media.d-block.text-center.block-6.services
+            .icon.d-flex.justify-content-center.align-items-center.mb-5
+              span.flaticon-ruler
+            .media-body
+              h3.heading 1- Analyze Your Goal
+              p Tell us exactly what are you looking for and how hard you want that change and willing to commit.
+        .col-md-6.ftco-animate
+          .media.d-block.text-center.block-6.services
+            .icon.d-flex.justify-content-center.align-items-center.mb-5
+              span.flaticon-gym
+            .media-body
+              h3.heading 2- Work Hard On It
+              p There is no an easy way around or a magic pill that will get you towards your goal, you have to trust the process, be committed to your diet and be sure that you will be better by time.
+        .col-md-6.ftco-animate
+          .media.d-block.text-center.block-6.services
+            .icon.d-flex.justify-content-center.align-items-center.mb-5
+              span.flaticon-tools-and-utensils
+            .media-body
+              h3.heading 3- Improve Your Performance
+              p Not only we provide plans but we also be with you through out your journey telling you how to improve your performance by some expert tips and hints to make you gain more knowledge.
+        .col-md-6.ftco-animate
+          .media.d-block.text-center.block-6.services
+            .icon.d-flex.justify-content-center.align-items-center.mb-5
+              span.flaticon-abs
+            .media-body
+              h3.heading 4- Achieve Perfect Body
+              p When you get here you're going to be more than satisfied about what you have achieved and how you conquered all of your fears to be the best version of yourself, this also going to make you gain confidence about how you look or how you react with people.
+  
+  //
+    section.ftco-section
+      .container
+        .row.align-items-center
+          .col-md-6.pr-md-5
+            .heading-section.text-md-right.ftco-animate
+              span.subheading Programs
+              h2.mb-4 Fitness Programs
+              p.mb-4
+                | Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
+              p
+                a.btn.btn-primary.btn-outline-primary.px-4.py-3(href='#') View Full Programs
+          .col-md-6
+            .program.d-flex.ftco-animate
+              .icon.d-flex.justify-content-center.align-items-center
+                span.flaticon-gym
+              .text.ml-5
+                h3 Body Building
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+            .program.d-flex.ftco-animate
+              .icon.d-flex.justify-content-center.align-items-center
+                span.flaticon-woman
+              .text.ml-5
+                h3 Aerobic Classes
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+            .program.d-flex.ftco-animate
+              .icon.d-flex.justify-content-center.align-items-center
+                span.flaticon-workout
+              .text.ml-5
+                h3 Weight Lifting
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+            .program.d-flex.ftco-animate
+              .icon.d-flex.justify-content-center.align-items-center
+                span.flaticon-meditation
+              .text.ml-5
+                h3 Yoga Classes
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+            .program.d-flex.ftco-animate
+              .icon.d-flex.justify-content-center.align-items-center
+                span.flaticon-stationary-bike
+              .text.ml-5
+                h3 Cardio Training
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+    section#section-counter.ftco-counter.ftco-bg-dark.img(style='background-image: url(images/bg_5.jpg);', data-stellar-background-ratio='0.5')
+      .overlay
+      .container
+        .row.justify-content-center
+          .col-md-10
+            .row
+              .col-md-6.col-lg-3.d-flex.justify-content-center.counter-wrap.ftco-animate
+                .block-18.text-center
+                  .text
+                    strong.number(data-number='5000') 0
+                    span Happy Customers
+              .col-md-6.col-lg-3.d-flex.justify-content-center.counter-wrap.ftco-animate
+                .block-18.text-center
+                  .text
+                    strong.number(data-number='4560') 0
+                    span Perfect Bodies
+              .col-md-6.col-lg-3.d-flex.justify-content-center.counter-wrap.ftco-animate
+                .block-18.text-center
+                  .text
+                    strong.number(data-number='570') 0
+                    span Working Hours
+              .col-md-6.col-lg-3.d-flex.justify-content-center.counter-wrap.ftco-animate
+                .block-18.text-center
+                  .text
+                    strong.number(data-number='900') 0
+                    span Success Stories
+    section.ftco-section
+      .container
+        .row.justify-content-center.mb-5
+          .col-md-7.heading-section.text-center.ftco-animate
+            span.subheading Trainer
+            h2.mb-4 Our Coaches
+            p
+              | Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+        .row
+          .col-lg-6.d-flex
+            .coach.d-sm-flex.align-items-stretch
+              .img(style='background-image: url(images/trainer-1.jpg);')
+              .text.py-4.px-5.ftco-animate
+                span.subheading Owner / Head Coach
+                h3
+                  a(href='#') Oscar Brook
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                ul.ftco-social-media.d-flex.mt-4
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-twitter
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-facebook
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-instagram
+                p
+          .col-lg-6.d-flex
+            .coach.d-sm-flex.align-items-stretch
+              .img(style='background-image: url(images/trainer-2.jpg);')
+              .text.py-4.px-5.ftco-animate
+                span.subheading Owner / Head Coach
+                h3
+                  a(href='#') Leonard Smith
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                ul.ftco-social-media.d-flex.mt-4
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-twitter
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-facebook
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-instagram
+                p
+          .col-lg-6.d-flex
+            .coach.d-sm-flex.align-items-stretch
+              .img.order-xl-last(style='background-image: url(images/trainer-3.jpg);')
+              .text.py-4.px-5.ftco-animate
+                span.subheading Owner / Head Coach
+                h3
+                  a(href='#') James Buffer
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                ul.ftco-social-media.d-flex.mt-4
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-twitter
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-facebook
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-instagram
+                p
+          .col-lg-6.d-flex
+            .coach.d-sm-flex.align-items-stretch
+              .img.order-xl-last(style='background-image: url(images/trainer-2.jpg);')
+              .text.py-4.px-5.ftco-animate
+                span.subheading Owner / Head Coach
+                h3
+                  a(href='#') Maricar Collins
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                ul.ftco-social-media.d-flex.mt-4
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-twitter
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-facebook
+                  li.ftco-animate
+                    a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
+                      span.icon-instagram
+                p
+    section#ftco-testimony.ftco-section.img(style='background-image: url(images/bg_1.jpg);', data-stellar-background-ratio='0.5')
+      .overlay
+      .container
+        .row.justify-content-center.mb-5
+          .col-md-7.heading-section.text-center.ftco-animate
+            span.subheading Testimony
+            h2.mb-4 Customers Says
+            p
+              | Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+      .container-wrap
+        .row.d-flex.no-gutters
+          .col-lg.align-self-sm-end.ftco-animate
+            .testimony
+              blockquote
+                p
+                  | “Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small.”
+              .author.d-flex.mt-4
+                .image.mr-3.align-self-center
+                  img(src='images/person_1.jpg', alt='')
+                .name.align-self-center
+                  | Louise Kelly 
+                  span.position Illustrator Designer
+          .col-lg.align-self-sm-end
+            .testimony.overlay
+              blockquote
+                p
+                  | “Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.”
+              .author.d-flex.mt-4
+                .image.mr-3.align-self-center
+                  img(src='images/person_2.jpg', alt='')
+                .name.align-self-center
+                  | Louise Kelly 
+                  span.position Illustrator Designer
+          .col-lg.align-self-sm-end.ftco-animate
+            .testimony
+              blockquote
+                p
+                  | “Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small  line of blind text by the name. ”
+              .author.d-flex.mt-4
+                .image.mr-3.align-self-center
+                  img(src='images/person_3.jpg', alt='')
+                .name.align-self-center
+                  | Louise Kelly 
+                  span.position Illustrator Designer
+          .col-lg.align-self-sm-end
+            .testimony.overlay
+              blockquote
+                p
+                  | “Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however.”
+              .author.d-flex.mt-4
+                .image.mr-3.align-self-center
+                  img(src='images/person_2.jpg', alt='')
+                .name.align-self-center
+                  | Louise Kelly 
+                  span.position Illustrator Designer
+          .col-lg.align-self-sm-end.ftco-animate
+            .testimony
+              blockquote
+                p
+                  | “Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small  line of blind text by the name. ”
+              .author.d-flex.mt-4
+                .image.mr-3.align-self-center
+                  img(src='images/person_3.jpg', alt='')
+                .name.align-self-center
+                  | Louise Kelly 
+                  span.position Illustrator Designer
+  
+  section.ftco-section
+    .container
+      .row.justify-content-center.mb-5.pb-3
+        .col-md-7.heading-section.ftco-animate.text-center
+          h2.mb-4 Our Packages
+      .row
+        .col-md-6.col-lg-4
+          .package-program.ftco-animate
+            .img(style='background-image: url(images/program-1.jpg);')
+            .text.mt-4
+              h3 Customized training program
+              span.d-block.mb-4 Free for limited time
+              p We here try to provide a full detailed training program for only ONE month with all the exercises needed to be done and how it is done.
+              .d-flex.mt-4
+                p.price
+                  sup $
+                  | 00.00
+                  sub  / Month
+                p.btn-custom.float-right
+                  a(href='#') Enroll Now
+        .col-md-6.col-lg-4
+          .package-program.ftco-animate
+            .img(style='background-image: url(images/program-1.jpg);')
+            .text.mt-4
+              h3 Customized Nutrition plan
+              span.d-block.mb-4 Free for the first order
+              p We try to find the most suitable, full detailed and well built nutrition plan for you to help you achieve your fitness goal.
+              .d-flex.mt-4
+                p.price
+                  sup $
+                  | 00.00
+                  sub  / Month
+                p.btn-custom.float-right
+                  a(href='#') Enroll Now
+        .col-md-6.col-lg-4
+          .package-program.ftco-animate
+            .img(style='background-image: url(images/program-1.jpg);')
+            .text.mt-4
+              h3 Full transformation package
+              span.d-block.mb-4
+              p You get a full detailed training program as well as your nutrition plan made specially for you and as a bonus we will also give you a free supplement plan, online 24/7 chat with your coach regarding any aspect of the program.
+              .d-flex.mt-4
+                p.price
+                  sup $
+                  | 250
+                  sub  / Month
+                p.btn-custom.float-right
+                  a(href='#') Enroll Now
+  
+  //
+    section.ftco-section
+      .container
+        .row.justify-content-center.mb-5.pb-3
+          .col-md-7.heading-section.ftco-animate.text-center
+            h2.mb-4 Recent from blog
+            p
+              | Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+        .row.d-flex
+          .col-md-4.d-flex.ftco-animate
+            .blog-entry.align-self-stretch
+              a.block-20(href='blog-single.html', style="background-image: url('images/image_2.jpg');")
+              .text.py-4.d-block
+                .meta
+                  div
+                    a(href='#') October 23, 2018
+                  div
+                    a(href='#') Admin
+                  div
+                    a.meta-chat(href='#')
+                      span.icon-chat
+                      |  3
+                h3.heading.mt-2
+                  a(href='#') Young Women Doing Abdominal
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia.
+          .col-md-4.d-flex.ftco-animate
+            .blog-entry.align-self-stretch
+              a.block-20(href='blog-single.html', style="background-image: url('images/image_2.jpg');")
+              .text.py-4.d-block
+                .meta
+                  div
+                    a(href='#') October 23, 2018
+                  div
+                    a(href='#') Admin
+                  div
+                    a.meta-chat(href='#')
+                      span.icon-chat
+                      |  3
+                h3.heading.mt-2
+                  a(href='#') Young Women Doing Abdominal
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia.
+          .col-md-4.d-flex.ftco-animate
+            .blog-entry.align-self-stretch
+              a.block-20(href='blog-single.html', style="background-image: url('images/image_2.jpg');")
+              .text.py-4.d-block
+                .meta
+                  div
+                    a(href='#') October 23, 2018
+                  div
+                    a(href='#') Admin
+                  div
+                    a.meta-chat(href='#')
+                      span.icon-chat
+                      |  3
+                h3.heading.mt-2
+                  a(href='#') Young Women Doing Abdominal
+                p
+                  | A small river named Duden flows by their place and supplies it with the necessary regelialia.
+  
+  section.ftco-gallery
+    .container-wrap
+      .row.no-gutters
+        .col-md-3.ftco-animate
+          a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-3.jpg);')
+            .icon.mb-4.d-flex.align-items-center.justify-content-center
+              span.icon-search
+        .col-md-3.ftco-animate
+          a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-2.jpg);')
+            .icon.mb-4.d-flex.align-items-center.justify-content-center
+              span.icon-search
+        .col-md-3.ftco-animate
+          a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-3.jpg);')
+            .icon.mb-4.d-flex.align-items-center.justify-content-center
+              span.icon-search
+        .col-md-3.ftco-animate
+          a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-4.jpg);')
+            .icon.mb-4.d-flex.align-items-center.justify-content-center
+              span.icon-search

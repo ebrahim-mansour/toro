@@ -1,0 +1,20 @@
+extends ../../layout
+block title
+  title Create Rest Day
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+    section.createRestDay.text-center
+      .container
+        if errors
+          each error in errors
+            .alert.alert-danger.text-center= error.msg
+        form#createRestDay(action="/coachProfile/restDays/new" method="POST", enctype="multipart/form-data")
+          .form-group
+            input(type="text", class="form-control", name="restDayName", placeholder="Rest day name", autofocus, required)
+          .form-group
+            textarea(class="form-control", name="whatToDo", cols="83", rows="10", placeholder="What to do in rest day", required)
+          .form-group
+            input(type="file", class="form-control", name="videoForRestDay", accept="video/*")
+          input(class="btn btn-primary py-3 px-5 col-sm-12", type="submit", form="createRestDay", value="Create Rest Day")

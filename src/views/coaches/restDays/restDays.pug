@@ -1,0 +1,41 @@
+extends ../../layout
+block title
+  title Rest Days
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+    section.restDays.text-center
+      .container
+        h1 All Rest Days
+        form
+          .form-group
+            select.form-control(name='users', onchange='showWorkout(this.value)' autofocus)
+              option(value="") My rest days
+                each restDay in restDays
+                  option(value=restDay.restDayId)= restDay.name
+          #restDayData.form-group
+
+block scripts
+  script.
+    function showWorkout(restDayId) {
+      if (restDayId == "") {
+        document.getElementById("restDayData").innerHTML = "";
+        return;
+      } else {
+        if (window.XMLHttpRequest) {
+          // code for IE7+, Firefox, Chrome, Opera, Safari
+          xmlhttp = new XMLHttpRequest();
+        } else {
+          // code for IE6, IE5
+          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("restDayData").innerHTML = this.responseText;
+        }
+      };
+      xmlhttp.open("GET","/coachProfile/restDays/getRestDay?restDayId="+restDayId,true);
+      xmlhttp.send();
+      }
+    }

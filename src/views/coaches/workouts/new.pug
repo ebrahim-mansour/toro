@@ -1,0 +1,84 @@
+extends ../../layout
+block title
+  title Create Workout
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+    section.createWorkout.text-center
+      .container
+        if errors
+          each error in errors
+            .alert.alert-danger= error.msg
+
+        form(id="createWorkout" action="/coachProfile/workouts/new" method="post")
+          .form-group
+            input(class="form-control", type="text", name="workoutName", placeholder="Workout Name", autofocus)
+          .form-group
+            - let i = 0
+            select(class="form-control", onchange='showCategoryExercises(this.value);', onblur="addOrRemoveExercises()" autofocus)
+              option(value="") Choose category to view it's exercises
+              while i < exercises.length
+                option(value= exercises[i].DISTINCT)= exercises[i++].DISTINCT
+          .form-group
+            .row
+              .col-sm-6
+                h5 Exercises to choose from
+                span Click on the exercise to choose it
+                #exercisesToChooseFrom
+              .col-sm-6
+                h5 Exercises
+                span Click on the exercise to remove it
+                #choosedExercises
+          input(class="btn btn-primary py-3 px-5 col-sm-12" type="submit", value="Save Workout" form="createWorkout")
+
+block scripts
+  script.
+    function showCategoryExercises(category) {
+      if (category == "") {
+        document.getElementById("exercisesToChooseFrom").innerHTML = "";
+        return;
+      } else {
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("exercisesToChooseFrom").innerHTML = this.responseText;
+          }
+        };
+        xmlhttp.open("GET","/coachProfile/exercisesByCategory?category="+category,true);
+        xmlhttp.send();
+      }
+    }
+    function addOrRemoveExercises() {
+      let notAddedExercises = $('.notAddedExercise');
+      for (let i = 0; i < notAddedExercises.length; i++) {
+        notAddedExercises[i].addEventListener("click", function() {
+          let newExercise = document.createElement("input");
+          newExercise.setAttribute('id', this.id);
+          newExercise.setAttribute('class', 'exercises btn btn-dark');
+          newExercise.setAttribute('name', 'exercises');
+          newExercise.setAttribute('value', this.value);
+          newExercise.setAttribute('readonly', true);
+          
+          /*
+          let alreadyExist = $('#choosedExercises').find('input').css({'id': this.id});
+          if (alreadyExist) {
+            alert("Already exist")
+          } else {
+            $('#choosedExercises').append(newExercise);
+            this.remove();
+          }
+          */
+          
+          $('#choosedExercises').append(newExercise);
+          this.remove();
+          
+          let exercises = $('.exercises');
+          for (let i = 0; i < exercises.length; i++) {
+            exercises[i].addEventListener("click", function() {
+              this.remove();
+            });
+          }
+        });
+      }
+    }

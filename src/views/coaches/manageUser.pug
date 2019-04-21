@@ -1,0 +1,105 @@
+extends ../layout
+block title
+  title Manage
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+
+    section.addMethods
+      .container
+        .createMethods.text-center
+          .row
+            div.col-sm-4
+              span#addByDay Add day
+            div.col-sm-4
+              span#addByRestDay Add rest day
+            div.col-sm-4
+              span#addByWeek Add week
+        .createMethodsForms
+          .row
+            .addByDay.col-md-12
+              form#addDay(action="/coachProfile/addDay" method="POST")
+                .form-group
+                  input(type="hidden", name="traineeId", value=traineeId)
+                  select(class="form-control", name="workoutId", required)
+                    option(value="", style="background:rgba(0,0,0,0.5);") Select Workout
+                      each workout in workouts
+                        option(value=workout.workoutId, style="background:rgba(0,0,0,0.5);")= workout.workoutName
+
+                button.addDay(class="btn btn-primary py-3 px-5 col-sm-12", type="submit", form="addDay") Add Day
+            .addRestDay.col-md-12
+              form#addRestDay(action="/coachProfile/addRestDay" method="POST")
+                .form-group
+                  input(type="hidden", name="traineeId", value=traineeId)
+                  select(class="form-control", name="restDayId", required)
+                    option(value="", style="background:rgba(0,0,0,0.5);") Select Rest Day
+                      each restDay in restDays
+                        option(value=restDay.restDayId, style="background:rgba(0,0,0,0.5);")= restDay.name
+                button.addRestDay(class="btn btn-primary py-3 px-5 col-sm-12", type="submit" form="addRestDay") Add Rest Day
+            .addByWeek.col-md-12
+              form#addWeek(action="/coachProfile/addWeek" method="POST")
+                .form-group
+                  input(type="hidden", name="traineeId", value=traineeId)
+                  select(class="form-control", name="weekPlanId", required)
+                    option(value="", style="background:rgba(0,0,0,0.5);") Select Week
+                      each weekPlan in weeksPlans
+                        option(value=weekPlan.weekPlanId, style="background:rgba(0,0,0,0.5);")= weekPlan.name
+                button.addWeek(class="btn btn-primary py-3 px-5 col-sm-12", type="submit" form="addWeek") Add Week
+
+    if days.length > 0
+      section.daysAdded.text-center
+        .container
+          .row
+            each day in days
+              .day.border.border-secondary.col-sm-3
+                div Added: 
+                  span= day.dayDate
+                div Day number: 
+                  span= day.dayNumber
+                if day.workoutId != null
+                  div Workout Name: 
+                    span= day.workouts[0].workoutName
+                else
+                  .text-info Rest: 
+                    span= day.restDays[0].name
+                if day.status == "done"
+                  .userFinished.text-primary User Already Finished
+                if day.status == "current and has a private session"
+                  .hasPrivateSession.text-info Private Session
+                if day.status == "done and has a private session"
+                  .userFinished.text-primary User Already Finished
+                  .hasPrivateSession.text-info Private Session
+    else
+      section.noDaysAdd.text-center
+        .container
+          h3 You Haven't added any days
+block scripts
+  script.
+    $('#addByDay').click(function () {
+      $('.addMethods .createMethodsForms .addByDay').show(500);
+      $('.addMethods .createMethodsForms .addRestDay').hide(500);
+      $('.addMethods .createMethodsForms .addByWeek').hide(500);
+
+      $('.addMethods .createMethods #addByDay').css("color", "#e5ce48");
+      $('.addMethods .createMethods #addByRestDay').css("color", "#bfbfbf");
+      $('.addMethods .createMethods #addByWeek').css("color", "#bfbfbf");
+    })
+    $('#addByRestDay').click(function () {
+      $('.addMethods .createMethodsForms .addRestDay').show(500);
+      $('.addMethods .createMethodsForms .addByDay').hide(500);
+      $('.addMethods .createMethodsForms .addByWeek').hide(500);
+
+      $('.addMethods .createMethods #addByRestDay').css("color", "#e5ce48");
+      $('.addMethods .createMethods #addByDay').css("color", "#bfbfbf");
+      $('.addMethods .createMethods #addByWeek').css("color", "#bfbfbf");
+    })
+    $('#addByWeek').click(function () {
+      $('.addMethods .createMethodsForms .addByWeek').show(500);
+      $('.addMethods .createMethodsForms .addByDay').hide(500);
+      $('.addMethods .createMethodsForms .addRestDay').hide(500);
+
+      $('.addMethods .createMethods #addByWeek').css("color", "#e5ce48");
+      $('.addMethods .createMethods #addByDay').css("color", "#bfbfbf");
+      $('.addMethods .createMethods #addByRestDay').css("color", "#bfbfbf");
+    })

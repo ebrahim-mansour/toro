@@ -1,0 +1,10 @@
+if workouts
+  select(class="form-control" name='workoutsOrRestDays' autofocus, required)
+    option(value="") My workouts
+    each workout in workouts
+      option(value=workout.workoutId)= workout.workoutName
+if restDays
+  select(class="form-control" name='workoutsOrRestDays' autofocus, required)
+    option(value="") My Rest Days
+    each restDay in restDays
+      option(value=restDay.restDayId)= restDay.name

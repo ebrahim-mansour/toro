@@ -1,0 +1,6 @@
+.form-group
+  select(class="form-control", name="coachId", required)
+    option(value="") Choose Coach
+    if coaches
+      each coach in coaches
+        option(value=coach.coachId)= coach.user.userName

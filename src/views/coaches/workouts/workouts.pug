@@ -1,0 +1,35 @@
+extends ../../layout
+block title
+  title Workouts
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+    section.workouts.text-center
+      .container
+        h1 All Workouts
+        form
+          .form-group
+            select(class="form-control", onchange='showWorkout(this.value)', autofocus)
+              option(value="") My workouts
+                if workouts
+                  each workout in workouts
+                    option(value=workout.workoutId)= workout.workoutName      
+        #exercises
+
+    script.
+      function showWorkout(workoutId) {
+        if (workoutId == "") {
+          document.getElementById("exercises").innerHTML = "";
+          return;
+        } else {
+          xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              document.getElementById("exercises").innerHTML = this.responseText;
+            }
+          };
+          xmlhttp.open("GET","/coachProfile/workouts/getWorkout?workoutId="+workoutId,true);
+          xmlhttp.send();
+        }
+      }

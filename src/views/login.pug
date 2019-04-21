@@ -1,0 +1,16 @@
+extends ./layout
+block title
+  title Login
+block style
+  link(rel='stylesheet' href='/css/mystyles/login.css')
+block content
+  body
+    if success_msg
+      div= success_msg
+    section.login.text-center
+      .login-container
+        .container
+          form(action='/users/login' method="POST")
+            input(class="form-control", type='text', name='email', placeholder='Email', autofocus, required)
+            input(class="form-control", type='password', name='password', placeholder='Password', required)
+            input(class="btn btn-primary py-3 px-5 col-sm-12", type='submit', value='Login')

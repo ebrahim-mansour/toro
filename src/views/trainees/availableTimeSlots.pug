@@ -1,0 +1,48 @@
+extends ../layout
+block title
+  title Available Time Slots
+block style
+  link(rel='stylesheet' href='/css/mystyles/trainee.css')
+block content
+  body
+    if timeSlots.length > 0
+      section.timeSlots.text-center
+        .timeSlotsContainer
+          .container-fluid
+            .row
+              - let allDaysNames = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+              each day in allDaysNames
+                - let y = 0;
+                while y < timeSlots.length - 1
+                  if timeSlots[y].dayName == day && timeSlots[y].dayName != timeSlots[y+1].dayName
+                    div(class=timeSlots[y].dayName + " col")
+                      strong= timeSlots[y].dayName
+                      - let z = 0;
+                      while z < timeSlots.length
+                        if timeSlots[z].dayName == timeSlots[y].dayName
+                          div
+                            span.dayHour= timeSlots[z].hour
+                            | 
+                            each gym in gyms
+                              if gym.gymId == timeSlots[z].gymId
+                                span.dayGym= gym.name
+                        - z++;                  
+                  if timeSlots[y].dayName == day && y == timeSlots.length - 2
+                    div(class=timeSlots[y+1].dayName + " col")
+                      strong= timeSlots[y+1].dayName
+                      - let a = 0;
+                      while a < timeSlots.length
+                        if timeSlots[a].dayName == timeSlots[y+1].dayName
+                          div
+                            span.dayHour= timeSlots[a].hour
+                            | 
+                            each gym in gyms
+                              if gym.gymId == timeSlots[a].gymId
+                                span.dayGym= gym.name
+                        - a++;
+                  - y++;
+
+    else
+      section.noTimeSlots.text-center
+        .container
+          p.lead Sorry, Your coach has no available time

@@ -1,0 +1,182 @@
+doctype html
+html(lang='en')
+  head
+    block title
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1", shrink-to-fit="no")
+    meta(name='description', content=description)
+
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO', crossorigin='anonymous')
+
+    // Start Bodyfit css files
+
+    link(href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800", rel="stylesheet")
+
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css")
+    link(rel='stylesheet', href="/css/animate.css")
+
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css")
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css")
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css")
+    
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css")
+    
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/fontawesome.min.css")
+
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css")
+    
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css")
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.css")
+    
+    link(rel='stylesheet', href='/css/flaticon.css')
+    link(rel='stylesheet', href='/css/icomoon.css')
+    link(rel='stylesheet', href='/css/style.css')
+
+    // End Bodyfit css files
+
+    block style
+
+  body
+    if user
+      if user.traineeId
+        nav#ftco-navbar.navbar.navbar-expand-lg.navbar-dark.ftco_navbar.bg-dark.ftco-navbar-light
+          .container
+            a.navbar-brand
+              // (href='/coachProfile')
+              | Toro
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#ftco-nav', aria-controls='ftco-nav', aria-expanded='false', aria-label='Toggle navigation')
+              span.oi.oi-menu
+              |  Menu
+            #ftco-nav.collapse.navbar-collapse
+              ul.navbar-nav.ml-auto
+                li.nav-item
+                  a.nav-link(href='/traineeProfile') My Workouts
+                li.nav-item
+                  a.nav-link(href='/traineeProfile/timeSlots') Available Time Slots
+                li.nav-item
+                  div(class="dropdown nav-link")
+                    button.dropbtn Settings
+                    .dropdown-content
+                      a(href='/traineeProfile/settings') General Account Settings
+                      a(href='/logout') Log out                
+      else
+        nav#ftco-navbar.navbar.navbar-expand-lg.navbar-dark.ftco_navbar.bg-dark.ftco-navbar-light
+          .container
+            a.navbar-brand
+              // (href='/coachProfile')
+              | Toro
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#ftco-nav', aria-controls='ftco-nav', aria-expanded='false', aria-label='Toggle navigation')
+              span.oi.oi-menu
+              |  Menu
+            #ftco-nav.collapse.navbar-collapse
+              ul.navbar-nav.ml-auto
+                li.nav-item
+                  a.nav-link(href='/coachProfile') My Trainees
+                li.nav-item
+                  div(class="dropdown nav-link")
+                    button.dropbtn Activities
+                    .dropdown-content
+                      a(href='/coachProfile/workouts/new') Create Workout
+                      a(href='/coachProfile/restdays/new') Create Rest Day
+                      a(href='/coachProfile/weekPlans/new') Create Week Plan
+                      a(href='/coachProfile/workouts') Workouts
+                      a(href='/coachProfile/restdays') Rest Days
+                      a(href='/coachProfile/weekPlans') Week Plans
+                li.nav-item
+                  a.nav-link(href='/coachProfile/timeSlots') Time Slots
+                li.nav-item
+                  a.nav-link(href='/coachProfile/managePrivateSessions') Private Sessions
+                li.nav-item
+                  div(class="dropdown nav-link")
+                    button.dropbtn Settings
+                    .dropdown-content
+                      a(href='/coachProfile/settings') General Account Settings
+                      a(href='/logout') Log out
+    else
+      nav#ftco-navbar.navbar.navbar-expand-lg.navbar-dark.ftco_navbar.bg-dark.ftco-navbar-light
+        .container
+          a.navbar-brand(href='/') TORO
+          button.navbar-toggler(type='button', data-toggle='collapse', data-target='#ftco-nav', aria-controls='ftco-nav', aria-expanded='false', aria-label='Toggle navigation')
+            span.oi.oi-menu
+            |  Menu
+          #ftco-nav.collapse.navbar-collapse
+            ul.navbar-nav.ml-auto
+              li.nav-item
+                div(class="dropdown nav-link")
+                  button.dropbtn Sign up
+                  .dropdown-content
+                    // a(href='/users/coaches/signup') Coach
+                    a(href='/users/trainees/signup') Trainee
+              li.nav-item
+                a.nav-link(href='/users/login') Login
+
+    block content
+
+    footer.ftco-footer.ftco-section.img
+      .overlay
+      .container
+        .row.mb-5
+          .col-md-6.mb-5.mb-md-5
+            .ftco-footer-widget.mb-4
+              h2.ftco-heading-2 About Us
+              // p OMAR GAMAL: اكتب كلام يا بوب
+              ul.ftco-footer-social.list-unstyled.float-md-left.float-lft.mt-5
+                li.ftco-animate
+                  a(href='#')
+                    span.icon-twitter
+                li.ftco-animate
+                  a(href='#')
+                    span.icon-facebook
+                li.ftco-animate
+                  a(href='#')
+                    span.icon-instagram
+          .col-md-6.mb-5.mb-md-5
+            .ftco-footer-widget.mb-4
+              h2.ftco-heading-2 Have a Questions?
+              .block-23.mb-3
+                ul
+                  li
+                    a(href='#')
+                      span.icon.icon-phone
+                      span.text +20 122 672 8544
+                  li
+                    a(href='#')
+                      span.icon.icon-envelope
+                      span.text dev@toro.com
+        .row
+          .col-md-12.text-center
+            p
+              | Copyright ©
+              script.
+                document.write(new Date().getFullYear());
+              | All rights reserved
+    // loader
+    #ftco-loader.show.fullscreen
+      svg.circular(width='48px', height='48px')
+        circle.path-bg(cx='24', cy='24', r='22', fill='none', stroke-width='4', stroke='#eeeeee')
+        circle.path(cx='24', cy='24', r='22', fill='none', stroke-width='4', stroke-miterlimit='10', stroke='#F96D00')
+
+    // Start bodyfit js
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.0.1/jquery-migrate.min.js")
+    script(src='/js/popper.min.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.0/jquery.waypoints.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/jquery.stellar@0.6.2/jquery.stellar.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.1/owl.carousel.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-animateNumber/0.0.14/jquery.animateNumber.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/scrollax@1.0.0/scrollax.min.js")
+    // script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false')
+    // script(src='js/google-map.js')
+    script(src='/js/main.js')
+
+    // End bodyfit js
+
+    block scripts

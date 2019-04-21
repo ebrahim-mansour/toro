@@ -1,0 +1,72 @@
+extends ../layout
+block title
+  title Sign Up As A Coach
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+  style.
+    .dropdown-content {
+      min-width: 160px;
+    }
+    .dropdown-content a {
+      padding: 6px 0px;
+    }
+block content
+  body
+    section.signup
+      .container
+        form#traineeSignup(action='/users/coaches/signup', method="POST")
+          .form-group
+            input#fname(class='form-control', type='text', name='firstname', value=firstname, placeholder='First Name', minlength='4', maxlength='25', autofocus, required)
+          .form-group
+            input#lname(class='form-control', type='text', name='lastname', value=lastname, placeholder='Last Name', minlength='4', maxlength='25', required)
+          .form-group
+            input#pass(class="form-control", type='password', name='password', placeholder='Password' required)
+          .form-group
+            input#conf_pass(class='form-control', type='password', name='confirm_password', placeholder='Confirm Password' required)
+          .form-group
+            input#em(class='form-control', type='text', name='email', value=email, placeholder='Email' required)
+          .form-group
+            input#tel(class="form-control", type='tel', name='mobile', value=phone, placeholder='Mobile Number', pattern='[0-9]{11}', maxlength='11', required)
+          .form-group
+            select#proficiency(class="form-control" name="proficiency", required)
+              option(value="") Select Your Proficiency
+              - let i = 0;
+              - let proficiencies = ['strength and conditioning', 'weight loss', 'cardio vascular', 'all'];
+              while i < proficiencies.length
+                if !proficiencies
+                  option(value="", selected) Select Your Proficiency
+                else
+                  if proficiency == proficiencies[i]
+                    option(value=proficiencies[i], selected)= proficiencies[i]
+                  else
+                    option(value=proficiencies[i])= proficiencies[i]
+                - i++;
+          .form-group
+            input(class="btn btn-primary py-3 px-5 col-sm-12", type='submit', value='Register')
+      
+        if userError
+          each error in userError
+            .alert.alert-danger= error
+        if emailAlreadyExist
+          .alert.alert-danger Email Already Exists
+        if phoneAlreadyExist
+          .alert.alert-danger Mobile Phone Already Exists
+        if errors
+          each error in errors
+            .alert.alert-danger= error.msg
+
+block scripts
+  script.
+    let password = document.getElementById("pass")
+    let confirm_password = document.getElementById("conf_pass");
+
+    function validatePassword(){
+      if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords Don't Match");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;

@@ -1,0 +1,15 @@
+extends ../layout
+block title
+  title Rest Day
+block style
+  link(rel='stylesheet' href='/css/mystyles/trainee.css')
+block content
+  body
+    section.restDay
+      .container
+        textarea(class="form-control", name="whatToDo", cols="85", rows="10")= restDay.whatToDo
+        if restDay.video
+          video(width='100%', height='50%', controls='')
+            source(src=restDay.video, type='video/mp4')
+            source(src=restDay.video, type='video/ogg')
+            | Your browser does not support the video tag.

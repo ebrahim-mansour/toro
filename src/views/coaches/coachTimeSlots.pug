@@ -1,0 +1,190 @@
+extends ../layout
+block title
+  title All Time Slots
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+    if timeSlots.length > 0
+      section.timeSlots.text-center
+        .timeSlotsContainer
+          .container-fluid
+            .row
+              - let allDaysNames = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+              each day in allDaysNames
+                - let y = 0;
+                while y < timeSlots.length - 1
+                  if timeSlots[y].dayName == day && timeSlots[y].dayName != timeSlots[y+1].dayName
+                    div(class=timeSlots[y].dayName + " col")
+                      strong= timeSlots[y].dayName
+                      - let z = 0;
+                      while z < timeSlots.length
+                        if timeSlots[z].dayName == timeSlots[y].dayName
+                          .timeSlot
+                            span.dayHour= timeSlots[z].hour
+                            | 
+                            span.dayGym
+                              if timeSlots[z].gymId == null
+                                select(id=timeSlots[z].hour, class="form-control changeGym" name=timeSlots[z].dayName, onchange='saveGymName(this.name, this.value, this.id)')
+                                  option(value="") Select a gym
+                                  each gym in gyms
+                                      option(value=gym.gymId)= gym.name
+                              else
+                                select(id=timeSlots[z].hour, class="form-control changeSelectedGym" name=timeSlots[z].dayName, onchange='saveGymName(this.name, this.value, this.id)')
+                                  option(value="") Select a gym
+                                  each gym in gyms
+                                    if gym.gymId == timeSlots[z].gymId
+                                      option(value=gym.gymId, selected)= gym.name
+                                    else
+                                      option(value=gym.gymId)= gym.name
+                            form(class="removeTimeSlot" action="/coachProfile/timeSlots/removeTimeSlot", method="post", onsubmit="return validateMyForm()")
+                              input(type="hidden", name="dayName", value=timeSlots[y].dayName)
+                              input(type="hidden", name="hour", value=timeSlots[z].hour)
+                              button(class="btn btn-danger", type="submit")
+                                i(class="fa fa-minus-square")
+                        - z++;
+                  if timeSlots[y].dayName == day && y == timeSlots.length - 2
+                    div(class=timeSlots[y+1].dayName + " col")
+                      strong= timeSlots[y+1].dayName
+                      - let a = 0;
+                      while a < timeSlots.length
+                        if timeSlots[a].dayName == timeSlots[y+1].dayName
+                          .timeSlot
+                            span.dayHour= timeSlots[a].hour
+                            | 
+                            span.dayGym
+                              if timeSlots[a].gymId == null
+                                select(id=timeSlots[a].hour, class="form-control changeGym" name=timeSlots[a].dayName, onchange='saveGymName(this.name, this.value, this.id)')
+                                  option(value="") Select a gym
+                                  each gym in gyms
+                                      option(value=gym.gymId)= gym.name
+                              else
+                                select(id=timeSlots[a].hour, class="form-control changeSelectedGym" name=timeSlots[a].dayName, onchange='saveGymName(this.name, this.value, this.id)')
+                                  option(value="") Select a gym
+                                  each gym in gyms
+                                    if gym.gymId == timeSlots[a].gymId
+                                      option(value=gym.gymId, selected)= gym.name
+                                    else
+                                      option(value=gym.gymId)= gym.name
+                            form(class="removeTimeSlot" action="/coachProfile/timeSlots/removeTimeSlot", method="post", onsubmit="return validateMyForm()")
+                              input(type="hidden", name="dayName", value=timeSlots[y].dayName)
+                              input(type="hidden", name="hour", value=timeSlots[a].hour)
+                              button(class="btn btn-danger", type="submit")
+                                i(class="fa fa-minus-square")
+                        - a++;
+                  - y++;
+    else
+      section.text-center.noTimeSlots
+        .container
+          h2 You haven't added any time slots yet
+    
+    section(class="text-center addTimeSlots")
+      h3 Add your weekly time slots
+      #addFreeTimeWeekWay
+        form#addFreeTime(action="/coachProfile/timeSlots", method="POST")
+          - let daysOfWeek = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+          - let i = 0;
+          while i < 7
+            .weekWayDay
+              .dayHours
+                p= daysOfWeek[i]
+                  |  Hour(s)
+                input(class="form-control", type="time", name=daysOfWeek[i])
+              span(class="btn btn-primary").addHour Add Hour
+            - i++
+
+        input(class="saveHours btn btn-success py-3 px-5" type="submit", form="addFreeTime" value="Save Hour(s)")
+
+    script.
+
+      let hours = document.getElementsByClassName('addHour');
+      for (let i = 0; i < hours.length; i++) {
+        hours[i].addEventListener("click", function() {
+          // The whole item
+          let newHour = document.createElement("span");
+          newHour.setAttribute('class', 'newHour');
+          // The time input
+          let input = document.createElement("input");
+          input.type = 'time';
+          input.name = this.parentNode.querySelector('input').name;
+          // input.setAttribute('class', 'close');
+          input.setAttribute('class', 'form-control');
+          input.setAttribute('aria-label', 'Close')
+          // The × icon
+          let span = document.createElement("span");
+          span.innerHTML = '×';
+          span.setAttribute('aria-hidden', 'true');
+          span.setAttribute('class', 'removeHour');
+          // Appending another time input
+          newHour.appendChild(input);
+          newHour.appendChild(span);
+          this.parentNode.querySelector('.dayHours').appendChild(newHour);
+          span.onclick = function() {
+            this.parentNode.remove();
+          }
+        });
+      }
+
+      let allDaysNames = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+      for (let i = 0; i < allDaysNames.length; i++) {
+        let firstDay = document.querySelector('.' + allDaysNames[i]).firstElementChild.innerHTML
+        document.querySelectorAll('.' + allDaysNames[i]).forEach(item => {
+          item.firstElementChild.innerHTML = '';
+        })
+        document.querySelector('.' + allDaysNames[i]).firstElementChild.innerHTML = firstDay
+      }
+
+      function saveGymName(dayName, gymId, hour) {
+        /*
+        let data = {};
+        
+        data.dayName = dayName;
+        data.gymId = gymId;
+        data.hour = hour;
+        
+        $.ajax({
+          type: 'POST',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          url: 'http://localhost:4000/coachProfile/timeSlots/addGymName'
+        });
+        */
+
+        xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("POST","/coachProfile/timeSlots/addGymName?gymId=" + gymId + "&dayName=" + dayName + "&hour=" + hour,true);
+        xmlhttp.send();
+      }
+      
+      let timeSlot = document.getElementsByClassName('timeSlot');
+      for (let i = 0; i < timeSlot.length; i++) {
+        timeSlot[i].addEventListener("mouseover", function() {
+          this.querySelector('.removeTimeSlot').style.display = 'inline-block';
+        });
+        timeSlot[i].addEventListener("mouseout", function() {
+          this.querySelector('.removeTimeSlot').style.display = 'none';
+        });
+      }
+
+      let removeTimeSlot = document.getElementsByClassName('removeTimeSlot');
+      for (let i = 0; i < removeTimeSlot.length; i++) {
+        removeTimeSlot[i].addEventListener("click", function() {
+          /*
+          let hour = this.parentNode.querySelector('.dayHour').innerHTML;
+          let dayName = this.parentNode.parentNode.classList[0];
+          let ask = confirm("You are going to delete " + hour + " of " + dayName);
+          if (!ask) {
+            this.parentNode.onsubmit = false;
+          }
+          */
+        });
+      }
+      function validateMyForm() {
+        // let dayName = this[0].value;
+        // let hour = this[1].value;
+        let ask = confirm("Are you sure you want to delete this hour?");
+        if (!ask) {
+          return false;
+        }
+        return true;
+      }

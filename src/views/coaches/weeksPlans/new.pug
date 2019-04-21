@@ -1,0 +1,97 @@
+extends ../../layout
+block title
+  title Create Week Plan
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+    section.createWeekPlan.text-center
+      .container
+        if errors
+          each error in errors
+            div.alert.alert-danger.text-center= error.msg
+        
+        if chooseActivityError
+          each error in chooseActivityError
+            div.alert.alert-danger.text-center= error.msg
+
+        form#createWeekPlan(action="/coachProfile/weekPlans/new" method="POST")
+          .form-group
+            input#weekPlanName(class="form-control", type="text", name="weekPlanName", value=weekPlanName, placeholder="Week Plan Name", required)
+          .row
+            - let i = 0;
+            while i < 7
+              div(class=[i] + " col-sm-4")
+                .dayHours
+                  p Day 
+                    =[i+1]
+                  .form-group
+                    select(class="form-control day" name="chooseActivity", required)
+                      option(value="") Select what to do
+                      option(value="1") Workout
+                      option(value="2") Rest Day
+                  .form-group
+                    div(id="workouts"+[i])
+                    div(id="restDays"+[i])
+              - i++
+
+          input(class="btn btn-primary py-3 px-5 col-sm-12" type="submit", form="createWeekPlan" value="Create Week Plan")
+
+block scripts
+  script.
+    let days = $('.day');
+    for(let i = 0; i < days.length; i++) {
+      days[i].addEventListener("change", function() {
+        let workoutsOrRestDays = this.value;
+        if (workoutsOrRestDays == "") {
+          document.getElementById("workouts"+[i]).innerHTML = "";
+          document.getElementById("restDays"+[i]).innerHTML = "";
+          return;
+        } else {
+          xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              if (workoutsOrRestDays == 1) {
+                document.getElementById("workouts"+[i]).innerHTML = this.responseText;
+                document.getElementById("restDays"+[i]).innerHTML = "";
+              }
+              if (workoutsOrRestDays == 2) {
+                document.getElementById("restDays"+[i]).innerHTML = this.responseText;
+                document.getElementById("workouts"+[i]).innerHTML = "";
+              }            
+            }
+          };
+          if (workoutsOrRestDays == 1 || workoutsOrRestDays == 2) {
+            xmlhttp.open("GET","/coachProfile/workoutsOrRestDays?value=" + workoutsOrRestDays,true);
+            xmlhttp.send();
+          }
+        }
+      })
+    }
+    /*
+    function showWorkoutOrRest(value) {
+      if (value == "") {
+        document.getElementById("workouts").innerHTML = "";
+        document.getElementById("restDays").innerHTML = "";
+        return;
+      } else {
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            if (value == 1) {
+              document.getElementById("workouts").innerHTML = this.responseText;
+              document.getElementById("restDays").innerHTML = "";
+            }
+            if (value == 2) {
+              document.getElementById("restDays").innerHTML = this.responseText;
+              document.getElementById("workouts").innerHTML = "";
+            }            
+          }
+        };
+        if (value == 1 || value == 2) {
+          xmlhttp.open("GET","/coachProfile/workoutsOrRestDays?value=" + value,true);
+          xmlhttp.send();
+        }
+      }
+    }
+    */

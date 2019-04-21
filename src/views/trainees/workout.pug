@@ -1,0 +1,19 @@
+extends ../layout
+block title
+  title Workout
+block style
+  link(rel='stylesheet' href='/css/mystyles/trainee.css')
+block content
+  body
+    section.exercises.text-center
+      .container
+        .row
+          - let i = 0;
+          while i < exercises.length
+            .col-sm-4.frame
+              .text-primary=`${exercises[i].exerciseName}`
+              p
+                span=`${exercises[i].exercise.sets} Sets `
+                span=`${exercises[i].exercise.reps} Reps`
+            // iframe(class="col-sm-12", height="400", src="https://www.youtube.com/embed/tT8c06sbPcg", frameborder="0", allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", allowfullscreen)
+            - i++;

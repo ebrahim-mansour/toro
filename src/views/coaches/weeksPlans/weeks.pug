@@ -1,0 +1,36 @@
+extends ../../layout
+block title
+  title Weeks Plans
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+    section.weeksPlans.text-center
+      .container
+        h1 All Weeks Plans
+        .row
+          form.col-sm-12
+            .form-group
+              select.form-control(name='weeksPlans', onchange='showWeekPlan(this.value)' autofocus)
+                option(value="") My Weeks Plans
+                  each weekPlan in weeksPlans
+                    option(value=weekPlan.weekPlanId)= weekPlan.name
+            #weekPlanData
+
+block scripts
+  script.
+    function showWeekPlan(weekPlanId) {
+      if (weekPlanId == "") {
+        document.getElementById("weekPlanData").innerHTML = "";
+        return;
+      } else {
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("weekPlanData").innerHTML = this.responseText;
+          }
+        };
+        xmlhttp.open("GET","/coachProfile/weekPlans/getWeekPlan?weekPlanId="+weekPlanId,true);
+        xmlhttp.send();
+      }
+    }

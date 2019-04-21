@@ -1,0 +1,20 @@
+extends ../layout
+block title
+  title Private Sessions
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+    section.privateSessions.text-center
+      .container
+        if daysHours.length > 0
+          h2 Requests
+          .privateSession
+            each dayHours in daysHours
+              .privateSession You have been requested for a private session in 
+                span= dayHours.reservationDate + " "
+                span= dayHours.dayName + " "
+                span= dayHours.hour + " "
+                span= "by " + dayHours.user.userName
+        else
+          h3 You have no private request till now ...
