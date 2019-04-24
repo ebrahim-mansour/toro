@@ -25,15 +25,21 @@ function router() {
     }
   }
 
+  // Change profile setting
   coachProfileRouter.route('/settings')
     .get(ensureAuthenticated, coachProfileController.gets.settings)
     .post(ensureAuthenticated, coachProfileController.posts.settings)
 
+  // Home page
   coachProfileRouter.route('/')
     .get(ensureAuthenticated, coachProfileController.gets.manageUsers)
 
+  // Manage user
   coachProfileRouter.route('/manage')
     .post(ensureAuthenticated, coachProfileController.posts.manageUser)
+  
+  coachProfileRouter.route('/deleteDay')
+    .post(ensureAuthenticated, coachProfileController.posts.deleteDay)
 
   // Workouts */
   coachProfileRouter.route('/workouts')
@@ -46,6 +52,9 @@ function router() {
     .get(ensureAuthenticated, coachProfileController.gets.newWorkout)
     .post(ensureAuthenticated, coachProfileController.posts.createWorkout)
 
+  coachProfileRouter.route('/deleteWorkout')
+    .post(ensureAuthenticated, coachProfileController.posts.deleteWorkout)
+  
   // Rest Day
   coachProfileRouter.route('/restDays')
     .get(ensureAuthenticated, coachProfileController.gets.restDays)

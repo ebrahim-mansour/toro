@@ -50,7 +50,7 @@ let get = {
   getWorkout: async (req, res) => {
     let workoutId = req.query.workoutId;
     let exercises = await WorkoutsExercises.getExercises(workoutId);
-    return res.render('coaches/workouts/workout', { exercises: exercises });
+    return res.render('coaches/workouts/workout', { exercises, workoutId });
   },
   newWorkout: async (req, res) => {
     let exercises = await Exercises.getDistinctNamesOfCategories();
@@ -223,6 +223,25 @@ let post = {
     });
 
   },
+  deleteDay: async (req, res) => {
+    let dayNumber = req.body.dayNumber;
+    let traineeId = req.body.traineeId;
+
+    let coachId = req.user.coachId;
+    let trainees = await Trainee.getTraineesOfSpecificCoach(coachId);
+
+    // Validate trainee
+    let validateTrainee = trainees.find(trainee => {
+      return trainee.traineeId == traineeId
+    });
+    
+    if (validateTrainee) {
+      Day.deleteDay(traineeId, dayNumber);
+    }
+
+    return res.redirect('/coachProfile');
+
+  },
   addDay: async (req, res) => {
 
     // Get the current date
@@ -242,7 +261,9 @@ let post = {
     let traineeId = req.body.traineeId;
 
     let day = await Day.getDayData(traineeId);
-    let dayNumber = day.length + 1;
+    
+    let maxDay = await Day.getMaxDay(traineeId);
+    let dayNumber = maxDay ? maxDay + 1 : 1;
 
     let newDay = new Day({
       workoutId,
@@ -304,8 +325,9 @@ let post = {
     let traineeId = req.body.traineeId;
 
     let day = await Day.getDayData(traineeId);
-
-    let dayNumber = day.length + 1
+    
+    let maxDay = await Day.getMaxDay(traineeId);
+    let dayNumber = maxDay ? maxDay + 1 : 1;
 
     let newDay = new Day({
       dayNumber: dayNumber,
@@ -367,8 +389,9 @@ let post = {
     let traineeId = req.body.traineeId;
 
     let day = await Day.getDayData(traineeId);
-
-    let dayNumber = day.length + 1;
+    
+    let maxDay = await Day.getMaxDay(traineeId);
+    let dayNumber = maxDay ? maxDay + 1 : 1;
 
     let weekPlanDetails = await WeeksPlansDetails.getWeekPlanById(weekPlanId);
     let firstDayStatus;
@@ -470,6 +493,11 @@ let post = {
       }
       return res.redirect('/coachProfile/workouts');
     }
+  },
+  deleteWorkout: (req, res) => {
+    let workoutId = req.body.workoutId;
+    Workout.deleteWorkout(workoutId);
+    return res.redirect('/coachProfile/workouts');
   },
   createRestDay: async (req, res) => {
     let coachId = req.user.coachId;

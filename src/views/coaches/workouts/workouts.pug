@@ -33,3 +33,10 @@ block content
           xmlhttp.send();
         }
       }
+      function validateMyForm() {
+        let ask = confirm("Are you sure you want to delete this workout?");
+        if (!ask) {
+          return false;
+        }
+        return true;
+      }

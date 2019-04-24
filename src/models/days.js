@@ -73,6 +73,14 @@ module.exports.getDay = (traineeId, dayNumber) => {
     }
   })
 }
+module.exports.deleteDay = (traineeId, dayNumber) => {
+  return DaysModel.destroy({
+    where: {
+      dayNumber,
+      traineeId
+    }
+  });
+}
 module.exports.updateDayStatusAndDate = (status, date, traineeId, dayNumber) => {
   DaysModel.update(
     {

@@ -97,6 +97,11 @@
 .addDay, .addRestDay, .addWeek {
   cursor: pointer;
 }
+.deleteDay {
+  position: relative;
+  left: 50px;
+  display: inline-block;
+}
 
 /* Manage Workouts */
 .ftco-footer {
@@ -104,6 +109,11 @@
 }
 .workouts #exercises {
   margin-top: 20px;
+}
+
+/* Workout */
+.delete-workout {
+  margin: 20px 0px 40px 0px
 }
 
 /* Manage Rest Days */

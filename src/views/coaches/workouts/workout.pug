@@ -1,6 +1,13 @@
-- let i = 0;
-while i < exercises.length
-  div
-    .text-primary=`${exercises[i].exerciseName}`
-    iframe(class="col-sm-12", height="400", src="https://www.youtube.com/embed/tT8c06sbPcg", frameborder="0", allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", allowfullscreen)
-  - i++;
+form(action="/coachProfile/deleteWorkout", method="post", onsubmit="return validateMyForm()")
+  input(type="hidden", name="workoutId" value=workoutId)
+  button(class="delete-workout btn btn-primary py-3 px-5 col-sm-12", type="submit") Delete
+.row
+  - let i = 0;
+  while i < exercises.length
+    .col-sm-4.frame
+      .text-primary=`${exercises[i].exerciseName}`
+      p
+        span=`${exercises[i].exercise.sets} Sets `
+        span=`${exercises[i].exercise.reps} Reps`
+    // iframe(class="col-sm-12", height="400", src="https://www.youtube.com/embed/tT8c06sbPcg", frameborder="0", allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", allowfullscreen)
+    - i++;

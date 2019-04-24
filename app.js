@@ -71,7 +71,6 @@ app.get('/', (req, res) => {
 
   if (user !== undefined) {
     let role = req.user.role;
-    console.log(role);
 
     if (req.isAuthenticated()) {
       if (role == 1) {

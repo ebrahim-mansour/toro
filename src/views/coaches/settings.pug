@@ -24,7 +24,7 @@ block content
             select(class="form-control", name="proficiency")
               option(value="") Change Proficiency
               - let i = 0;
-              - let proficiencies = ['Loss Weight', 'Maintain Weight', 'Gain Weight', 'All'];
+              - let proficiencies = ['Build Muscle', 'Loss Weight', 'Maintain Weight', 'Fitness', 'All'];
               while i < proficiencies.length
                 if proficiencies[i] == user.proficiency
                   option(value=proficiencies[i], selected)= proficiencies[i]

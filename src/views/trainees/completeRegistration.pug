@@ -20,14 +20,17 @@ block content
             label Goal: 
             | 
             .form-check.form-check-inline
+              input(class="form-check-input",  type='radio', name='program', id="build-muscle", value='Build Muscle', required)
+              label(class="form-check-label", for="build-muscle") Build Muscle
+            .form-check.form-check-inline
               input(class="form-check-input",  type='radio', name='program', id="loss-weight", value='Loss Weight', required)
               label(class="form-check-label", for="loss-weight") Loss Weight
             .form-check.form-check-inline
               input(class="form-check-input",  type='radio', name='program', id="maintain-weight", value='Maintain Weight')
               label(class="form-check-label", for="maintain-weight") Maintain Weight
             .form-check.form-check-inline
-              input(class="form-check-input",  type='radio', name='program', id="gain-weight", value='Gain Weight')
-              label(class="form-check-label", for="gain-weight") Gain Weight
+              input(class="form-check-input",  type='radio', name='program', id="fitness", value='Fitness')
+              label(class="form-check-label", for="fitness") Fitness
           .form-group
             #coaches
           .form-group

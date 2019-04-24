@@ -39,6 +39,13 @@ module.exports.getWorkout = (workoutId) => {
     }
   });
 }
+module.exports.deleteWorkout = (workoutId) => {
+  return WorkoutsModel.destroy({
+    where: {
+      workoutId
+    }
+  });
+}
 module.exports.getCoachWorkouts = (coachId) => {
   return WorkoutsModel.findAll({
     where: {

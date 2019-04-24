@@ -38,16 +38,16 @@ block style
 block content
 
   section.home-slider.owl-carousel
-    .slider-item(style='background-image: url(images/bg_1.jpg);')
+    .slider-item(style='background-image: url(images/bg_1.png);')
       .overlay
       .container
         .row.slider-text.align-items-center(data-scrollax-parent='true')
           .col-md-5.col-sm-12.ftco-animate
-            h1.mb-4 TORO
+            h1.mb-4 Challenge Yourself
             p.mb-4.mb-md-5
               | Remember the name because we're going to be the reason for the change that's going to happen in your life, we're going to make you achieve your highest potentials.
             p
-              a.btn.btn-primary.p-3.px-xl-4.py-xl-3(href='/user/login') Get Started Now
+              a.btn.btn-primary.p-3.px-xl-4.py-xl-3(href='/users/trainees/signup') Get Started Now
     .slider-item(style='background-image: url(images/bg_5.jpg);')
       .overlay
       .container
@@ -57,7 +57,7 @@ block content
             p.mb-4.mb-md-5
               | You have a long way to go through but remember the shortest way between two points is a straight line so stop all the whining and start your fitness journey with us.
             p
-              a.btn.btn-primary.p-3.px-xl-4.py-xl-3(href='#') Get Started Now
+              a.btn.btn-primary.p-3.px-xl-4.py-xl-3(href='/users/trainees/signup') Get Started Now
   section.ftco-intro
     .container-wrap
       .wrap.d-md-flex.justify-content-end.align-items-xl-end
@@ -74,7 +74,7 @@ block content
                 span.icon-chat
               .text
                 h3 Live chat
-                p 	opening soon to be here for you 24/7
+                p 	opening soon to be here for you 24 Hours / 7 Days
   section.ftco-about.d-md-flex
     .one-half.img(style='background-image: url(images/image_2.jpg);')
       a.icon.popup-vimeo.d-flex.justify-content-center.align-items-center(href='https://www.youtube.com/watch?v=Jv2hf7My0eo')
@@ -116,7 +116,7 @@ block content
         .col-md-6.ftco-animate
           .media.d-block.text-center.block-6.services
             .icon.d-flex.justify-content-center.align-items-center.mb-5
-              span.flaticon-abs
+              span.flaticon-workout
             .media-body
               h3.heading 4- Achieve Perfect Body
               p When you get here you're going to be more than satisfied about what you have achieved and how you conquered all of your fears to be the best version of yourself, this also going to make you gain confidence about how you look or how you react with people.
@@ -284,7 +284,7 @@ block content
                     a.mr-2.d-flex.justify-content-center.align-items-center(href='#')
                       span.icon-instagram
                 p
-    section#ftco-testimony.ftco-section.img(style='background-image: url(images/bg_1.jpg);', data-stellar-background-ratio='0.5')
+    section#ftco-testimony.ftco-section.img(style='background-image: url(images/bg_1.png);', data-stellar-background-ratio='0.5')
       .overlay
       .container
         .row.justify-content-center.mb-5
@@ -366,39 +366,40 @@ block content
               p We here try to provide a full detailed training program for only ONE month with all the exercises needed to be done and how it is done.
               .d-flex.mt-4
                 p.price
-                  sup $
-                  | 00.00
+                  // sup $
+                  del 100.00 EGP
+                  |  Free
                   sub  / Month
                 p.btn-custom.float-right
-                  a(href='#') Enroll Now
+                  a(href='/users/trainees/signup') Enroll Now
         .col-md-6.col-lg-4
           .package-program.ftco-animate
-            .img(style='background-image: url(images/program-1.jpg);')
+            .img(style='background-image: url(images/nutrition-plan.jpeg);')
             .text.mt-4
               h3 Customized Nutrition plan
               span.d-block.mb-4 Free for the first order
               p We try to find the most suitable, full detailed and well built nutrition plan for you to help you achieve your fitness goal.
               .d-flex.mt-4
                 p.price
-                  sup $
-                  | 00.00
+                  del 100.00 EGP
+                  |  Free
                   sub  / Month
                 p.btn-custom.float-right
-                  a(href='#') Enroll Now
+                  a(href='/users/trainees/signup') Enroll Now
         .col-md-6.col-lg-4
           .package-program.ftco-animate
             .img(style='background-image: url(images/program-1.jpg);')
             .text.mt-4
               h3 Full transformation package
               span.d-block.mb-4
-              p You get a full detailed training program as well as your nutrition plan made specially for you and as a bonus we will also give you a free supplement plan, online 24/7 chat with your coach regarding any aspect of the program.
+              p You get a full detailed training program as well as your nutrition plan made specially for you and as a bonus we will also give you a free supplement plan, online 24 Hours / 7 Days chat with your coach regarding any aspect of the program.
               .d-flex.mt-4
                 p.price
-                  sup $
-                  | 250
+                  del 150.00 EGP
+                  |  Free
                   sub  / Month
                 p.btn-custom.float-right
-                  a(href='#') Enroll Now
+                  a(href='/users/trainees/signup') Enroll Now
   
   //
     section.ftco-section
@@ -461,22 +462,22 @@ block content
                 p
                   | A small river named Duden flows by their place and supplies it with the necessary regelialia.
   
-  section.ftco-gallery
-    .container-wrap
-      .row.no-gutters
-        .col-md-3.ftco-animate
-          a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-3.jpg);')
-            .icon.mb-4.d-flex.align-items-center.justify-content-center
-              span.icon-search
-        .col-md-3.ftco-animate
-          a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-2.jpg);')
-            .icon.mb-4.d-flex.align-items-center.justify-content-center
-              span.icon-search
-        .col-md-3.ftco-animate
-          a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-3.jpg);')
-            .icon.mb-4.d-flex.align-items-center.justify-content-center
-              span.icon-search
-        .col-md-3.ftco-animate
-          a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-4.jpg);')
-            .icon.mb-4.d-flex.align-items-center.justify-content-center
-              span.icon-search
+    section.ftco-gallery
+      .container-wrap
+        .row.no-gutters
+          .col-md-3.ftco-animate
+            a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-3.jpg);')
+              .icon.mb-4.d-flex.align-items-center.justify-content-center
+                span.icon-search
+          .col-md-3.ftco-animate
+            a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-2.jpg);')
+              .icon.mb-4.d-flex.align-items-center.justify-content-center
+                span.icon-search
+          .col-md-3.ftco-animate
+            a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-3.jpg);')
+              .icon.mb-4.d-flex.align-items-center.justify-content-center
+                span.icon-search
+          .col-md-3.ftco-animate
+            a.gallery.img.d-flex.align-items-center(href='gallery.html', style='background-image: url(images/gallery-4.jpg);')
+              .icon.mb-4.d-flex.align-items-center.justify-content-center
+                span.icon-search
