@@ -1,0 +1,86 @@
+extends ../layout
+block title
+  title= `Day ${dayNumber} details`
+block style
+  link(rel='stylesheet' href='/css/mystyles/trainee.css')
+block content
+  body
+    .container
+    if days.length > 0
+      section.daysAdded.text-center
+        .container
+          p.lead Click on the number of the day to view it's exercises
+          .row
+            - let i = 0;
+            - let j = 0;
+            - let numberOfLoops = Math.ceil(days.length / 30);
+            while i < numberOfLoops
+              if j == 0 || j % 30 == 0
+                .week.col-sm-12
+                  while j < days.length
+                    if days[j].whenToStart <= nowDate
+                      a.day(href=`/traineeProfile/workout/${days[j].dayNumber}`)= days[j].dayNumber
+                    else
+                      span.day= days[j].dayNumber
+                    - j++;
+                    if j % 30 == 0
+                      - break
+              - i++;
+
+          .dayDetails
+            .text-primary Day number: 
+              span= dayNumber
+            if dayDetails.workoutId != null
+              .text-primary= `Workout Name: ` + days[`${dayNumber-1}`].workouts[0].workoutName
+                //
+                  form(action="/traineeProfile/getWorkout" method="POST")
+                    input(type="hidden", name="workoutId" value=dayDetails.workoutId)
+                    button(type='submit' class='btn btn-primary done')= days[`${dayNumber-1}`].workouts[0].workoutName
+              .exercises
+                .container
+                  .row
+                    - let i = 0;
+                    while i < exercises.length
+                      .col-sm-4.frame
+                        .workoutExercises.text-primary=`${exercises[i].exerciseName}`
+                        p
+                          span=`${exercises[i].exercise.sets} Sets `
+                          span=`${exercises[i].exercise.reps} Reps`
+                      - i++;
+            else
+              .text-primary= `Rest day Name: ` + days[`${dayNumber-1}`].restDays[0].name
+                //
+                  form(action="/traineeProfile/getRestDay" method="POST")
+                    input(type="hidden", name="restDayId" value=dayDetails.restDayId)
+                    button(type='submit' class='btn btn-primary done')= days[`${dayNumber-1}`].restDays[0].name
+              .container
+                textarea(class="form-control", name="whatToDo", cols="85", rows="10")= restDay.whatToDo
+                if restDay.video
+                  video(width='100%', height='50%', controls='')
+                    source(src=restDay.video, type='video/mp4')
+                    source(src=restDay.video, type='video/ogg')
+                    | Your browser does not support the video tag.                
+            if dayDetails.status == "current"
+              if dayDetails.workoutId != null
+                form(action="/traineeProfile/timeSlots/getTimeSlotsOfSpecificDay" method="POST")
+                  input(type="hidden", name="dayNumber" value=dayDetails.dayNumber)
+                  button(type="submit", class="btn btn-primary done") Ask for private session
+                form(action="/traineeProfile/getNextDayIfExists", method="POST", onsubmit="return validateMyForm()")
+                  input(type="hidden", name="dayNumber" value=dayDetails.dayNumber)
+                  button(type='submit' class='btn btn-primary done') I finished this day
+              else
+                form(action="/traineeProfile/getNextDayIfExists", method="POST", onsubmit="return validateMyForm()")
+                  input(type="hidden", name="dayNumber" value=dayDetails.dayNumber)
+                  button(type='submit' class='btn btn-primary done') I finished this day                  
+            if dayDetails.status == "current and has a private session"
+              form(action="traineeProfile/getNextDayIfExists", method="POST", onsubmit="return validateMyForm()")
+                input(type="hidden", name="dayNumber" value=dayDetails.dayNumber)
+                button(type='submit' class='btn btn-primary done') I finished this day
+              .hasPrivateSession.text-primary Private Session
+            if dayDetails.status == "done"
+              .userFinished.text-primary Day Status: 
+                span.text-success Finished
+            if dayDetails.status == "done and has a private session"
+              .userFinished.text-primary Day Status: 
+                span.text-success Finished
+              .hasPrivateSession.text-primary Private Session

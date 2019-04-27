@@ -55,11 +55,12 @@ block content
               .day.border.border-secondary.col-sm-3
                 div Added: 
                   span= day.dayDate
-                  form(class="deleteDay" action="/coachProfile/deleteDay", method="post")
-                    input(type="hidden", name="dayNumber", value=day.dayNumber)
-                    input(type="hidden", name="traineeId", value=day.traineeId)
-                    button(class="btn btn-danger", type="submit")
-                      i(class="fa fa-minus-square")
+                  if day.dayNumber == days.length
+                    form(class="deleteDay" action="/coachProfile/deleteDay", method="post")
+                      input(type="hidden", name="dayNumber", value=day.dayNumber)
+                      input(type="hidden", name="traineeId", value=day.traineeId)
+                      button(class="btn btn-danger", type="submit")
+                        i(class="fa fa-minus-square")
                 div Day number: 
                   span= day.dayNumber
                 if day.workoutId != null

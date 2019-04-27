@@ -29,33 +29,48 @@ function router() {
     .get(ensureAuthenticated, traineeProfileController.gets.settings)
     .post(ensureAuthenticated, traineeProfileController.posts.settings)
 
+  // All days if user has already completed registration
   traineeProfileRouter.route('/')
     .get(ensureAuthenticated, traineeProfileController.gets.getDaysWorkoutsOrCompleteRegistration)
 
+  // Complete registration
   traineeProfileRouter.route('/completeRegistration')
     .post(ensureAuthenticated, upload.single('pic'), traineeProfileController.posts.completeRegistration)
 
+  // Get coaches to choose from
   traineeProfileRouter.route('/getCoaches')
     .get(ensureAuthenticated, traineeProfileController.gets.getCoaches)
 
+  // Day details
+  traineeProfileRouter.route('/workout/:dayNumber')
+    .get(ensureAuthenticated, traineeProfileController.gets.dayDetails)
+
+  /*
   traineeProfileRouter.route('/getWorkout')
     .post(ensureAuthenticated, traineeProfileController.posts.getWorkout)
 
   traineeProfileRouter.route('/getRestDay')
     .post(ensureAuthenticated, traineeProfileController.posts.getRestDay)
 
+  */
+ 
+  // If trainee wants to start before the starting date
   traineeProfileRouter.route('/startNow')
     .post(ensureAuthenticated, traineeProfileController.posts.startNow)
 
+  // When finishing the current day
   traineeProfileRouter.route('/getNextDayIfExists')
     .post(ensureAuthenticated, traineeProfileController.posts.getNextDayIfExists)
 
+  // All coach available time slots
   traineeProfileRouter.route('/timeSlots')
     .get(ensureAuthenticated, traineeProfileController.gets.getTimeSlots)
-
+  
+  // Coach available time slots in a specfic day
   traineeProfileRouter.route('/timeSlots/getTimeSlotsOfSpecificDay')
     .post(ensureAuthenticated, traineeProfileController.posts.getTimeSlotsOfSpecificDay)
 
+  // To request a private session in a certain day
   traineeProfileRouter.route('/timeSlots/requestSession')
     .post(ensureAuthenticated, traineeProfileController.posts.requestSession)
 

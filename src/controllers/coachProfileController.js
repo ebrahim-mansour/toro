@@ -215,11 +215,11 @@ let post = {
     let weeksPlans = await WeeksPlans.getWeeksPlans(coachId);
 
     return res.render('coaches/manageUser', {
-      days: days,
-      workouts: workouts,
-      restDays: restDays,
-      weeksPlans: weeksPlans,
-      traineeId: traineeId
+      days,
+      workouts,
+      restDays,
+      weeksPlans,
+      traineeId
     });
 
   },
@@ -260,7 +260,7 @@ let post = {
     let workoutId = req.body.workoutId;
     let traineeId = req.body.traineeId;
 
-    let day = await Day.getDayData(traineeId);
+    let days = await Day.getAllTraineeDays(traineeId);
     
     let maxDay = await Day.getMaxDay(traineeId);
     let dayNumber = maxDay ? maxDay + 1 : 1;
@@ -272,33 +272,34 @@ let post = {
       dayDate: nowDate
     });
     /* 1- if the first day */
-    let firstDay = day.length < 1;
+    let firstDay = days.length < 1;
     if (firstDay) {
       newDay.whenToStart = nowDate;
       newDay.status = "current";
     } else {
       /*
-        2- if the nth day status = "done" 
-        3- if the nth day status = "done and has a private session"
+        2- if the last day status = "done" 
+        3- if the last day status = "done and has a private session"
           then (next day status = "current")
       */
-      let nthDayDone = day[day.length - 1].status == "done";
-      let nthDayDoneAndHasSession = day[day.length - 1].status == "done and has a private session";
-      if (nthDayDone || nthDayDoneAndHasSession) {
+      let isLastDayDone = days[days.length - 1].status == "done";
+      let isLastDayDoneAndHasSession = days[days.length - 1].status == "done and has a private session";
+      if (isLastDayDone || isLastDayDoneAndHasSession) {
+        newDay.whenToStart = nowDate;
         newDay.status = "current";
       }
       /*
-        4- if the nth day status = "available"
-        5- if the nth day status = "current"
-        6- if the nth day status = "available and has a private session"
-        7- if the nth day status = "current and has a private session"
+        4- if the last day status = "available"
+        5- if the last day status = "current"
+        6- if the last day status = "available and has a private session"
+        7- if the last day status = "current and has a private session"
            then (day status = "available")
       */
-      let nthDayAvailable = day[day.length - 1].status == "available";
-      let nthDayCurrent = day[day.length - 1].status == "current";
-      let nthDayAvailableAndHasSession = day[day.length - 1].status == "available and has a private session";
-      let nthDayCurrentAndHasSession = day[day.length - 1].status == "current and has a private session";
-      if (nthDayAvailable || nthDayCurrent || nthDayAvailableAndHasSession || nthDayCurrentAndHasSession) {
+      let isLastDayAvailable = days[days.length - 1].status == "available";
+      let isLastDayCurrent = days[days.length - 1].status == "current";
+      let isLastDayAvailableAndHasSession = days[days.length - 1].status == "available and has a private session";
+      let isLastDayCurrentAndHasSession = days[days.length - 1].status == "current and has a private session";
+      if (isLastDayAvailable || isLastDayCurrent || isLastDayAvailableAndHasSession || isLastDayCurrentAndHasSession) {
         newDay.status = "available";
       }
     }
@@ -324,45 +325,46 @@ let post = {
     let restDayId = req.body.restDayId;
     let traineeId = req.body.traineeId;
 
-    let day = await Day.getDayData(traineeId);
+    let days = await Day.getAllTraineeDays(traineeId);
     
     let maxDay = await Day.getMaxDay(traineeId);
     let dayNumber = maxDay ? maxDay + 1 : 1;
 
     let newDay = new Day({
-      dayNumber: dayNumber,
+      dayNumber,
       dayDate: nowDate,
-      traineeId: traineeId,
-      restDayId: restDayId
+      traineeId,
+      restDayId
     });
     /* 1- if the first day */
-    let firstDay = day.length < 1;
+    let firstDay = days.length < 1;
     if (firstDay) {
       newDay.whenToStart = nowDate;
       newDay.status = "current";
     } else {
       /*
-        2- if the nth day status = "done" 
-        3- if the nth day status = "done and has a private session"
+        2- if the last day status = "done" 
+        3- if the last day status = "done and has a private session"
           then (next day status = "current")
       */
-      let nthDayDone = day[day.length - 1].status == "done";
-      let nthDayDoneAndHasSession = day[day.length - 1].status == "done and has a private session";
-      if (nthDayDone || nthDayDoneAndHasSession) {
+      let isLastDayDone = days[days.length - 1].status == "done";
+      let isLastDayDoneAndHasSession = days[days.length - 1].status == "done and has a private session";
+      if (isLastDayDone || isLastDayDoneAndHasSession) {
+        newDay.whenToStart = nowDate;
         newDay.status = "current";
       }
       /*
-        4- if the nth day status = "available"
-        5- if the nth day status = "current"
-        6- if the nth day status = "available and has a private session"
-        7- if the nth day status = "current and has a private session"
+        4- if the last day status = "available"
+        5- if the last day status = "current"
+        6- if the last day status = "available and has a private session"
+        7- if the last day status = "current and has a private session"
            then (day status = "available")
       */
-      let nthDayAvailable = day[day.length - 1].status == "available";
-      let nthDayCurrent = day[day.length - 1].status == "current";
-      let nthDayAvailableAndHasSession = day[day.length - 1].status == "available and has a private session";
-      let nthDayCurrentAndHasSession = day[day.length - 1].status == "current and has a private session";
-      if (nthDayAvailable || nthDayCurrent || nthDayAvailableAndHasSession || nthDayCurrentAndHasSession) {
+      let isLastDayAvailable = days[days.length - 1].status == "available";
+      let isLastDayCurrent = days[days.length - 1].status == "current";
+      let isLastDayAvailableAndHasSession = days[days.length - 1].status == "available and has a private session";
+      let isLastDayCurrentAndHasSession = days[days.length - 1].status == "current and has a private session";
+      if (isLastDayAvailable || isLastDayCurrent || isLastDayAvailableAndHasSession || isLastDayCurrentAndHasSession) {
         newDay.status = "available";
       }
     }
@@ -388,7 +390,7 @@ let post = {
     let weekPlanId = req.body.weekPlanId;
     let traineeId = req.body.traineeId;
 
-    let day = await Day.getDayData(traineeId);
+    let days = await Day.getAllTraineeDays(traineeId);
     
     let maxDay = await Day.getMaxDay(traineeId);
     let dayNumber = maxDay ? maxDay + 1 : 1;
@@ -398,33 +400,34 @@ let post = {
     let whenToStart;
 
     /* 1- if the first day */
-    let firstDay = day.length < 1;
+    let firstDay = days.length < 1;
     if (firstDay) {
       firstDayStatus = "current";
       whenToStart = nowDate;
     } else {
       /*
-        2- if the nth day status = "done" 
-        3- if the nth day status = "done and has a private session"
+        2- if the last day status = "done" 
+        3- if the last day status = "done and has a private session"
           then (next day status = "current")
       */
-      let nthDayDone = day[day.length - 1].status == "done";
-      let nthDayDoneAndHasSession = day[day.length - 1].status == "done and has a private session";
-      if (nthDayDone || nthDayDoneAndHasSession) {
+      let isLastDayDone = days[days.length - 1].status == "done";
+      let isLastDayDoneAndHasSession = days[days.length - 1].status == "done and has a private session";
+      if (isLastDayDone || isLastDayDoneAndHasSession) {
+        whenToStart = nowDate;
         firstDayStatus = "current";
       }
       /*
-        4- if the nth day status = "available"
-        5- if the nth day status = "current"
-        6- if the nth day status = "available and has a private session"
-        7- if the nth day status = "current and has a private session"
+        4- if the last day status = "available"
+        5- if the last day status = "current"
+        6- if the last day status = "available and has a private session"
+        7- if the last day status = "current and has a private session"
           then (day status = "available")
       */
-      let nthDayAvailable = day[day.length - 1].status == "available";
-      let nthDayCurrent = day[day.length - 1].status == "current";
-      let nthDayAvailableAndHasSession = day[day.length - 1].status == "available and has a private session";
-      let nthDayCurrentAndHasSession = day[day.length - 1].status == "current and has a private session";
-      if (nthDayAvailable || nthDayCurrent || nthDayAvailableAndHasSession || nthDayCurrentAndHasSession) {
+      let isLastDayAvailable = days[days.length - 1].status == "available";
+      let isLastDayCurrent = days[days.length - 1].status == "current";
+      let isLastDayAvailableAndHasSession = days[days.length - 1].status == "available and has a private session";
+      let isLastDayCurrentAndHasSession = days[days.length - 1].status == "current and has a private session";
+      if (isLastDayAvailable || isLastDayCurrent || isLastDayAvailableAndHasSession || isLastDayCurrentAndHasSession) {
         firstDayStatus = "available";
       }
     }

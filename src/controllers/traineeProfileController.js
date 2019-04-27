@@ -41,29 +41,32 @@ let get = {
     }
     nowDate = year + '-' + month + '-' + day;
 
+    /*
     // Get tomorrow date
     let tomorrow = year + '-' + month + '-' + nextDay;
+    */
 
     let program = req.user.program;
     if (program) {
       let traineeId = req.user.traineeId;
-      let coachId = req.user.coachId;
+      /*let coachId = req.user.coachId;*/
+      
       // Get the starting date of the trianee
       let startingDate = req.user.startingDate;
       if (startingDate > nowDate) {
         return res.render('trainees/beforeStartingDate');
       } else {
         let days = await Day.getDaysWorkoutsAndRestDays(traineeId);
-        let workouts = await Workout.getCoachWorkouts(coachId);
-        let restDays = await RestDay.getRestDays(coachId);
-        let weeksPlans = await WeeksPlans.getWeeksPlans(coachId);
+        // let workouts = await Workout.getCoachWorkouts(coachId);
+        // let restDays = await RestDay.getRestDays(coachId);
+        // let weeksPlans = await WeeksPlans.getWeeksPlans(coachId);
         return res.render('trainees/traineeHomePage', {
           days,
-          workouts,
-          restDays,
-          weeksPlans,
+          // workouts,
+          // restDays,
+          // weeksPlans,
           nowDate,
-          tomorrow
+          // tomorrow
         });
       }
     } else {
@@ -74,6 +77,48 @@ let get = {
     let proficiency = req.query.proficiency;
     let coaches = await Coach.getCoachesByProficiencies(proficiency);
     return res.render('trainees/getCoaches', { coaches: coaches });
+  },
+  dayDetails: async (req, res) => {
+    // Get the current date
+    let nowDate = new Date();
+    let day = nowDate.getDate();
+    let nextDay = nowDate.getDate() + 1;
+    let month = nowDate.getMonth() + 1; //January is 0!
+    let year = nowDate.getFullYear();
+    if (day < 10 || nextDay < 10) {
+      day = '0' + day;
+      nextDay = '0' + nextDay;
+    }
+    if (month < 10) {
+      month = '0' + month
+    }
+    nowDate = year + '-' + month + '-' + day;
+    
+    let traineeId = req.user.traineeId;
+    let dayNumber = req.params.dayNumber;
+
+    let traineeAvailableDays = await Day.getAllTraineeAvailableDays(traineeId, nowDate);    
+    let isDayAvailable = traineeAvailableDays.find((day) => day.dayNumber == dayNumber);
+
+    if (isDayAvailable) {
+      let days = await Day.getDaysWorkoutsAndRestDays(traineeId);
+      let dayDetails = await Day.getDay(traineeId, dayNumber);
+      
+      // Check if the day is workout or restday
+      let isDayWorkout = dayDetails.workoutId;
+      if (isDayWorkout) {
+        let workoutId = dayDetails.workoutId;
+        let exercises = await WorkoutsExercises.getExercises(workoutId);
+        return res.render('trainees/dayDetails', { days, dayDetails, exercises, dayNumber, nowDate });
+      }
+
+      let restDayId = dayDetails.restDayId;
+      let restDay = await RestDay.getRestDay(restDayId);
+      return res.render('trainees/dayDetails', { days, dayDetails, restDay, dayNumber, nowDate });
+    }
+    return res.redirect('back');
+    
+
   },
   getTimeSlots: async (req, res) => {
 
@@ -273,9 +318,6 @@ let post = {
     }
     nowDate = year + '-' + month + '-' + dayNow;
 
-    // Get tomorrow date
-    let tomorrow = year + '-' + month + '-' + nextDayDate;
-
     let dayNumber = req.body.dayNumber;
     let traineeId = req.user.traineeId;
     // Editing the current day status and the next one if it exists
@@ -294,8 +336,9 @@ let post = {
     let nextDay = await Day.getDay(traineeId, nextDayNumber);
     if (nextDay != null) {
       let status = "current";
-      Day.updateDayStatusAndDate(status, tomorrow, traineeId, nextDayNumber);
+      Day.updateDayStatusAndDate(status, nowDate, traineeId, nextDayNumber);
     }
+    // Changing the trainee status according to his last day status
     let maxDayNumber = await Day.getMaxDay(traineeId);
     let lastDay = await Day.getDay(traineeId, maxDayNumber);
     if (lastDay.status == "done" || lastDay.status == "done and has a private session") {
@@ -303,6 +346,7 @@ let post = {
     }
     return res.redirect('/traineeProfile');
   },
+  /*
   getWorkout: async (req, res) => {
     let workoutId = req.body.workoutId;
     let exercises = await WorkoutsExercises.getExercises(workoutId);
@@ -313,6 +357,7 @@ let post = {
     let restDay = await RestDay.getRestDay(restDayId);
     return res.render('trainees/restDay', { restDay: restDay });
   },
+  */
   getTimeSlotsOfSpecificDay: async (req, res) => {
 
     // Get the current date
@@ -336,7 +381,7 @@ let post = {
     let dayName = days[d.getDay()];
 
     let timeSlots = await Gyms.getTimeSlotsOfSpecificDay(dayName, coachId);
-    return res.render("trainees/chooseHour", { timeSlots: timeSlots, dayNumber: dayNumber });
+    return res.render("trainees/chooseHour", { timeSlots, dayNumber });
   },
   requestSession: async (req, res) => {
 

@@ -66,9 +66,14 @@
   padding: 120px 0px;
 }
 
+/* Day Details */
+.dayDetails {
+  margin: 50px 0px;
+}
+
 /* Workout Details */
 .exercises {
-  padding: 50px 0px;
+  margin: 25px 0px;
 }
 .frame {
   padding: 20px;

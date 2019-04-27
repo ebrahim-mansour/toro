@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op
 
 const Workout = require('./workouts');
 const RestDay = require('./restDays');
@@ -41,15 +42,25 @@ Workout.belongsTo(DaysModel, { foreignKey: 'workoutId' })
 DaysModel.hasMany(RestDay, { foreignKey: 'restDayId', sourceKey: 'restDayId' })
 RestDay.belongsTo(DaysModel, { foreignKey: 'restDayId' })
 
-module.exports.getDayData = (traineeId) => {
+module.exports.createDay = (newDay) => {
+  newDay.save();
+}
+module.exports.getAllTraineeDays = (traineeId) => {
   return DaysModel.findAll({
     where: {
       traineeId: traineeId
     }
   });
 }
-module.exports.createDay = (newDay) => {
-  newDay.save();
+module.exports.getAllTraineeAvailableDays = (traineeId, whenToStart) => {
+  return DaysModel.findAll({
+    where: {
+      traineeId,
+      whenToStart: {
+        [Op.lte]: whenToStart
+      },
+    }
+  });
 }
 module.exports.getDaysWorkoutsAndRestDays = (traineeId) => {
   return DaysModel.findAll({
@@ -68,10 +79,10 @@ module.exports.getDaysWorkoutsAndRestDays = (traineeId) => {
 module.exports.getDay = (traineeId, dayNumber) => {
   return DaysModel.findOne({
     where: {
-      traineeId: traineeId,
-      dayNumber: dayNumber
+      traineeId,
+      dayNumber
     }
-  })
+  });
 }
 module.exports.deleteDay = (traineeId, dayNumber) => {
   return DaysModel.destroy({
