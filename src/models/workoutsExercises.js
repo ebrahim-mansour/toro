@@ -9,6 +9,12 @@ const modelDefinition = {
     type: Sequelize.INTEGER,
     primaryKey: true
   },
+  sets: {
+    type: Sequelize.INTEGER
+  },
+  reps: {
+    type: Sequelize.INTEGER
+  },
   workoutId: {
     type: Sequelize.INTEGER,
     primaryKey: true
@@ -33,7 +39,7 @@ module.exports.getExercises = (workoutId) => {
     where: {
       workoutId: workoutId
     },
-    attributes: ['exerciseName'],
+    attributes: ['exerciseName', 'sets', 'reps'],
     include: {
       model: Exercise,
       required: true

@@ -44,8 +44,8 @@ block content
                       .col-sm-4.frame
                         .workoutExercises.text-primary=`${exercises[i].exerciseName}`
                         p
-                          span=`${exercises[i].exercise.sets} Sets `
-                          span=`${exercises[i].exercise.reps} Reps`
+                          span=`${exercises[i].sets} Sets `
+                          span=`${exercises[i].reps} Reps`
                       - i++;
             else
               .text-primary= `Rest day Name: ` + days[`${dayNumber-1}`].restDays[0].name
@@ -54,7 +54,7 @@ block content
                     input(type="hidden", name="restDayId" value=dayDetails.restDayId)
                     button(type='submit' class='btn btn-primary done')= days[`${dayNumber-1}`].restDays[0].name
               .container
-                textarea(class="form-control", name="whatToDo", cols="85", rows="10")= restDay.whatToDo
+                textarea(class="form-control", name="whatToDo", readonly)= restDay.whatToDo
                 if restDay.video
                   video(width='100%', height='50%', controls='')
                     source(src=restDay.video, type='video/mp4')

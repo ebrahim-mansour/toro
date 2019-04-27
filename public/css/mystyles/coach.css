@@ -139,6 +139,13 @@
 .createWorkout .notAddedExercise, .exercises {
   margin: 5px 0px;
 }
+.exercise {
+  margin: 5px 0px;
+}
+.sets , .reps {
+  width: 55px;
+  margin-left: 8px
+}
 
 /* Create New Rest Day */
 .ftco-footer {

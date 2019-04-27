@@ -8,12 +8,6 @@ const modelDefinition = {
     type: Sequelize.STRING,
     primaryKey: true
   },
-  sets: {
-    type: Sequelize.INTEGER
-  },
-  reps: {
-    type: Sequelize.INTEGER
-  },
   picturePath: {
     type: Sequelize.STRING
   },

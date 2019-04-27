@@ -13,9 +13,9 @@ block content
 
         form(id="createWorkout" action="/coachProfile/workouts/new" method="post")
           .form-group
-            input(class="form-control", type="text", name="workoutName", placeholder="Workout Name", autofocus)
+            input(class="form-control", type="text", name="workoutName", placeholder="Workout Name", required, autofocus)
           .form-group
-            - let i = 0
+            - let i = 0;
             select(class="form-control", onchange='showCategoryExercises(this.value);', onblur="addOrRemoveExercises()" autofocus)
               option(value="") Choose category to view it's exercises
               while i < exercises.length
@@ -53,29 +53,48 @@ block scripts
       let notAddedExercises = $('.notAddedExercise');
       for (let i = 0; i < notAddedExercises.length; i++) {
         notAddedExercises[i].addEventListener("click", function() {
-          let newExercise = document.createElement("input");
-          newExercise.setAttribute('id', this.id);
-          newExercise.setAttribute('class', 'exercises btn btn-dark');
-          newExercise.setAttribute('name', 'exercises');
-          newExercise.setAttribute('value', this.value);
-          newExercise.setAttribute('readonly', true);
+          // New exercise container
+          let newExercise = document.createElement("div");
+
+          // New exercise input
+          let exercise = document.createElement("input");
+          exercise.setAttribute('class', 'exercise btn btn-dark');
+          exercise.setAttribute('name', 'exercise');
+          exercise.setAttribute('value', this.value);
+          exercise.setAttribute('readonly', true);
           
-          /*
-          let alreadyExist = $('#choosedExercises').find('input').css({'id': this.id});
-          if (alreadyExist) {
-            alert("Already exist")
-          } else {
-            $('#choosedExercises').append(newExercise);
-            this.remove();
-          }
-          */
-          
+          // New exercise sets
+          let sets = document.createElement("input");
+          sets.setAttribute('type', 'number');
+          sets.setAttribute('class', 'sets');
+          sets.setAttribute('name', 'sets');
+          sets.setAttribute('required', 'required');
+          sets.setAttribute('min', 1);
+          sets.setAttribute('placeholder', 'Sets');
+          // New exercise reps
+          let reps = document.createElement("input");
+          reps.setAttribute('type', 'number');
+          reps.setAttribute('required', 'required');
+          reps.setAttribute('class', 'reps');
+          reps.setAttribute('name', 'reps');
+          reps.setAttribute('min', 1);
+          reps.setAttribute('placeholder', 'Reps');
+
+          // Adding the new exercise data to the container and adding that container to the exercises
+          $(newExercise).append(exercise);
+          $(newExercise).append(sets);
+          $(newExercise).append(reps);
           $('#choosedExercises').append(newExercise);
+
+          // Removing the exercise because it has been choosen
           this.remove();
           
-          let exercises = $('.exercises');
+          // Removing exercise from the choosen exercises
+          let exercises = $('.exercise');
           for (let i = 0; i < exercises.length; i++) {
             exercises[i].addEventListener("click", function() {
+              this.parentElement.querySelector('.sets').remove();
+              this.parentElement.querySelector('.reps').remove();
               this.remove();
             });
           }

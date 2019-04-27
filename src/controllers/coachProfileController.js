@@ -456,41 +456,49 @@ let post = {
   createWorkout: async (req, res) => {
     let coachId = req.user.coachId;
     let workoutName = req.body.workoutName;
-    let exercisesNames = req.body.exercises;
-
+    let exercisesNames = req.body.exercise;
+    let sets = req.body.sets;
+    let reps = req.body.reps;
+    
     req.checkBody('workoutName', 'Workout name is required').notEmpty();
+    req.checkBody('sets', 'All sets numbers are required').notEmpty();
+    req.checkBody('reps', 'All reps numbers are required').notEmpty();
     let errors = req.validationErrors();
     if (errors) {
       let exercises = await Exercises.getDistinctNamesOfCategories();
-      return res.render('coaches/workouts/new', { exercises: exercises, errors: errors });
+      return res.render('coaches/workouts/new', { exercises, errors });
     } else {
       let workoutMaxId = await Workout.getMaxWorkoutId();
       let workoutId;
-      if (workoutMaxId) {
-        workoutId = workoutMaxId + 1
-      } else {
-        workoutId = 1;
-      }
+      // Checking if it's the first workout or not
+      workoutMaxId ? workoutId = workoutMaxId + 1 : workoutId = 1;
+
+      // Creating new workout structure
       let newWorkout = new Workout({
-        workoutId: workoutId,
-        workoutName: workoutName,
-        coachId: coachId
+        workoutId,
+        workoutName,
+        coachId
       });
+      // Saving the workout according to the number of exercises
       Workout.createWorkout(newWorkout);
       if (typeof (exercisesNames) == "object") {
         for (let i = 0; i < exercisesNames.length; i++) {
           let newExercise = new WorkoutsExercises({
             exerciseName: exercisesNames[i],
-            workoutId: workoutId,
-            coachId: coachId
+            sets: sets[i],
+            reps: reps[i],
+            workoutId,
+            coachId
           });
           WorkoutsExercises.addExercise(newExercise)
         }
       } else {
         let newExercise = new WorkoutsExercises({
-          exerciseName: exercisesNames,
-          workoutId: workoutId,
-          coachId: coachId
+          exercisesNames,
+          sets,
+          reps,
+          workoutId,
+          coachId
         });
         WorkoutsExercises.addExercise(newExercise)
       }

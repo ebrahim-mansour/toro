@@ -50,7 +50,7 @@ let get = {
     if (program) {
       let traineeId = req.user.traineeId;
       /*let coachId = req.user.coachId;*/
-      
+
       // Get the starting date of the trianee
       let startingDate = req.user.startingDate;
       if (startingDate > nowDate) {
@@ -93,17 +93,17 @@ let get = {
       month = '0' + month
     }
     nowDate = year + '-' + month + '-' + day;
-    
+
     let traineeId = req.user.traineeId;
     let dayNumber = req.params.dayNumber;
 
-    let traineeAvailableDays = await Day.getAllTraineeAvailableDays(traineeId, nowDate);    
+    let traineeAvailableDays = await Day.getAllTraineeAvailableDays(traineeId, nowDate);
     let isDayAvailable = traineeAvailableDays.find((day) => day.dayNumber == dayNumber);
 
     if (isDayAvailable) {
       let days = await Day.getDaysWorkoutsAndRestDays(traineeId);
       let dayDetails = await Day.getDay(traineeId, dayNumber);
-      
+
       // Check if the day is workout or restday
       let isDayWorkout = dayDetails.workoutId;
       if (isDayWorkout) {
@@ -117,7 +117,7 @@ let get = {
       return res.render('trainees/dayDetails', { days, dayDetails, restDay, dayNumber, nowDate });
     }
     return res.redirect('back');
-    
+
 
   },
   getTimeSlots: async (req, res) => {
@@ -323,26 +323,28 @@ let post = {
     // Editing the current day status and the next one if it exists
     let day = await Day.getDay(traineeId, dayNumber);
     // In case the current day has a private session, it will be (done and has a private session)
-    if (day.status == 'current and has a private session') {
-      let status = "done and has a private session";
-      Day.updateDayStatusAndDate(status, nowDate, traineeId, dayNumber);
-      /* In case the current day does not has a private session, it will be (done) */
-    } else {
-      let status = "done";
-      Day.updateDayStatusAndDate(status, nowDate, traineeId, dayNumber);
-    }
-    // Handling the next day status and start date
-    let nextDayNumber = parseInt(dayNumber) + 1;
-    let nextDay = await Day.getDay(traineeId, nextDayNumber);
-    if (nextDay != null) {
-      let status = "current";
-      Day.updateDayStatusAndDate(status, nowDate, traineeId, nextDayNumber);
-    }
-    // Changing the trainee status according to his last day status
-    let maxDayNumber = await Day.getMaxDay(traineeId);
-    let lastDay = await Day.getDay(traineeId, maxDayNumber);
-    if (lastDay.status == "done" || lastDay.status == "done and has a private session") {
-      Trainee.changeStatus(traineeId, "pending...");
+    if (day) {
+      if (day.status == 'current and has a private session') {
+        let status = "done and has a private session";
+        Day.updateDayStatusAndDate(status, nowDate, traineeId, dayNumber);
+        /* In case the current day does not has a private session, it will be (done) */
+      } else {
+        let status = "done";
+        Day.updateDayStatusAndDate(status, nowDate, traineeId, dayNumber);
+      }
+      // Handling the next day status and start date
+      let nextDayNumber = parseInt(dayNumber) + 1;
+      let nextDay = await Day.getDay(traineeId, nextDayNumber);
+      if (nextDay != null) {
+        let status = "current";
+        Day.updateDayStatusAndDate(status, nowDate, traineeId, nextDayNumber);
+      }
+      // Changing the trainee status according to his last day status
+      let maxDayNumber = await Day.getMaxDay(traineeId);
+      let lastDay = await Day.getDay(traineeId, maxDayNumber);
+      if (lastDay.status == "done" || lastDay.status == "done and has a private session") {
+        Trainee.changeStatus(traineeId, "pending...");
+      }
     }
     return res.redirect('/traineeProfile');
   },
