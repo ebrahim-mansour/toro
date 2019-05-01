@@ -25,11 +25,6 @@ function router() {
     }
   }
 
-  // Change profile setting
-  coachProfileRouter.route('/settings')
-    .get(ensureAuthenticated, coachProfileController.gets.settings)
-    .post(ensureAuthenticated, coachProfileController.posts.settings)
-
   // Home page
   coachProfileRouter.route('/')
     .get(ensureAuthenticated, coachProfileController.gets.manageUsers)
@@ -66,6 +61,7 @@ function router() {
     .get(ensureAuthenticated, coachProfileController.gets.newRestDay)
     .post(ensureAuthenticated, upload.single('videoForRestDay'), coachProfileController.posts.createRestDay)
 
+  // Returning data according to workout or rest day
   coachProfileRouter.route('/workoutsOrRestDays')
     .get(ensureAuthenticated, coachProfileController.gets.workoutsOrRestDays)
 
@@ -73,9 +69,11 @@ function router() {
   coachProfileRouter.route('/weekPlans')
     .get(ensureAuthenticated, coachProfileController.gets.weeksPlans)
 
+  // Getting week plans
   coachProfileRouter.route('/weekPlans/getWeekPlan')
     .get(ensureAuthenticated, coachProfileController.gets.getWeekPlan)
 
+  // Creating week plan
   coachProfileRouter.route('/weekPlans/new')
     .get(ensureAuthenticated, coachProfileController.gets.newWeekPlan)
     .post(ensureAuthenticated, coachProfileController.posts.createWeekPlan)
@@ -96,18 +94,27 @@ function router() {
   coachProfileRouter.route('/addWeek')
     .post(ensureAuthenticated, coachProfileController.posts.addWeek)
 
+  // Get and add timeslots
   coachProfileRouter.route('/timeSlots')
     .get(ensureAuthenticated, coachProfileController.gets.getTimeSlots)
     .post(ensureAuthenticated, coachProfileController.posts.addTimeSlot)
 
+  // Delete timeslot
   coachProfileRouter.route('/timeSlots/removeTimeSlot')
     .post(ensureAuthenticated, coachProfileController.posts.removeTimeSlot)
 
+  // Add gym to a timeslot
   coachProfileRouter.route('/timeSlots/addGymName')
     .post(ensureAuthenticated, coachProfileController.posts.addGymName)
 
+  // Manage private sessions
   coachProfileRouter.route('/managePrivateSessions')
     .get(ensureAuthenticated, coachProfileController.gets.managePrivateSessions)
+
+  // Change profile setting
+  coachProfileRouter.route('/settings')
+    .get(ensureAuthenticated, coachProfileController.gets.settings)
+    .post(ensureAuthenticated, coachProfileController.posts.settings)
 
   return coachProfileRouter;
 

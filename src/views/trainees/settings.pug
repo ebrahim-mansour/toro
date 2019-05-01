@@ -20,16 +20,15 @@ block content
             input#em(class="form-control", type='email', name='email', value=trainee.email, placeholder='Email')
           .form-group
             input#tel(class="form-control", type='tel', name='phone', value="0"+user.user.phone, placeholder='Mobile Number', pattern='[0-9]{11}', maxlength='11')
-          //
-            .form-group
-              select(class="form-control", name="coachId")
-                option(value="") Choose Coach
-                if coaches
-                  each coach in coaches
-                    if coach.coachId == user.coachId
-                      option(value=coach.coachId, selected)= coach.user.userName
-                    else
-                      option(value=coach.coachId)= coach.user.userName
+          .form-group
+            select(class="form-control", name="coachId")
+              option(value="") Choose Coach
+              if coaches
+                each coach in coaches
+                  if coach.coachId == user.coachId
+                    option(value=coach.coachId, selected)= coach.user.userName
+                  else
+                    option(value=coach.coachId)= coach.user.userName
           .form-group
             input#saveChange(class="btn btn-primary py-3 px-5 col-sm-12", type='submit', value='Save Changes', disabled)
         if errors

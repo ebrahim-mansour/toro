@@ -49,7 +49,7 @@
 
 /* Before Starting Date */
 .beforeStartingDate {
-  margin: 60px 0px 80px 0px;
+  margin: 90px 0px;
 }
 
 /* Trainee Home Page */
@@ -63,7 +63,7 @@
   margin-top: 5px;
 }
 .noDaysAdd {
-  padding: 120px 0px;
+  margin: 145px 0px;
 }
 
 /* Day Details */
@@ -108,7 +108,7 @@
   border: 1px solid #fff
 }
 .noTimeSlots {
-  padding: 120px 0px;
+  margin: 145px 0px;
 }
 
 /* Trainee General Account Settings */

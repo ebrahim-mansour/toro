@@ -45,15 +45,6 @@ function router() {
   traineeProfileRouter.route('/workout/:dayNumber')
     .get(ensureAuthenticated, traineeProfileController.gets.dayDetails)
 
-  /*
-  traineeProfileRouter.route('/getWorkout')
-    .post(ensureAuthenticated, traineeProfileController.posts.getWorkout)
-
-  traineeProfileRouter.route('/getRestDay')
-    .post(ensureAuthenticated, traineeProfileController.posts.getRestDay)
-
-  */
- 
   // If trainee wants to start before the starting date
   traineeProfileRouter.route('/startNow')
     .post(ensureAuthenticated, traineeProfileController.posts.startNow)

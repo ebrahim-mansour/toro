@@ -80,12 +80,10 @@ let get = {
     switch (workoutsOrRestDays) {
       case "1":
         let workouts = await Workout.getCoachWorkouts(coachId);
-        return res.render('coaches/weeksPlans/workoutsOrRestDays', { workouts: workouts });
-      // break;
+        return res.render('coaches/weeksPlans/workoutsOrRestDays', { workouts });
       case "2":
         let restDays = await RestDay.getRestDays(coachId);
-        return res.render('coaches/weeksPlans/workoutsOrRestDays', { restDays: restDays });
-      // break;
+        return res.render('coaches/weeksPlans/workoutsOrRestDays', { restDays });
     }
   },
   weeksPlans: async (req, res) => {

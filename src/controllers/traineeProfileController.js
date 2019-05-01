@@ -163,7 +163,7 @@ let post = {
 
     let email = req.body.email;
     let phone = req.body.phone;
-    // let coachId = req.body.coachId;
+    let coachId = req.body.coachId;
 
     // Validation
     req.checkBody('firstname', 'First name is required').notEmpty();
@@ -177,7 +177,7 @@ let post = {
     if (phone) {
       req.checkBody('phone', 'Phone is not valid').isMobilePhone("ar-EG");
     }
-    // req.checkBody('coachId', 'Coach is required').notEmpty();
+    req.checkBody('coachId', 'Coach is required').notEmpty();
 
     let errors = req.validationErrors();
     if (errors) {
@@ -199,12 +199,12 @@ let post = {
             let coaches = await Coach.getCoachesByProficiencies(proficiency);
             return res.render('trainees/settings', {
               coaches,
-              // coachId,
+              coachId,
               errors,
             });
           } else {
             User.updateSettings(firstName, lastName, userName, phone, traineeId);
-            // Trainee.updateSettings(coachId, traineeId);
+            Trainee.updateSettings(coachId, traineeId);
             let salt = await bcrypt.genSalt(10);
             let newHash = await bcrypt.hash(newPassword, salt);
             Login.updateSettings(email, newHash, traineeId);
@@ -215,13 +215,13 @@ let post = {
           let coaches = await Coach.getCoachesByProficiencies(proficiency);
           return res.render('trainees/settings', {
             coaches,
-            // coachId,
+            coachId,
             passwordError,
           });
         }
       } else {
         User.updateSettings(firstName, lastName, userName, phone, traineeId);
-        // Trainee.updateSettings(coachId, traineeId);
+        Trainee.updateSettings(coachId, traineeId);
         return res.redirect('/traineeProfile');
       }
     }
@@ -232,7 +232,7 @@ let post = {
     let status = 'new';
 
     let program = req.body.program;
-    // let coachId = req.body.coachId;
+    let coachId = req.body.coachId;
     let startingDate = req.body.startingDate;
     let weight = req.body.weight;
     let height = req.body.height;
@@ -240,7 +240,7 @@ let post = {
     let experience = req.body.experience;
 
     req.checkBody('program', 'Program is required').notEmpty();
-    // req.checkBody('coachId', 'Coach is required').notEmpty();
+    req.checkBody('coachId', 'Coach is required').notEmpty();
     req.checkBody('startingDate', 'Date is required').notEmpty();
     if (startingDate) {
       req.checkBody('startingDate', 'Date should not be equal or before today').isAfter();
@@ -265,7 +265,7 @@ let post = {
       return res.render('trainees/completeRegistration', {
         errors,
         // coaches: coaches,
-        // coachId: coachId,
+        coachId,
         program,
         startingDate,
         weight,
@@ -277,7 +277,7 @@ let post = {
     } else {
       // picturePath = req.file.path
       // newPicPath = picturePath.slice(7);
-      Trainee.addInfo(traineeId, status, program, 1, startingDate, weight, height, age, experience/*, newPicPath*/);
+      Trainee.addInfo(traineeId, status, program, coachId, startingDate, weight, height, age, experience/*, newPicPath*/);
 
       return res.redirect('/traineeProfile');
     }
@@ -375,7 +375,7 @@ let post = {
     }
     nowDate = year + '-' + month + '-' + day;
 
-    let coachId = req.user.coachId;
+    // let coachId = req.user.coachId;
     let dayNumber = req.body.dayNumber;
 
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
