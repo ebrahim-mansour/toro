@@ -102,6 +102,17 @@ module.exports.startNow = (traineeId, currentDate) => {
     }
   );
 }
+module.exports.getTraineeInfo = (traineeId) => {
+  return TraineeModel.findAll({
+    where: {
+      traineeId
+    },
+    include: {
+      model: User,
+      required: true
+    }
+  });
+}
 module.exports.getTraineesOfSpecificCoach = (coachId) => {
   return TraineeModel.findAll({
     where: {

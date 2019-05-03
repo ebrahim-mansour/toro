@@ -40,7 +40,7 @@ let get = {
   manageUsers: async (req, res) => {
     let coachId = req.user.coachId;
     let trainees = await Trainee.getTraineesOfSpecificCoach(coachId);
-    return res.render('coaches/coachHomePage', { trainees: trainees });
+    return res.render('coaches/coachHomePage', { trainees });
   },
   workouts: async (req, res) => {
     let coachId = req.user.coachId;
@@ -207,6 +207,7 @@ let post = {
     let coachId = req.user.coachId;
     let traineeId = req.body.traineeId;
 
+    let traineeInfo = await Trainee.getTraineeInfo(traineeId);
     let days = await Day.getDaysWorkoutsAndRestDays(traineeId);
     let workouts = await Workout.getCoachWorkouts(coachId);
     let restDays = await RestDay.getRestDays(coachId);
@@ -217,7 +218,7 @@ let post = {
       workouts,
       restDays,
       weeksPlans,
-      traineeId
+      traineeInfo
     });
 
   },
@@ -232,8 +233,10 @@ let post = {
     let validateTrainee = trainees.find(trainee => {
       return trainee.traineeId == traineeId
     });
-    
+
     if (validateTrainee) {
+      // Edit numbers of days
+      
       Day.deleteDay(traineeId, dayNumber);
     }
 
@@ -254,12 +257,12 @@ let post = {
       mm = '0' + mm
     }
     nowDate = yyyy + '-' + mm + '-' + dd;
-        
+
     let workoutId = req.body.workoutId;
     let traineeId = req.body.traineeId;
 
     let days = await Day.getAllTraineeDays(traineeId);
-    
+
     let maxDay = await Day.getMaxDay(traineeId);
     let dayNumber = maxDay ? maxDay + 1 : 1;
 
@@ -319,12 +322,12 @@ let post = {
       mm = '0' + mm
     }
     nowDate = yyyy + '-' + mm + '-' + dd;
-    
+
     let restDayId = req.body.restDayId;
     let traineeId = req.body.traineeId;
 
     let days = await Day.getAllTraineeDays(traineeId);
-    
+
     let maxDay = await Day.getMaxDay(traineeId);
     let dayNumber = maxDay ? maxDay + 1 : 1;
 
@@ -384,12 +387,12 @@ let post = {
       mm = '0' + mm
     }
     nowDate = yyyy + '-' + mm + '-' + dd;
-    
+
     let weekPlanId = req.body.weekPlanId;
     let traineeId = req.body.traineeId;
 
     let days = await Day.getAllTraineeDays(traineeId);
-    
+
     let maxDay = await Day.getMaxDay(traineeId);
     let dayNumber = maxDay ? maxDay + 1 : 1;
 
@@ -457,7 +460,7 @@ let post = {
     let exercisesNames = req.body.exercise;
     let sets = req.body.sets;
     let reps = req.body.reps;
-    
+
     req.checkBody('workoutName', 'Workout name is required').notEmpty();
     req.checkBody('sets', 'All sets numbers are required').notEmpty();
     req.checkBody('reps', 'All reps numbers are required').notEmpty();
@@ -511,9 +514,6 @@ let post = {
   createRestDay: async (req, res) => {
     let coachId = req.user.coachId;
 
-    let restDay = await RestDay.getRestDays(coachId);
-    let restDayId = restDay.length + 1;
-
     let restDayName = req.body.restDayName;
     let whatToDo = req.body.whatToDo;
     let videoPath;
@@ -531,6 +531,11 @@ let post = {
     if (errors) {
       return res.render('coaches/restDays/new', { errors: errors });
     } else {
+      let restDayMaxId = await RestDay.getMaxRestDayId();
+      let restDayId;
+      // Checking if it's the first workout or not
+      restDayMaxId ? restDayId = restDayMaxId + 1 : restDayId = 1;
+
       let newRestDay = new RestDay({
         restDayId,
         name: restDayName,

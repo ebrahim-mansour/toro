@@ -117,6 +117,13 @@ module.exports.updateDayStatus = (status, traineeId, dayNumber) => {
     }
   );
 }
+module.exports.removeTraineeDays = (traineeId) => {
+  return DaysModel.destroy({
+    where: {
+      traineeId
+    }
+  });
+}
 module.exports.getMaxDay = (traineeId) => {
   return DaysModel.max('dayNumber', {
     where: {

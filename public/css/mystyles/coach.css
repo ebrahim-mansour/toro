@@ -66,6 +66,9 @@
 }
 
 /* Manage User */
+.traineeInfo {
+  margin: 40px 0px;
+}
 .daysAdded {
   padding: 40px 0px;
 }

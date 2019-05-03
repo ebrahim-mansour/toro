@@ -46,7 +46,7 @@ module.exports.getCoachesByProficiencies = (proficiency) => {
   return CoachesModel.findAll({
     where: {
       proficiency: {
-        [Op.or]: [proficiency, 'all']
+        [Op.or]: [proficiency, 'All']
       }
     },
     include: {

@@ -29,6 +29,9 @@ module.exports.createRestDay = (newRestDay, callback) => {
   newRestDay.save();
   callback();
 }
+module.exports.getMaxRestDayId = () => {
+  return RestDaysModel.max('restDayId');
+}
 module.exports.getRestDay = (restDayId) => {
   return RestDaysModel.findOne({
     where: {

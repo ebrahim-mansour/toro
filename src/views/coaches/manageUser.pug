@@ -8,6 +8,24 @@ block content
 
     section.addMethods
       .container
+        table.traineeInfo.table.table-bordered.table-dark
+          thead.thead-light
+            tr
+              th(scope='col') Trainee Name
+              th(scope='col') Starting Date
+              th(scope='col') Program
+              th(scope='col') Age
+              th(scope='col') Weight
+              th(scope='col') Height
+          tbody
+            tr
+              td(scope='row')= traineeInfo[0].user.userName
+              td= traineeInfo[0].startingDate
+              td= traineeInfo[0].program
+              td= traineeInfo[0].age
+              td= traineeInfo[0].weight
+              td= traineeInfo[0].height
+        
         .createMethods.text-center
           .row
             div.col-sm-4
@@ -21,7 +39,7 @@ block content
             .addByDay.col-md-12
               form#addDay(action="/coachProfile/addDay" method="POST")
                 .form-group
-                  input(type="hidden", name="traineeId", value=traineeId)
+                  input(type="hidden", name="traineeId", value=`${traineeInfo[0].traineeId}`)
                   select(class="form-control", name="workoutId", required)
                     option(value="", style="background:rgba(0,0,0,0.5);") Select Workout
                       each workout in workouts
@@ -31,7 +49,7 @@ block content
             .addRestDay.col-md-12
               form#addRestDay(action="/coachProfile/addRestDay" method="POST")
                 .form-group
-                  input(type="hidden", name="traineeId", value=traineeId)
+                  input(type="hidden", name="traineeId", value=`${traineeInfo[0].traineeId}`)
                   select(class="form-control", name="restDayId", required)
                     option(value="", style="background:rgba(0,0,0,0.5);") Select Rest Day
                       each restDay in restDays
@@ -40,7 +58,7 @@ block content
             .addByWeek.col-md-12
               form#addWeek(action="/coachProfile/addWeek" method="POST")
                 .form-group
-                  input(type="hidden", name="traineeId", value=traineeId)
+                  input(type="hidden", name="traineeId", value=`${traineeInfo[0].traineeId}`)
                   select(class="form-control", name="weekPlanId", required)
                     option(value="", style="background:rgba(0,0,0,0.5);") Select Week
                       each weekPlan in weeksPlans
