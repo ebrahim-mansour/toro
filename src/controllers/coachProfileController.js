@@ -37,10 +37,57 @@ let get = {
     let coach = await Login.getLoginData(coachId);
     return res.render('coaches/settings', { coach: coach });
   },
-  manageUsers: async (req, res) => {
+  manageTrainees: async (req, res) => {
     let coachId = req.user.coachId;
     let trainees = await Trainee.getTraineesOfSpecificCoach(coachId);
     return res.render('coaches/coachHomePage', { trainees });
+  },
+  manageTrainee: async (req, res) => {
+    let coachId = req.user.coachId;
+    let traineeId = req.params.traineeId;
+
+    let trainees = await Trainee.getTraineesOfSpecificCoach(coachId);
+
+    // Validate trainee
+    let validateTrainee = trainees.find(trainee => trainee.traineeId == traineeId);
+
+    if (validateTrainee) {
+      let traineeInfo = await Trainee.getTraineeInfo(traineeId);
+      let days = await Day.getDaysWorkoutsAndRestDays(traineeId);
+      let workouts = await Workout.getCoachWorkouts(coachId);
+      let restDays = await RestDay.getRestDays(coachId);
+      let weeksPlans = await WeeksPlans.getWeeksPlans(coachId);
+  
+      return res.render('coaches/manageUser', {
+        days,
+        workouts,
+        restDays,
+        weeksPlans,
+        traineeInfo
+      });   
+    } else {
+      return res.redirect('/coachProfile/coachHomePage');
+    }
+  },
+  editDay: async (req, res) => {
+    let traineeId = req.params.traineeId;
+    let dayNumber = req.params.dayNumber;
+
+    let coachId = req.user.coachId;
+
+    try {
+      let day = await Day.getDay(traineeId, dayNumber);
+      let workoutId = day.workoutId;
+      let restDayId = day.restDayId;
+  
+      let restDays = await RestDay.getCoachRestDays(coachId);
+      let workouts = await Workout.getCoachWorkouts(coachId);
+  
+      return res.render('coaches/editDay', { workouts, workoutId, restDays, restDayId, traineeId, dayNumber })
+  
+    } catch (error) {
+      return res.redirect(`back`)
+    }
   },
   workouts: async (req, res) => {
     let coachId = req.user.coachId;
@@ -203,24 +250,38 @@ let post = {
       }
     }
   },
-  manageUser: async (req, res) => {
+  editDay: async (req, res) => {
+    let traineeId = req.params.traineeId;
+    let dayNumber = req.params.dayNumber;
+
+    let chooseActivity = req.body.chooseActivity;
+    let workoutsOrRestDays = req.body.workoutsOrRestDays;
+
     let coachId = req.user.coachId;
-    let traineeId = req.body.traineeId;
+    let trainees = await Trainee.getTraineesOfSpecificCoach(coachId);
 
-    let traineeInfo = await Trainee.getTraineeInfo(traineeId);
-    let days = await Day.getDaysWorkoutsAndRestDays(traineeId);
-    let workouts = await Workout.getCoachWorkouts(coachId);
-    let restDays = await RestDay.getRestDays(coachId);
-    let weeksPlans = await WeeksPlans.getWeeksPlans(coachId);
+    // Validate trainee
+    let validateTrainee = trainees.find(trainee => trainee.traineeId == traineeId);
 
-    return res.render('coaches/manageUser', {
-      days,
-      workouts,
-      restDays,
-      weeksPlans,
-      traineeInfo
-    });
-
+    if (validateTrainee) {
+      switch (chooseActivity) {
+        case '1':
+          let workouts = await Workout.getCoachWorkouts(coachId);
+          let validateWorkoutId = workouts.find(workout => workout.workoutId == workoutsOrRestDays);
+          if (validateWorkoutId) {
+            await Day.updateDayWorkout(traineeId, dayNumber, workoutsOrRestDays);
+          }
+          break;
+        case '2':
+          let restDays = await RestDay.getCoachRestDays(coachId);
+          let validateRestDayId = restDays.find(restday => restday.restDayId == workoutsOrRestDays);
+          if (validateRestDayId) {
+            await Day.updateDayRestDay(traineeId, dayNumber, workoutsOrRestDays);
+          }
+          break;
+      }
+    }
+    return res.redirect('/coachProfile');
   },
   deleteDay: async (req, res) => {
     let dayNumber = req.body.dayNumber;
@@ -230,18 +291,28 @@ let post = {
     let trainees = await Trainee.getTraineesOfSpecificCoach(coachId);
 
     // Validate trainee
-    let validateTrainee = trainees.find(trainee => {
-      return trainee.traineeId == traineeId
-    });
+    let validateTrainee = trainees.find(trainee => trainee.traineeId == traineeId);
 
     if (validateTrainee) {
-      // Edit numbers of days
-      
       Day.deleteDay(traineeId, dayNumber);
     }
 
     return res.redirect('/coachProfile');
+  },
+  resetDays: async (req, res) => {
+    let coachId = req.user.coachId;
+    let traineeId = req.body.traineeId;
 
+    let trainees = await Trainee.getTraineesOfSpecificCoach(coachId);
+
+    // Validate trainee
+    let validateTrainee = trainees.find(trainee => trainee.traineeId == traineeId);
+
+    if (validateTrainee) {
+      await Day.resetDays(traineeId);
+      await Trainee.changeStatus(traineeId, "new");
+    }
+    return res.redirect('/coachProfile');
   },
   addDay: async (req, res) => {
 

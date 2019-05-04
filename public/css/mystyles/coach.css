@@ -100,10 +100,21 @@
 .addDay, .addRestDay, .addWeek {
   cursor: pointer;
 }
+.editDay {
+  position: relative;
+  left: 45px;
+  display: inline-block;
+}
 .deleteDay {
   position: relative;
-  left: 50px;
+  left: 28px;
+  top: 58px;
   display: inline-block;
+}
+
+/* Edit Day */
+#editDay {
+  margin: 40px 0px;
 }
 
 /* Manage Workouts */

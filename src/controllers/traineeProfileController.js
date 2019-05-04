@@ -388,7 +388,7 @@ let post = {
     }
     nowDate = year + '-' + month + '-' + day;
 
-    // let coachId = req.user.coachId;
+    let coachId = req.user.coachId;
     let dayNumber = req.body.dayNumber;
 
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

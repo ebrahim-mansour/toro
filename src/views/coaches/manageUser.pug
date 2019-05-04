@@ -5,27 +5,26 @@ block style
   link(rel='stylesheet' href='/css/mystyles/coach.css')
 block content
   body
+    .container
+      table.traineeInfo.table.table-bordered.table-dark
+        thead.thead-light
+          tr
+            th(scope='col') Trainee Name
+            th(scope='col') Starting Date
+            th(scope='col') Program
+            th(scope='col') Age
+            th(scope='col') Weight
+            th(scope='col') Height
+        tbody
+          tr
+            td(scope='row')= traineeInfo[0].user.userName
+            td= traineeInfo[0].startingDate
+            td= traineeInfo[0].program
+            td= traineeInfo[0].age
+            td= traineeInfo[0].weight
+            td= traineeInfo[0].height
 
-    section.addMethods
-      .container
-        table.traineeInfo.table.table-bordered.table-dark
-          thead.thead-light
-            tr
-              th(scope='col') Trainee Name
-              th(scope='col') Starting Date
-              th(scope='col') Program
-              th(scope='col') Age
-              th(scope='col') Weight
-              th(scope='col') Height
-          tbody
-            tr
-              td(scope='row')= traineeInfo[0].user.userName
-              td= traineeInfo[0].startingDate
-              td= traineeInfo[0].program
-              td= traineeInfo[0].age
-              td= traineeInfo[0].weight
-              td= traineeInfo[0].height
-        
+      section.addMethods
         .createMethods.text-center
           .row
             div.col-sm-4
@@ -65,20 +64,26 @@ block content
                         option(value=weekPlan.weekPlanId, style="background:rgba(0,0,0,0.5);")= weekPlan.name
                 button.addWeek(class="btn btn-primary py-3 px-5 col-sm-12", type="submit" form="addWeek") Add Week
 
-    if days.length > 0
-      section.daysAdded.text-center
-        .container
+      if days.length > 0
+        section.daysAdded.text-center
           .row
             each day in days
               .day.border.border-secondary.col-sm-3
                 div Added: 
                   span= day.dayDate
                   if day.dayNumber == days.length && day.dayNumber != 1 && day.status != 'done'
+                    form(class="editDay" action=`/coachProfile/editDay/${day.traineeId}/${day.dayNumber}`, method="get")
+                      button(class="btn btn-alert", type="submit")
+                        i.fa.fa-edit
                     form(class="deleteDay" action="/coachProfile/deleteDay", method="post")
                       input(type="hidden", name="dayNumber", value=day.dayNumber)
                       input(type="hidden", name="traineeId", value=day.traineeId)
                       button(class="btn btn-danger", type="submit")
-                        i(class="fa fa-minus-square")
+                        i.fa.fa-trash
+                  if day.dayNumber != days.length && day.status != 'done'
+                    form(class="editDay" action=`/coachProfile/editDay/${day.traineeId}/${day.dayNumber}`, method="get")
+                      button(class="btn btn-alert", type="submit")
+                        i.fa.fa-edit
                 div Day number: 
                   span= day.dayNumber
                 if day.workoutId != null
@@ -94,10 +99,13 @@ block content
                 if day.status == "done and has a private session"
                   .userFinished.text-primary User Already Finished
                   .hasPrivateSession.text-info Private Session
-    else
-      section.noDaysAdd.text-center
-        .container
+      else
+        section.noDaysAdd.text-center
           h3 You Haven't added any days
+      form#resetDays(action="/coachProfile/resetDays", method="post", onsubmit="return ensureResetDays()")
+        input(type="hidden", name="traineeId", value=`${traineeInfo[0].traineeId}`)
+        button.resetDays(class="btn btn-danger py-3 px-5 col-sm-12", type="submit" form="resetDays") Reset Days
+
 block scripts
   script.
     $('#addByDay').click(function () {
@@ -127,3 +135,10 @@ block scripts
       $('.addMethods .createMethods #addByDay').css("color", "#bfbfbf");
       $('.addMethods .createMethods #addByRestDay').css("color", "#bfbfbf");
     })
+    function ensureResetDays() {
+      let ask = confirm("Are you sure you want to RESET days?");
+      if (!ask) {
+        return false;
+      }
+      return true;      
+    }

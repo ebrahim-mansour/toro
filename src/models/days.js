@@ -48,7 +48,7 @@ module.exports.createDay = (newDay) => {
 module.exports.getAllTraineeDays = (traineeId) => {
   return DaysModel.findAll({
     where: {
-      traineeId: traineeId
+      traineeId
     }
   });
 }
@@ -65,7 +65,7 @@ module.exports.getAllTraineeAvailableDays = (traineeId, whenToStart) => {
 module.exports.getDaysWorkoutsAndRestDays = (traineeId) => {
   return DaysModel.findAll({
     where: {
-      traineeId: traineeId,
+      traineeId,
     },
     order: [
       ['dayNumber', 'ASC']
@@ -92,27 +92,65 @@ module.exports.deleteDay = (traineeId, dayNumber) => {
     }
   });
 }
-module.exports.updateDayStatusAndDate = (status, date, traineeId, dayNumber) => {
-  DaysModel.update(
+module.exports.resetDays = (traineeId) => {
+  return DaysModel.destroy({
+    where: {
+      traineeId,
+      status: {
+        [Op.notIn]: ['done', 'done and has a private session']
+      }
+    }
+  });
+}
+module.exports.updateDayWorkout = (traineeId, dayNumber, workoutId,) => {
+  return DaysModel.update(
     {
-      status: status,
-      whenToStart: date
+      workoutId,
+      restDayId: null
     },
     {
       where: {
-        traineeId: traineeId,
-        dayNumber: dayNumber
+        traineeId,
+        dayNumber
+      }
+    }
+  );
+}
+module.exports.updateDayRestDay = (traineeId, dayNumber, restDayId,) => {
+  return DaysModel.update(
+    {
+      restDayId,
+      workoutId: null
+    },
+    {
+      where: {
+        traineeId,
+        dayNumber
       }
     }
   );
 }
 module.exports.updateDayStatus = (status, traineeId, dayNumber) => {
   DaysModel.update(
-    { status: status },
+    { status },
     {
       where: {
-        traineeId: traineeId,
-        dayNumber: dayNumber
+        traineeId,
+        dayNumber
+      }
+    }
+  );
+}
+module.exports.updateDayStatusAndDate = (status, date, traineeId, dayNumber) => {
+  DaysModel.update(
+    {
+      status,
+      whenToStart: date
+    },
+    {
+      where: {
+        traineeId,
+        dayNumber
       }
     }
   );
@@ -127,7 +165,7 @@ module.exports.removeTraineeDays = (traineeId) => {
 module.exports.getMaxDay = (traineeId) => {
   return DaysModel.max('dayNumber', {
     where: {
-      traineeId: traineeId
+      traineeId
     }
   });
 }

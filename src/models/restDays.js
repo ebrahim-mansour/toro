@@ -35,14 +35,21 @@ module.exports.getMaxRestDayId = () => {
 module.exports.getRestDay = (restDayId) => {
   return RestDaysModel.findOne({
     where: {
-      restDayId: restDayId
+      restDayId
+    }
+  });
+}
+module.exports.getCoachRestDays = (coachId) => {
+  return RestDaysModel.findAll({
+    where: {
+      coachId
     }
   });
 }
 module.exports.getRestDays = (coachId) => {
   return RestDaysModel.findAll({
     where: {
-      coachId: coachId
+      coachId
     }
   });
 }

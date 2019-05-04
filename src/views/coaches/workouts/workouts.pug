@@ -12,9 +12,9 @@ block content
           .form-group
             select(class="form-control", onchange='showWorkout(this.value)', autofocus)
               option(value="") My workouts
-                if workouts
-                  each workout in workouts
-                    option(value=workout.workoutId)= workout.workoutName      
+              if workouts
+                each workout in workouts
+                  option(value=workout.workoutId)= workout.workoutName
         #exercises
 
     script.

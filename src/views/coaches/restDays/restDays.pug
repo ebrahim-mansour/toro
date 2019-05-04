@@ -10,10 +10,10 @@ block content
         h1 All Rest Days
         form
           .form-group
-            select.form-control(name='users', onchange='showWorkout(this.value)' autofocus)
+            select(class="form-control", onchange='showWorkout(this.value)' autofocus)
               option(value="") My rest days
-                each restDay in restDays
-                  option(value=restDay.restDayId)= restDay.name
+              each restDay in restDays
+                option(value=restDay.restDayId)= restDay.name
           #restDayData.form-group
 
 block scripts
