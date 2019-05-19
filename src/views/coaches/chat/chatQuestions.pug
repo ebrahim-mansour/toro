@@ -1,0 +1,28 @@
+extends ../../layout
+block title
+  title Chat Questions
+block style
+  link(rel='stylesheet' href='/css/mystyles/coach.css')
+block content
+  body
+    .messaging.container
+      .inbox_msg.withMargin
+        .inbox_people
+          .headind_srch
+            .recent_heading
+              h4 Trainees List
+          .inbox_chat
+            if trainees
+              each trainee in trainees
+                .chat_list
+                  .chat_people
+                    .chat_img
+                      img(src='https://ptetutorials.com/images/user-profile.png', alt=trainee.user.userName)
+                    .chat_ib
+                      h5
+                        a(href=`/coachProfile/chatQuestions/${trainee.traineeId}`)= trainee.user.userName
+                        span.chat_date= trainee.lastMessageTimestamp
+                      p= trainee.lastMessage 
+                        if trainee.coachMessage == false
+                          span.lastMessageSender You
+block scripts

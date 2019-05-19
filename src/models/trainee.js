@@ -102,11 +102,8 @@ module.exports.startNow = (traineeId, currentDate) => {
     }
   );
 }
-module.exports.getTraineeInfo = (traineeId) => {
+module.exports.getAllTrainees = () => {
   return TraineeModel.findAll({
-    where: {
-      traineeId
-    },
     include: {
       model: User,
       required: true
@@ -136,4 +133,19 @@ module.exports.updateSettings = (coachId, traineeId) => {
       }
     }
   );
+}
+module.exports.checkIfRoomExists = (roomId) => {
+  return TraineeModel.findOne({
+    where: {
+      traineeId: roomId
+    }
+  })
+}
+module.exports.getAllTraineesIds = () => {
+  return TraineeModel.findAll({
+    attributes: ['traineeId'],
+    order: [
+      ['traineeId', 'ASC']
+    ],
+  });
 }

@@ -27,21 +27,22 @@ function router() {
 
   // Home page
   coachProfileRouter.route('/')
-    .get(ensureAuthenticated, coachProfileController.gets.manageTrainees)
+    .get(ensureAuthenticated, coachProfileController.gets.manageUsers)
+
+  // Chat Questions
+  coachProfileRouter.route('/chatQuestions')
+    .get(ensureAuthenticated, coachProfileController.gets.chatQuestions)
+
+  // Trainee chat room
+  coachProfileRouter.route('/chatQuestions/:roomId')
+    .get(ensureAuthenticated, coachProfileController.gets.chatRoom)
 
   // Manage user
-  coachProfileRouter.route('/manageTrainee/:traineeId')
-    .post(ensureAuthenticated, coachProfileController.gets.manageTrainee)
-
-  coachProfileRouter.route('/editDay/:traineeId/:dayNumber')
-    .get(ensureAuthenticated, coachProfileController.gets.editDay)
-    .post(ensureAuthenticated, coachProfileController.posts.editDay)
-
+  coachProfileRouter.route('/manage')
+    .post(ensureAuthenticated, coachProfileController.posts.manageUser)
+  
   coachProfileRouter.route('/deleteDay')
     .post(ensureAuthenticated, coachProfileController.posts.deleteDay)
-
-  coachProfileRouter.route('/resetDays')
-    .post(ensureAuthenticated, coachProfileController.posts.resetDays)
 
   // Workouts */
   coachProfileRouter.route('/workouts')
@@ -56,7 +57,7 @@ function router() {
 
   coachProfileRouter.route('/deleteWorkout')
     .post(ensureAuthenticated, coachProfileController.posts.deleteWorkout)
-
+  
   // Rest Day
   coachProfileRouter.route('/restDays')
     .get(ensureAuthenticated, coachProfileController.gets.restDays)

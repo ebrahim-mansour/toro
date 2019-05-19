@@ -118,7 +118,7 @@ let get = {
     }
     return res.redirect('back');
 
-
+    
   },
   getTimeSlots: async (req, res) => {
 
@@ -144,6 +144,11 @@ let get = {
     } else {
       return res.redirect('/traineeProfile');
     }
+  },
+  askQuestion: async (req, res) => {
+    let roomId = req.user.traineeId;
+    let username = req.user.user.userName;
+    return res.render('trainees/askQuestion', { roomId, username });
   }
 }
 let post = {
@@ -204,14 +209,7 @@ let post = {
             });
           } else {
             User.updateSettings(firstName, lastName, userName, phone, traineeId);
-            // Removing the old workouts when changing the trainer
-            let traineeCurrentCoachId = await Trainee.getTraineeInfo(traineeId);
-            if (coachId != traineeCurrentCoachId[0].coachId) {
-              Trainee.updateSettings(coachId, traineeId);
-              Trainee.changeStatus(traineeId, "new");
-              Day.removeTraineeDays(traineeId);
-            }
-
+            Trainee.updateSettings(coachId, traineeId);
             let salt = await bcrypt.genSalt(10);
             let newHash = await bcrypt.hash(newPassword, salt);
             Login.updateSettings(email, newHash, traineeId);
@@ -228,13 +226,7 @@ let post = {
         }
       } else {
         User.updateSettings(firstName, lastName, userName, phone, traineeId);
-        // Removing the old workouts when changing the trainer
-        let traineeCurrentCoachId = await Trainee.getTraineeInfo(traineeId);
-        if (coachId != traineeCurrentCoachId[0].coachId) {
-          Trainee.updateSettings(coachId, traineeId);
-          Trainee.changeStatus(traineeId, "new");
-          Day.removeTraineeDays(traineeId);
-        }
+        Trainee.updateSettings(coachId, traineeId);
         return res.redirect('/traineeProfile');
       }
     }
@@ -388,7 +380,7 @@ let post = {
     }
     nowDate = year + '-' + month + '-' + day;
 
-    let coachId = req.user.coachId;
+    // let coachId = req.user.coachId;
     let dayNumber = req.body.dayNumber;
 
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

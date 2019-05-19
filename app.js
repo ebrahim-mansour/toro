@@ -1,4 +1,6 @@
 const path = require('path')
+const http = require('http');
+const socketio = require('socket.io');
 const express = require('express');
 const expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
@@ -13,6 +15,53 @@ const coachProfileRouter = require('./src/routes/coachProfileRouter');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+const server = http.createServer(app);
+const io = socketio(server);
+
+const Chat = require('./src/models/chat');
+
+io.on('connection', (socket) => {
+  socket.on('join', async options => {
+
+    const user = { ...options }
+    const roomId = user.roomId;
+    // Adding the user to the room
+    socket.join(roomId);
+    
+    // Get old chat from database
+    let messages = await Chat.getMessagesOfRoom(roomId);
+    messages.forEach(message => {
+      socket.emit('message', message);
+    });
+  });
+  
+  socket.on('sendMessage', async (messageInfo, callback) => {
+    // Preparing the message id
+    let id;
+    let maxId = await Chat.getMaxId();
+    if (maxId) {
+      id = maxId + 1;
+    } else {
+      id = 1;
+    }
+    const senderName = messageInfo.username;
+    const roomId = parseInt(messageInfo.roomId);
+    const message = messageInfo.message;
+    
+    let newMessage = new Chat({
+      id,
+      message,
+      senderName,
+      roomId
+    });
+    // Save chat to database
+    Chat.addMessage(newMessage);
+
+    io.to(roomId).emit('message', newMessage);
+    callback();
+  });
+});
 
 // using pug as a template engine
 app.set('views', './src/views');
@@ -98,7 +147,7 @@ app.use( (req, res, next) => {
   res.status(404).send("Sorry can't find that!");
 });
 
-app.listen(port, (err) => {
+server.listen(port, (err) => {
   if (err) throw err
   console.log('running on http://localhost:' + port);
 });

@@ -46,7 +46,7 @@ module.exports.getCoachesByProficiencies = (proficiency) => {
   return CoachesModel.findAll({
     where: {
       proficiency: {
-        [Op.or]: [proficiency, 'All']
+        [Op.or]: [proficiency, 'all']
       }
     },
     include: {
@@ -56,5 +56,10 @@ module.exports.getCoachesByProficiencies = (proficiency) => {
   });
 }
 module.exports.getAllCoaches = () => {
-  return CoachesModel.findAll();
+  return CoachesModel.findAll({
+    include: {
+      model: User,
+      required: true
+    }
+  });
 }

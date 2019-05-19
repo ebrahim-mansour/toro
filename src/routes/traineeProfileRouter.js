@@ -61,6 +61,10 @@ function router() {
   traineeProfileRouter.route('/timeSlots/getTimeSlotsOfSpecificDay')
     .post(ensureAuthenticated, traineeProfileController.posts.getTimeSlotsOfSpecificDay)
 
+  // Ask Coaches Questions
+  traineeProfileRouter.route('/askQuestion')
+    .get(ensureAuthenticated, traineeProfileController.gets.askQuestion)
+
   // To request a private session in a certain day
   traineeProfileRouter.route('/timeSlots/requestSession')
     .post(ensureAuthenticated, traineeProfileController.posts.requestSession)
