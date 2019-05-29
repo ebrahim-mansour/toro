@@ -118,7 +118,7 @@ let get = {
     }
     return res.redirect('back');
 
-    
+
   },
   getTimeSlots: async (req, res) => {
 
@@ -209,7 +209,13 @@ let post = {
             });
           } else {
             User.updateSettings(firstName, lastName, userName, phone, traineeId);
-            Trainee.updateSettings(coachId, traineeId);
+            // Removing the old workouts when changing the trainer
+            let traineeCurrentCoachId = await Trainee.getTraineeInfo(traineeId);
+            if (coachId != traineeCurrentCoachId[0].coachId) {
+              Trainee.updateSettings(coachId, traineeId);
+              Trainee.changeStatus(traineeId, "new");
+              Day.removeTraineeDays(traineeId);
+            }
             let salt = await bcrypt.genSalt(10);
             let newHash = await bcrypt.hash(newPassword, salt);
             Login.updateSettings(email, newHash, traineeId);
@@ -226,8 +232,13 @@ let post = {
         }
       } else {
         User.updateSettings(firstName, lastName, userName, phone, traineeId);
-        Trainee.updateSettings(coachId, traineeId);
-        return res.redirect('/traineeProfile');
+        // Removing the old workouts when changing the trainer
+        let traineeCurrentCoachId = await Trainee.getTraineeInfo(traineeId);
+        if (coachId != traineeCurrentCoachId[0].coachId) {
+          Trainee.updateSettings(coachId, traineeId);
+          Trainee.changeStatus(traineeId, "new");
+          Day.removeTraineeDays(traineeId);
+        } return res.redirect('/traineeProfile');
       }
     }
   },
@@ -380,7 +391,7 @@ let post = {
     }
     nowDate = year + '-' + month + '-' + day;
 
-    // let coachId = req.user.coachId;
+    let coachId = req.user.coachId;
     let dayNumber = req.body.dayNumber;
 
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
