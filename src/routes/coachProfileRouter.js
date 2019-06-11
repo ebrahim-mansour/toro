@@ -29,9 +29,9 @@ function router() {
   coachProfileRouter.route('/')
     .get(ensureAuthenticated, coachProfileController.gets.manageTrainees)
 
-  // Manage user
+  // Manage trainee
   coachProfileRouter.route('/manageTrainee/:traineeId')
-    .post(ensureAuthenticated, coachProfileController.gets.manageTrainee)
+    .get(ensureAuthenticated, coachProfileController.gets.manageTrainee)
 
   coachProfileRouter.route('/editDay/:traineeId/:dayNumber')
     .get(ensureAuthenticated, coachProfileController.gets.editDay)

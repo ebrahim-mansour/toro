@@ -12,6 +12,7 @@ block content
             th(scope='col') Trainee Name
             th(scope='col') Starting Date
             th(scope='col') Program
+            th(scope='col') Gender
             th(scope='col') Age
             th(scope='col') Weight
             th(scope='col') Height
@@ -20,6 +21,7 @@ block content
             td(scope='row')= traineeInfo[0].user.userName
             td= traineeInfo[0].startingDate
             td= traineeInfo[0].program
+            td= traineeInfo[0].gender
             td= traineeInfo[0].age
             td= traineeInfo[0].weight
             td= traineeInfo[0].height

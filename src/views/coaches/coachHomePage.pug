@@ -18,8 +18,7 @@ block content
                 each trainee in trainees
                   tr
                     td
-                      form(action=`/coachProfile/manageTrainee/${trainee.traineeId}` method="POST")
-                        button(type="submit")= trainee.user.userName
+                      a(href=`/coachProfile/manageTrainee/${trainee.traineeId}`)= trainee.user.userName
                     td
                       span.traineeStatus= trainee.status
         else
