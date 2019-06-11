@@ -127,7 +127,13 @@ let post = {
 
     // Validation
     req.checkBody('firstname', 'First name is required').notEmpty();
+    if (firstName) {
+      req.checkBody('firstname', 'First name must be 3 characters long at least').isLength({ min: 3, max:25 });
+    }
     req.checkBody('lastname', 'Last name is required').notEmpty();
+    if (lastName) {
+      req.checkBody('lastname', 'Last name must be 3 characters long at least').isLength({ min: 3, max:25 });
+    }
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('confirm_password', 'Passwords do not match').equals(password);
     req.checkBody('email', 'Email is required').notEmpty();

@@ -41,6 +41,17 @@ block content
             //- input(class="form-control", type="text", placeholder="mm/dd/yyyy", onfocus="(this.type='date')", onblur="(this.type='text')")
             input(class="form-control", type='date', name='startingDate', value=startingDate, required)
           .form-group
+            select(class="form-control", name="gender", required)
+              option(value="") Gender
+              if gender == "male"
+                option(value="male", selected) Male
+              else 
+                option(value="male") Male
+              if gender == "female"
+                option(value="female", selected) Female
+              else 
+                option(value="female") Female
+          .form-group
             input(class="form-control", type='number', name='weight', value=weight, placeholder='Your weight in Kg', min=40, max=200, required)
           .form-group
             input(class="form-control", type='number', name='height', value=height, placeholder='Your height in cm', min=100, max=250, required)

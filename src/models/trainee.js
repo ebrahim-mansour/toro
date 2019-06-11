@@ -39,6 +39,9 @@ const modelDefinition = {
   status: {
     type: Sequelize.STRING
   },
+  gender: {
+    type: Sequelize.STRING
+  },
 };
 
 // 2: Define the Trainee model.
@@ -63,7 +66,7 @@ module.exports.createUser = (newTrainee) => {
 module.exports.comparePassword = (candidatePassword, hash) => {
   return bcrypt.compare(candidatePassword, hash);
 }
-module.exports.addInfo = (traineeId, status, program, coachId, startingDate, weight, height, age, experience) => {
+module.exports.addInfo = (traineeId, status, program, coachId, startingDate, weight, height, age, experience, gender) => {
   TraineeModel.update(
     {
       status,
@@ -73,7 +76,8 @@ module.exports.addInfo = (traineeId, status, program, coachId, startingDate, wei
       weight,
       height,
       age,
-      experience
+      experience,
+      gender
     },
     {
       where: {

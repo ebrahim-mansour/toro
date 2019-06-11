@@ -16,9 +16,9 @@ block content
       .container
         form#traineeSignup(action='/users/trainees/signup', method="POST")
           .form-group
-            input(class="form-control", type='text', name='firstname', placeholder='First Name', value=firstname, minlength='4', maxlength='25', autofocus, required)
+            input(class="form-control", type='text', name='firstname', placeholder='First Name', value=firstname, minlength='3', maxlength='25', autofocus, required)
           .form-group
-            input#lname(class="form-control", type='text', name='lastname', value=lastname, placeholder='Last Name', minlength='4', maxlength='25', required)
+            input#lname(class="form-control", type='text', name='lastname', value=lastname, placeholder='Last Name', minlength='3', maxlength='25', required)
           .form-group
             input#pass(class="form-control", type='password', name='password', placeholder='Password', required)
           .form-group

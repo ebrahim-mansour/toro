@@ -250,6 +250,7 @@ let post = {
     let program = req.body.program;
     let coachId = req.body.coachId;
     let startingDate = req.body.startingDate;
+    let gender = req.body.gender;    
     let weight = req.body.weight;
     let height = req.body.height;
     let age = req.body.age;
@@ -261,11 +262,11 @@ let post = {
     if (startingDate) {
       req.checkBody('startingDate', 'Date should not be equal or before today').isAfter();
     }
+    req.checkBody('gender', 'Gender is required').notEmpty();
     req.checkBody('weight', 'Weight is required').notEmpty();
     req.checkBody('height', 'Height is required').notEmpty();
     req.checkBody('age', 'Age is required').notEmpty();
     req.checkBody('experience', 'Experience is required').notEmpty();
-    // req.checkBody('price', 'Price is required').notEmpty();
 
     let errors = req.validationErrors();
     /*
@@ -288,13 +289,13 @@ let post = {
         height,
         age,
         experience,
+        gender
         // picerror: picerror
       });
     } else {
       // picturePath = req.file.path
       // newPicPath = picturePath.slice(7);
-      Trainee.addInfo(traineeId, status, program, coachId, startingDate, weight, height, age, experience/*, newPicPath*/);
-
+      Trainee.addInfo(traineeId, status, program, coachId, startingDate, weight, height, age, experience, gender/*, newPicPath*/);
       return res.redirect('/traineeProfile');
     }
   },
