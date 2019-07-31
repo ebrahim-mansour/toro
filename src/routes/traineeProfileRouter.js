@@ -1,8 +1,5 @@
 const express = require('express');
 
-const multer = require('multer');
-const upload = multer({ dest: 'public/uploads/images/' });
-
 const traineeProfileRouter = express.Router();
 
 function router() {
@@ -35,7 +32,7 @@ function router() {
 
   // Complete registration
   traineeProfileRouter.route('/completeRegistration')
-    .post(ensureAuthenticated, upload.single('pic'), traineeProfileController.posts.completeRegistration)
+    .post(ensureAuthenticated, traineeProfileController.posts.completeRegistration)
 
   // Get coaches to choose from
   traineeProfileRouter.route('/getCoaches')

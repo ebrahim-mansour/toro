@@ -12,6 +12,9 @@ const modelDefinition = {
     type: Sequelize.INTEGER,
     primaryKey: true
   },
+  goal: {
+    type: Sequelize.STRING
+  },
   program: {
     type: Sequelize.STRING
   },
@@ -42,6 +45,27 @@ const modelDefinition = {
   gender: {
     type: Sequelize.STRING
   },
+  workTime: {
+    type: Sequelize.STRING
+  },
+  workFinishTime: {
+    type: Sequelize.STRING
+  },
+  gymTime: {
+    type: Sequelize.STRING
+  },
+  sleepTime: {
+    type: Sequelize.STRING
+  },
+  supplements: {
+    type: Sequelize.STRING
+  },
+  sports: {
+    type: Sequelize.STRING
+  },
+  injuries: {
+    type: Sequelize.STRING
+  },
 };
 
 // 2: Define the Trainee model.
@@ -66,18 +90,20 @@ module.exports.createUser = (newTrainee) => {
 module.exports.comparePassword = (candidatePassword, hash) => {
   return bcrypt.compare(candidatePassword, hash);
 }
-module.exports.addInfo = (traineeId, status, program, coachId, startingDate, weight, height, age, experience, gender) => {
+module.exports.addInfo = (
+  traineeId, status,
+  gender, weight, height, age, startingDate, experience,
+  injuries, workTime, workFinishTime, gymTime, sleepTime, supplements, sports,
+  goal, program,
+  coachId
+) => {
   TraineeModel.update(
     {
       status,
-      program,
+      gender, weight, height, age, startingDate, experience,
+      injuries, workTime, workFinishTime, gymTime, sleepTime, supplements, sports,
+      goal, program,
       coachId,
-      startingDate,
-      weight,
-      height,
-      age,
-      experience,
-      gender
     },
     {
       where: {
@@ -108,8 +134,8 @@ module.exports.startNow = (traineeId, currentDate) => {
 }
 module.exports.getTraineeInfo = (traineeId) => {
   return TraineeModel.findAll({
-    where: {	
-      traineeId	
+    where: {
+      traineeId
     },
     include: {
       model: User,

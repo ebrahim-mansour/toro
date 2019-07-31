@@ -5,11 +5,9 @@ const User = require('../models/users');
 const Login = require('../models/login');
 const Trainee = require('../models/trainee');
 const Day = require('../models/days');
-const Workout = require('../models/workouts');
 const WorkoutsExercises = require('../models/workoutsExercises');
 const Gyms = require('../models/gyms');
 const RestDay = require('../models/restDays');
-const WeeksPlans = require('../models/weeksPlans');
 const TimeSlots = require('../models/timeSlots');
 const DayHours = require('../models/reservedHours');
 
@@ -41,15 +39,9 @@ let get = {
     }
     nowDate = year + '-' + month + '-' + day;
 
-    /*
-    // Get tomorrow date
-    let tomorrow = year + '-' + month + '-' + nextDay;
-    */
-
     let program = req.user.program;
     if (program) {
       let traineeId = req.user.traineeId;
-      /*let coachId = req.user.coachId;*/
 
       // Get the starting date of the trianee
       let startingDate = req.user.startingDate;
@@ -70,7 +62,8 @@ let get = {
         });
       }
     } else {
-      return res.render('trainees/completeRegistration');
+      let coaches = await Coach.getAllCoaches();
+      return res.render('trainees/completeRegistration', { coaches });
     }
   },
   getCoaches: async (req, res) => {
@@ -146,9 +139,28 @@ let get = {
     }
   },
   askQuestion: async (req, res) => {
-    let roomId = req.user.traineeId;
-    let username = req.user.user.userName;
-    return res.render('trainees/askQuestion', { roomId, username });
+    // Get the current date
+    let nowDate = new Date();
+    let day = nowDate.getDate();
+    let month = nowDate.getMonth() + 1; //January is 0!
+    let year = nowDate.getFullYear();
+    if (day < 10) {
+      day = '0' + day;
+    }
+    if (month < 10) {
+      month = '0' + month
+    }
+    nowDate = year + '-' + month + '-' + day;
+
+    let startingDate = req.user.startingDate;
+    if (startingDate && startingDate <= nowDate) {
+      let roomId = req.user.traineeId;
+      let username = req.user.user.userName;
+      return res.render('trainees/askQuestion', { roomId, username });
+    } else {
+      return res.redirect('/traineeProfile');
+    }
+
   }
 }
 let post = {
@@ -243,59 +255,107 @@ let post = {
     }
   },
   completeRegistration: async (req, res) => {
-    // let coaches = await Coach.getAllCoaches();
-    let traineeId = req.user.traineeId;
-    let status = 'new';
-
-    let program = req.body.program;
-    let coachId = req.body.coachId;
-    let startingDate = req.body.startingDate;
-    let gender = req.body.gender;    
+    // 1 Personal info
+    let gender = req.body.gender;
     let weight = req.body.weight;
     let height = req.body.height;
     let age = req.body.age;
+    let startingDate = req.body.startingDate;
     let experience = req.body.experience;
 
-    req.checkBody('program', 'Program is required').notEmpty();
-    req.checkBody('coachId', 'Coach is required').notEmpty();
+    // 2 More info
+    let workTime = req.body.workTime
+    let workFinishTime = req.body.workFinishTime
+    let gymTime = req.body.gymTime
+    let sleepTime = req.body.sleepTime
+    let supplements = req.body.supplements
+    let sports = req.body.sports
+    let injuries = req.body.injuries
+
+    // 3 What to do
+    let goal = req.body.goal;
+    let program = req.body.program;
+
+    // 4 Coach
+    let coachId = req.body.coachId;
+
+    // User id and status
+    let traineeId = req.user.traineeId;
+    let status = 'new';
+
+    // Data validation and custom errors
+    let customErrors = [];
+
+    // 1 Personal info validation    
+    req.checkBody('gender', 'Gender is required').notEmpty();
+    if (gender && gender !== 'male' && gender !== 'female') {
+      customErrors.push({ param: 'gender', msg: 'Gender is male or female only!', value: '' });
+    }
+    req.checkBody('weight', 'Weight is required').notEmpty();
+    if (weight) {
+      req.checkBody('weight', 'Weight should be integer between 40 and 200').isInt({ min: 40, max: 200 })
+    }
+    req.checkBody('height', 'Height is required').notEmpty();
+    if (height) {
+      req.checkBody('height', 'Height should be integer between 100 and 250').isInt({ min: 100, max: 250 })
+    }
+    req.checkBody('age', 'Age is required').notEmpty();
+    if (age) {
+      req.checkBody('age', 'Age should be integer between 16 and 60').isInt({ min: 16, max: 60 })
+    }
     req.checkBody('startingDate', 'Date is required').notEmpty();
     if (startingDate) {
       req.checkBody('startingDate', 'Date should not be equal or before today').isAfter();
     }
-    req.checkBody('gender', 'Gender is required').notEmpty();
-    req.checkBody('weight', 'Weight is required').notEmpty();
-    req.checkBody('height', 'Height is required').notEmpty();
-    req.checkBody('age', 'Age is required').notEmpty();
     req.checkBody('experience', 'Experience is required').notEmpty();
+    if (experience && experience !== 'beginner' && experience !== 'intermediate' && experience !== 'expert') {
+      customErrors.push({ param: 'experience', msg: 'Experience is beginner or intermediate or expert only!', value: '' });
+    }
+
+    // 2 More info validation
+    req.checkBody('injuries', 'Injuries field is required').notEmpty();
+
+    // 3 What to do validation
+    req.checkBody('goal', 'Goal is required').notEmpty();
+    if (goal && goal !== 'build muscle' && goal !== 'loss weight' && goal !== 'maintain weight' && goal !== 'fitness') {
+      customErrors.push({ param: 'goal', msg: 'Choose from the given goals', value: '' })
+    }
+    req.checkBody('program', 'Program is required').notEmpty();
+    if (program && program !== 'training' && program !== 'nutrition' && program !== 'full transformation') {
+      customErrors.push({ param: 'program', msg: 'Choose from the given programs', value: '' })
+    }
+
+    // 4 Coach validation
+    req.checkBody('coachId', 'Coach is required').notEmpty();
+    let coaches = await Coach.getAllCoaches();
+    if (coachId) {
+      let coachesIds = []
+      coaches.forEach(coach => {
+        coachesIds.push(coach.user.id)
+      })
+      if (!coachesIds.includes(parseInt(coachId))) {
+        customErrors.push({ param: 'coachId', msg: 'Choose from the given coaches', value: '' })
+      }
+    }
 
     let errors = req.validationErrors();
-    /*
-    let picerror = [];
-    try {
-      let picPath = req.file.path;
-    } catch (err) {
-      picerror.push({ param: 'pic', msg: 'Picture is required', value: '' });
-    }
-    In the condition below ==> || !(picerror.length == 0)
-    */
-    if (errors) {
+
+    if (errors || customErrors.length > 0) {
+      let coaches = await Coach.getAllCoaches();
+
       return res.render('trainees/completeRegistration', {
         errors,
-        // coaches: coaches,
-        coachId,
-        program,
-        startingDate,
-        weight,
-        height,
-        age,
-        experience,
-        gender
-        // picerror: picerror
+        customErrors,
+        coaches
       });
     } else {
-      // picturePath = req.file.path
-      // newPicPath = picturePath.slice(7);
-      Trainee.addInfo(traineeId, status, program, coachId, startingDate, weight, height, age, experience, gender/*, newPicPath*/);
+      Trainee.addInfo(
+        traineeId, status,
+        gender, weight, height, age, startingDate, experience,
+        injuries, workTime, workFinishTime, gymTime, sleepTime, supplements, sports,
+        goal, program,
+        coachId
+      );
       return res.redirect('/traineeProfile');
     }
   },
@@ -365,18 +425,6 @@ let post = {
     }
     return res.redirect('/traineeProfile');
   },
-  /*
-  getWorkout: async (req, res) => {
-    let workoutId = req.body.workoutId;
-    let exercises = await WorkoutsExercises.getExercises(workoutId);
-    return res.render('trainees/workout', { exercises });
-  },
-  getRestDay: async (req, res) => {
-    let restDayId = req.body.restDayId;
-    let restDay = await RestDay.getRestDay(restDayId);
-    return res.render('trainees/restDay', { restDay: restDay });
-  },
-  */
   getTimeSlotsOfSpecificDay: async (req, res) => {
 
     // Get the current date

@@ -43,9 +43,34 @@
 }
 
 /* Complete Registration */
-.completeRegistration #completeRegistration {
-  margin: 25px 0px 40px 0px;
+.completeRegistration {
+  background: url(/images/image_2.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 600px;
+  color: #fff;
 }
+.completeRegistration .completeRegistration-container {
+  background: rgba(0.5, 0.5, 0.5, 0.8);
+  min-height: 600px;
+}
+.show-profile {
+  border-radius: 50%;
+  display: block;
+  margin: 5px auto;
+}
+.whatsapp-numbers {
+  margin-top: 30px;
+  margin-bottom: 30px
+}
+
+/*
+.completeRegistration #completeRegistration {
+  margin: 0px 0px 40px 0px;
+}
+*/
 
 /* Before Starting Date */
 .beforeStartingDate {

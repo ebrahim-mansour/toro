@@ -3,102 +3,194 @@ block title
   title Complete Registration
 block style
   link(rel='stylesheet' href='/css/mystyles/trainee.css')
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css")
+  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.5/nouislider.min.css')
+  link(href="/css/mystyles/signup-steps-form.css", rel="stylesheet")
+  
 block content
   body
-    section.completeRegistration
-      .container
-        if errors
-          each error in errors
-            .alert.alert-danger= error.msg
-        //
-          if picerror
-            each item in picerror
-              .alert.alert-danger= item.msg
-
-        form#completeRegistration(action="/traineeProfile/completeRegistration" method="POST", enctype="multipart/form-data")
-          //- input(type='hidden', name='userId', value=traineeId)
-          .form-group
-            label Goal: 
-            | 
-            .container
+    //
+      section.completeRegistration
+        .completeRegistration-container
+          .container
+            form#completeRegistration(action="/traineeProfile/completeRegistration" method="POST"/*, enctype="multipart/form-data"*/)
+              .form-group
+                #coaches
               .row
-                .col-sm-6
-                  input(class="form-check-input",  type='radio', name='program', id="build-muscle", value='Build Muscle', required)
-                  label(class="form-check-label", for="build-muscle") Build Muscle
-                .col-sm-6
-                  input(class="form-check-input",  type='radio', name='program', id="loss-weight", value='Loss Weight', required)
-                  label(class="form-check-label", for="loss-weight") Loss Weight
-                .col-sm-6
-                  input(class="form-check-input",  type='radio', name='program', id="maintain-weight", value='Maintain Weight')
-                  label(class="form-check-label", for="maintain-weight") Maintain Weight
-                .col-sm-6
-                  input(class="form-check-input",  type='radio', name='program', id="fitness", value='Fitness')
-                  label(class="form-check-label", for="fitness") Fitness
-          .form-group
-            #coaches
-          .form-group
-            label Choose Starting Date:
-            //- input(class="form-control", type="text", placeholder="mm/dd/yyyy", onfocus="(this.type='date')", onblur="(this.type='text')")
-            input(class="form-control", type='date', name='startingDate', value=startingDate, required)
-          .form-group
-            select(class="form-control", name="gender", required)
-              option(value="") Gender
-              if gender == "male"
-                option(value="male", selected) Male
-              else 
-                option(value="male") Male
-              if gender == "female"
-                option(value="female", selected) Female
-              else 
-                option(value="female") Female
-          .form-group
-            input(class="form-control", type='number', name='weight', value=weight, placeholder='Your weight in Kg', min=40, max=200, required)
-          .form-group
-            input(class="form-control", type='number', name='height', value=height, placeholder='Your height in cm', min=100, max=250, required)
-          .form-group
-            input(class="form-control", type='number', name='age', value=age, placeholder='Your age', required)
-          .form-group
-            select(class="form-control", name="experience", required)
-              option(value="") Your Experience
-              if experience == "begginer"
-                option(value="begginer", selected) Begginer
-              else 
-                option(value="begginer") Begginer
-              if experience == "intermediate"
-                option(value="intermediate", selected) Intermediate
-              else 
-                option(value="intermediate") Intermediate
-              if experience == "expert"
-                option(value="expert", selected) Expert
-              else 
-                option(value="expert") Expert
-              
-          //
-            .form-group
-              .form-check.form-check-inline
-                input(class="form-check-input",  type='radio', name='price', id="free", value='free', required)
-                label(class="form-check-label", for="free") Free Trial
-              .form-check.form-check-inline
-                input(class="form-check-input",  type='radio', name='price', id="paid", value='paid')
-                label(class="form-check-label", for="paid") Paid
-            .form-group
-              label Your Current Shape:
-                input(class="form-control", type='file' name='pic' accept='image/*', required)
-          .form-group
-            input(class="btn btn-primary py-3 px-5 col-sm-12" type="submit", value="Complete Registration")
+                .form-group.col-sm-12
+                  input(class="btn btn-primary py-3 px-5 col-sm-12" type="submit", value="Complete Registration")
+
+    section.registrationSteps
+      .main
+        .registrationStepsContainer
+          if errors
+            each error in errors
+              .alert.alert-danger= error.msg
+          if customErrors
+            each customError in customErrors
+              .alert.alert-danger= customError.msg
+
+          form#signup-form.signup-form(action='/traineeProfile/completeRegistration', method='POST')
+            div
+              h3 Personal info
+              fieldset
+                h2 Personal information
+                p.desc
+                  | Please enter your infomation and proceed to next step so we can build your account
+                .fieldset-content
+                  .form-group
+                    select(class="form-control", name="gender"/*, required*/)
+                      option(value="") Gender
+                      option(value="male") Male
+                      option(value="female") Female
+                  .form-group
+                    input(class="form-control", type='number', name='weight', value=weight, placeholder='Weight in Kg', min=40, max=200 /*, required*/)
+                  .form-group
+                    input(class="form-control", type='number', name='height', value=height, placeholder='Height in cm', min=100, max=250/*, required*/)
+                  .form-group
+                    input(class="form-control", type='number', name='age', value=age, placeholder='Age', min=16, max=60/*, required*/)
+                  .form-group
+                    label Starting Date:
+                    input(class="form-control", type='date', name='startingDate', value=startingDate/*, required*/)
+                  .form-group
+                    select(class="form-control", name="experience"/*, required*/)
+                      option(value="") Experience
+                      option(value="beginner") Beginner
+                      option(value="intermediate") Intermediate
+                      option(value="expert") Expert
+              h3 More info
+              fieldset
+                h2 The more information, the more customized
+                p.desc
+                  | Please enter your infomation and proceed to next step so we can build your account
+                .fieldset-content
+                  .form-group
+                    textarea(class="form-control", name="workTime", cols="50", rows="2", placeholder="Time do you leave for work")
+                  .form-group
+                    textarea(class="form-control", name="workFinishTime", cols="50", rows="2", placeholder="Time do you finish work")
+                  .form-group 
+                    textarea(class="form-control", name="gymTime", cols="50", rows="2", placeholder="Time do you usually to the Gym")
+                  .form-group 
+                    textarea(class="form-control", name="sleepTime", cols="50", rows="2", placeholder="Time do you usually sleep")
+                  .form-group 
+                    textarea(class="form-control", name="supplements", cols="50", rows="2", placeholder="Your history with supplements, Your currently if using, If you are not using anything, do you want a cycle involved in the program")
+                  .form-group 
+                    textarea(class="form-control", name="sports", cols="50", rows="2", placeholder="Any sports or other activities you are involved in")
+                  .form-group 
+                    textarea(class="form-control", name="injuries", cols="50", rows="2", placeholder="Allergies or injuries I should be aware of"/*, required*/)
+              h3 What To Do
+              fieldset
+                h2 What To Do
+                p.desc
+                  | Please enter your infomation and proceed to next step so we can build your account
+                .fieldset-content
+                  .form-group
+                    p.desc
+                      | Goal:
+                    .form-radio-flex
+                      .form-radio-item
+                        input#build-muscle(type='radio', name='goal', value='build muscle'/*, required*/)
+                        label(for='build-muscle')
+                          h5 Build Muscle
+                          img(class="rounded", src='/images/build-muscle.jpg', width="150", height="150")
+                      .form-radio-item
+                        input#loss-weight(type='radio', name='goal', value='loss weight')
+                        label(for='loss-weight')
+                          h5 Loss weight
+                          img(class="rounded", src='/images/loss-weight.jpg', width="150", height="150")
+                      .form-radio-item
+                        input#maintain-weight(type='radio', name='goal', value='maintain weight')
+                        label(for='maintain-weight')
+                          h5 Maintain Weight
+                          img(class="rounded", src='/images/maintain-weight.jpg', width="150", height="150")
+                      .form-radio-item
+                        input#fitness(type='radio', name='goal', value='fitness')
+                        label(for='fitness')
+                          h5 Fitness
+                          img(class="rounded", src='/images/fitness.jpg', width="150", height="150")
+                  .form-group
+                    p.desc
+                      | Programs Available:
+                    .form-radio-flex
+                      .form-radio-item
+                        input#training(type='radio', name='program', value='training'/*, required*/)
+                        label(for='training')
+                          h5 Training
+                          img(class="rounded", src='/images/program-1.jpeg', width="150", height="150")
+                      .form-radio-item
+                        input#nutrition(type='radio', name='program', value='nutrition')
+                        label(for='nutrition')
+                          h5 Nutrition
+                          img(class="rounded", src='/images/nutrition-plan.jpeg', width="150", height="150")
+                      .form-radio-item
+                        input#fullTransformation(type='radio', name='program', value='full transformation')
+                        label(for='fullTransformation')
+                          h5 Full transformation
+                          img(class="rounded", src='/images/program-3.jpeg', width="150", height="150")
+
+              h3 Choose Your Coach
+              fieldset
+                h2 Coaches
+                p.desc
+                  | Here are our coaches
+                .fieldset-content
+                  .form-group
+                    .form-radio-flex
+                      //- each coach in coaches
+                      .form-radio-item
+                        input(id=coaches[0].coachId, type='radio', name="coachId", value=coaches[0].coachId/*, required*/)
+                        label(for=coaches[0].coachId)
+                          h5= coaches[0].user.userName
+                          img(class="rounded", src='/images/trainer-1.jpg', width=200, height=200)
+                          span
+                            button.show-profile.btn.btn-primary show profile
+              h3 Payment method
+              fieldset
+                h2 After you send the money, please send a copy of the receipt to the number you transfered to on the Whatsapp.
+                .fieldset-content.text-center
+                  ul.list-group.list-group-horizontal.whatsapp-numbers
+                    li.list-group-item.h4.font-weight-bold.text-warning 012 44 77 66 50
+                    li.list-group-item.h4.font-weight-bold.text-danger 010 66 00 84 16
+                  p.h4
+                    ins
+                      strong You should send 
+                        span#program-price.h4.card-title.pricing-card-title.font-weight-bold.text-primary
+                        span.h4 to one of the above numbers
 
 block scripts
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-steps/1.1.0/jquery.steps.min.js')
+  script(src="/js/dobpicker.js")
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.5/nouislider.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.js')
+  script(src="/js/signup-steps-form.js")
   script.
-    let programs = document.querySelectorAll('input[name="program"]');
-    for (let i = 0; i < programs.length; i++) {
-      programs[i].addEventListener("click", function() {
-        xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("coaches").innerHTML = this.responseText;
-          }
-        };
-        xmlhttp.open("GET","/traineeProfile/getCoaches?proficiency="+programs[i].value,true);
-        xmlhttp.send();
-      })
-    }
+    const price = document.getElementById('program-price');
+    const training = document.getElementById('training');
+    const nutrition = document.getElementById('nutrition');
+    const fullTransformation = document.getElementById('fullTransformation');
+    training.addEventListener('click', () => {
+      price.innerText = '100 EGP ';
+    })
+    nutrition.addEventListener('click', () => {
+      price.innerText = '100 EGP ';
+    })
+    fullTransformation.addEventListener('click', () => {
+      price.innerText = '150 EGP ';
+    })
+  //
+    script.
+      let programs = document.querySelectorAll('input[name="program"]');
+      for (let i = 0; i < programs.length; i++) {
+        programs[i].addEventListener("click", function() {
+          xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              document.getElementById("coaches").innerHTML = this.responseText;
+            }
+          };
+          xmlhttp.open("GET","/traineeProfile/getCoaches?proficiency="+programs[i].value,true);
+          xmlhttp.send();
+        })
+      }
