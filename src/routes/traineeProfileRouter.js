@@ -12,6 +12,8 @@ function router() {
       if (req.isAuthenticated()) {
         if (trainee) {
           return next();
+        } else if (req.user.role == 0) {
+          res.redirect('/admin')
         } else {
           res.redirect('/coachProfile');
         }

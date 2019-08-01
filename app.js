@@ -12,6 +12,7 @@ const passport = require('passport');
 const usersRouter = require('./src/routes/usersRouter');
 const traineeProfileRouter = require('./src/routes/traineeProfileRouter');
 const coachProfileRouter = require('./src/routes/coachProfileRouter');
+const adminRouter = require('./src/routes/adminRouter');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -136,6 +137,7 @@ app.get('/', (req, res) => {
 app.use('/users', usersRouter);
 app.use('/traineeProfile', traineeProfileRouter);
 app.use('/coachProfile', coachProfileRouter);
+app.use('/admin', adminRouter);
 
 app.get('/logout', (req, res) => {
   req.logout();
@@ -143,7 +145,7 @@ app.get('/logout', (req, res) => {
   return res.redirect('/users/login');
 });
 
-app.use( (req, res, next) => {
+app.use((req, res, next) => {
   res.status(404).send("Sorry can't find that!");
 });
 

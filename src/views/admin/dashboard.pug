@@ -1,0 +1,13 @@
+extends ../layout
+block title 
+  title Administration Panel
+block style
+  link(rel='stylesheet' href='/css/mystyles/admin.css')
+block content
+  body
+    section.dashboard
+      .container
+        .users
+          a(class="btn btn-primary", href='/admin/coaches') Manage Coaches 
+          a(class="btn btn-info", href='/admin/exercises') Exercises 
+          a(class="btn btn-danger", href='/logout') Log out

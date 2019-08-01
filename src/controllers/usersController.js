@@ -128,11 +128,11 @@ let post = {
     // Validation
     req.checkBody('firstname', 'First name is required').notEmpty();
     if (firstName) {
-      req.checkBody('firstname', 'First name must be 3 characters long at least').isLength({ min: 3, max:25 });
+      req.checkBody('firstname', 'First name must be 3 characters long at least').isLength({ min: 3, max: 25 });
     }
     req.checkBody('lastname', 'Last name is required').notEmpty();
     if (lastName) {
-      req.checkBody('lastname', 'Last name must be 3 characters long at least').isLength({ min: 3, max:25 });
+      req.checkBody('lastname', 'Last name must be 3 characters long at least').isLength({ min: 3, max: 25 });
     }
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('confirm_password', 'Passwords do not match').equals(password);
@@ -192,10 +192,16 @@ let post = {
   },
   login: (req, res) => {
     let role = req.user.role;
-    if (role == 1) {
-      return res.redirect('/coachProfile')
-    } else {
-      return res.redirect('/traineeProfile');
+    switch (role) {
+      case 0:
+        res.redirect('/admin');
+        break;
+      case 1:
+        res.redirect('/coachProfile');
+        break;
+      case 2:
+        res.redirect('/traineeProfile');
+        break;
     }
   }
 }
