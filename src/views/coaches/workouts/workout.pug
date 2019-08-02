@@ -7,6 +7,6 @@ form(action="/coachProfile/deleteWorkout", method="post", onsubmit="return valid
     .col-sm-4.frame
       .text-primary=`${exercises[i].exerciseName}`
       p
-        span=`${exercises[i].exercise.sets} Sets `
-        span=`${exercises[i].exercise.reps} Reps`
+        span=`${exercises[i].sets} Sets `
+        span=`${exercises[i].reps} Reps`
     - i++;

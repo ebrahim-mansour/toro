@@ -2,7 +2,7 @@
 const Coach = require('../models/coache')
 const Trainee = require('../models/trainee')
 
-let get = {
+let gets = {
   dashboard: async (req, res) => {
     let coaches = await Coach.getAllCoaches()
     let trainees = await Trainee.getAllTrainees()
@@ -10,12 +10,40 @@ let get = {
       coaches,
       trainees
     })
+  },
+  manageCoaches: async (req, res) => {
+    let coaches = await Coach.getAllCoaches()
+    res.render('admin/coaches', { coaches })
   }
 }
-let post = {
+let deletes = {
+  deleteCoach: async (req, res) => {
+    await Coach.destroy({
+      where: {
+        coachId: req.params.id
+      }
+    })
+    res.redirect('back')
+  }
+}
+let patches = {
+  acceptCoach: async (req, res) => {
+    await Coach.update(
+      {
+        validity: 1
+      },
+      {
+        where: {
+          coachId: req.params.id
+        }
+      }
+    )
+    res.redirect('back')
+  }
 }
 
 module.exports = {
-  gets: get,
-  posts: post
+  gets,
+  deletes,
+  patches
 }

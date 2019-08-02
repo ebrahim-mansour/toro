@@ -51,7 +51,6 @@ let get = {
 }
 let post = {
   coachSignup: async (req, res) => {
-
     let firstName = req.body.firstname;
     let lastName = req.body.lastname;
     let username = firstName + ' ' + lastName;

@@ -15,6 +15,10 @@ const modelDefinition = {
   },
   proficiency: {
     type: Sequelize.STRING
+  },
+  validity: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: 0
   }
 };
 
@@ -47,7 +51,8 @@ module.exports.getCoachesByProficiencies = (proficiency) => {
     where: {
       proficiency: {
         [Op.or]: [proficiency, 'all']
-      }
+      },
+      validity: 1
     },
     include: {
       model: User,
@@ -57,6 +62,17 @@ module.exports.getCoachesByProficiencies = (proficiency) => {
 }
 module.exports.getAllCoaches = () => {
   return CoachesModel.findAll({
+    include: {
+      model: User,
+      required: true
+    }
+  });
+}
+module.exports.getAllValidCoaches = () => {
+  return CoachesModel.findAll({
+    where: {
+      validity: 1
+    },
     include: {
       model: User,
       required: true

@@ -62,7 +62,7 @@ let get = {
         });
       }
     } else {
-      let coaches = await Coach.getAllCoaches();
+      let coaches = await Coach.getAllValidCoaches();
       return res.render('trainees/completeRegistration', { coaches });
     }
   },
@@ -341,7 +341,7 @@ let post = {
     let errors = req.validationErrors();
 
     if (errors || customErrors.length > 0) {
-      let coaches = await Coach.getAllCoaches();
+      let coaches = await Coach.getAllValidCoaches();
 
       return res.render('trainees/completeRegistration', {
         errors,

@@ -1,0 +1,47 @@
+extends ../layout
+block title 
+  title Administration Panel
+block style
+  link(rel='stylesheet' href='/css/mystyles/admin.css')
+block content
+  body
+    section.manage-coaches
+      .container
+        a(class="btn btn-primary", href='/admin') Dashboard
+        a(class="btn btn-info", href='/admin/exercises') Exercises 
+        a(class="btn btn-danger", href='/logout') Log out
+
+        .coaches
+          if coaches.length > 0
+            .row
+              table.col-sm-12.coache
+                thead
+                  tr
+                    td Coach name
+                    td Proficiency
+                    td Registration Date
+                    td Mobile
+                    td Remove Coach
+                    td Accept Coach
+                tbody
+                  each coach in coaches
+                    tr
+                      td
+                        a(href=`/coachProfile/manageTrainee/${coach.coachId}`)= coach.user.userName
+                      td
+                        span.coach-proficiency= coach.proficiency
+                      td
+                        span.coach-registration-date= coach.user.registrationDate
+                      td
+                        //- Make a clean way to the phone number
+                        span 0
+                        span.coach-phone= coach.user.phone
+                      td
+                        form(action=`/admin/coaches/delete/${coach.coachId}`)
+                          button delete
+                      td
+                        if coach.validity == false
+                          form(action=`/admin/coaches/accept/${coach.coachId}`)
+                            button accept
+          else
+            .noTrainees There are no Coaches untill now.

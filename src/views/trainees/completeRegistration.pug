@@ -39,21 +39,21 @@ block content
                   | Please enter your infomation and proceed to next step so we can build your account
                 .fieldset-content
                   .form-group
-                    select(class="form-control", name="gender"/*, required*/)
+                    select(class="form-control", name="gender", required)
                       option(value="") Gender
                       option(value="male") Male
                       option(value="female") Female
                   .form-group
-                    input(class="form-control", type='number', name='weight', value=weight, placeholder='Weight in Kg', min=40, max=200 /*, required*/)
+                    input(class="form-control", type='number', name='weight', value=weight, placeholder='Weight in Kg', min=40, max=200 , required)
                   .form-group
-                    input(class="form-control", type='number', name='height', value=height, placeholder='Height in cm', min=100, max=250/*, required*/)
+                    input(class="form-control", type='number', name='height', value=height, placeholder='Height in cm', min=100, max=250, required)
                   .form-group
-                    input(class="form-control", type='number', name='age', value=age, placeholder='Age', min=16, max=60/*, required*/)
+                    input(class="form-control", type='number', name='age', value=age, placeholder='Age', min=16, max=60, required)
                   .form-group
                     label Starting Date:
-                    input(class="form-control", type='date', name='startingDate', value=startingDate/*, required*/)
+                    input(class="form-control", type='date', name='startingDate', value=startingDate, required)
                   .form-group
-                    select(class="form-control", name="experience"/*, required*/)
+                    select(class="form-control", name="experience", required)
                       option(value="") Experience
                       option(value="beginner") Beginner
                       option(value="intermediate") Intermediate
@@ -77,7 +77,7 @@ block content
                   .form-group 
                     textarea(class="form-control", name="sports", cols="50", rows="2", placeholder="Any sports or other activities you are involved in")
                   .form-group 
-                    textarea(class="form-control", name="injuries", cols="50", rows="2", placeholder="Allergies or injuries I should be aware of"/*, required*/)
+                    textarea(class="form-control", name="injuries", cols="50", rows="2", placeholder="Allergies or injuries I should be aware of", required)
               h3 What To Do
               fieldset
                 h2 What To Do
@@ -89,7 +89,7 @@ block content
                       | Goal:
                     .form-radio-flex
                       .form-radio-item
-                        input#build-muscle(type='radio', name='goal', value='build muscle'/*, required*/)
+                        input#build-muscle(type='radio', name='goal', value='build muscle', required)
                         label(for='build-muscle')
                           h5 Build Muscle
                           img(class="rounded", src='/images/build-muscle.jpg', width="150", height="150")
@@ -113,7 +113,7 @@ block content
                       | Programs Available:
                     .form-radio-flex
                       .form-radio-item
-                        input#training(type='radio', name='program', value='training'/*, required*/)
+                        input#training(type='radio', name='program', value='training', required)
                         label(for='training')
                           h5 Training
                           img(class="rounded", src='/images/program-1.jpeg', width="150", height="150")
@@ -138,7 +138,7 @@ block content
                     .form-radio-flex
                       //- each coach in coaches
                       .form-radio-item
-                        input(id=coaches[0].coachId, type='radio', name="coachId", value=coaches[0].coachId/*, required*/)
+                        input(id=coaches[0].coachId, type='radio', name="coachId", value=coaches[0].coachId, required)
                         label(for=coaches[0].coachId)
                           h5= coaches[0].user.userName
                           img(class="rounded", src='/images/trainer-1.jpg', width=200, height=200)
