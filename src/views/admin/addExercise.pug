@@ -1,0 +1,34 @@
+extends ../layout
+block title 
+  title Administration Panel
+block style
+  link(rel='stylesheet' href='/css/mystyles/admin.css')
+block content
+  body
+    section.exercises
+      .container
+        if errors
+          each error in errors
+            .alert.alert-danger= error.msg
+        if customErrors
+          - let i = 0;
+          while i < customErrors.length
+            .alert.alert-danger= customErrors[i]          
+            - i++
+  
+        form#addExercise(action="/admin/exercises/add", method="post", enctype="multipart/form-data")
+          h2.text-center Add exercise
+          .form-group
+            input.form-control(type='text', placeholder='Exercise name', name="name", required)
+          .form-group
+              select.custom-select.form-control(name="category", required)
+                option(selected) Choose Category
+                each category in categories
+                  option(value=category.DISTINCT)= category.DISTINCT
+          .form-group
+            .custom-file
+              input#customFile.custom-file-input(type='file', name="image", required)
+              label.custom-file-label(for='customFile') Choose image
+          .form-group
+            input.form-control(type='text', placeholder='Video link', name="videoLink", required)
+        input(class="btn btn-primary py-3 px-5 col-sm-12", type="submit", form="addExercise", value="Save exercise")

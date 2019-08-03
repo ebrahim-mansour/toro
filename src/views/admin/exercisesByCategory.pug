@@ -1,0 +1,32 @@
+extends ../layout
+block title 
+  title Administration Panel
+block style
+  link(rel='stylesheet' href='/css/mystyles/admin.css')
+block content
+  body
+    section.exercises
+      .container
+        h4 Delete button is not available now
+        table.table
+          thead
+            tr
+              th(scope='col') Name
+              th(scope='col') Image
+              th(scope='col') Video
+              th(scope='col') Edit
+              th(scope='col') Delete
+          tbody
+            each exercise in exercisesByCategory
+              tr
+                th(scope='row')= exercise.name
+                td
+                  img(src=exercise.picturePath == NULL ? '/images/noexercise.jpg' : exercise.picturePath, width=100, height=50)
+                td
+                  iframe(width="100", height="50", src=exercise.videoLink == NULL ? '' : exercise.videoLink)
+                td
+                  form(action=`/admin/exercises/edit/${exercise.name}`, method="get")
+                    input(type="submit", value="Edit")
+                td
+                  form(action=`/admin/exercises/delete/${exercise.name}`, method="post")
+                    input(type="submit", value="Delete", disabled)

@@ -32,3 +32,24 @@ module.exports.getCategoryExercises = (category) => {
     }
   });
 }
+module.exports.findExerciseByName = async (name) => {
+  return ExercisesModel.findOne({
+    where: {
+      name
+    }
+  })
+}
+module.exports.editExercise = async (name, category, picturePath, videoLink) => {
+  ExercisesModel.update(
+    {
+      category,
+      picturePath,
+      videoLink
+    },
+    {
+      where: {
+        name
+      }
+    }
+  )
+}

@@ -43,7 +43,26 @@ html(lang='en')
   body
     if user
       if user.role == 0
-        h2 Welcome Admin
+        nav#ftco-navbar.navbar.navbar-expand-lg.navbar-dark.ftco_navbar.bg-dark.ftco-navbar-light
+          .container
+            a.navbar-brand(href="/")
+              img(class="logo" src="/images/logo.gif", alt="logo")
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#ftco-nav', aria-controls='ftco-nav', aria-expanded='false', aria-label='Toggle navigation')
+              span.oi.oi-menu
+              |  Menu
+            #ftco-nav.collapse.navbar-collapse
+              ul.navbar-nav.ml-auto
+                li.nav-item
+                  a.nav-link(href='/admin') dashboard
+                li.nav-item
+                  a.nav-link(href='/admin/coaches') manage coaches
+                li.nav-item
+                  a.nav-link(href='/admin/exercises') exercises
+                li.nav-item
+                  a.nav-link(href='/admin/exercises/add') add new exercise
+                li.nav-item
+                  a.nav-link(href='/logout') log out
+
       else if user.traineeId
         nav#ftco-navbar.navbar.navbar-expand-lg.navbar-dark.ftco_navbar.bg-dark.ftco-navbar-light
           .container

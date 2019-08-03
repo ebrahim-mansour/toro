@@ -1,4 +1,9 @@
 const express = require('express')
+const multer = require('multer');
+
+const upload = multer({
+  dest: 'public/uploads/exercises/'
+})
 
 const adminRouter = express.Router()
 
@@ -42,8 +47,25 @@ function router() {
   adminRouter.route('/coaches/accept/:id')
     .get(ensureAuthenticated, adminController.patches.acceptCoach)
 
-  return adminRouter
+  // Manage exercises
+  adminRouter.route('/exercises')
+    .get(ensureAuthenticated, adminController.gets.exercises)
 
+  // Add exercise
+  adminRouter.route('/exercises/add')
+    .get(ensureAuthenticated, adminController.gets.addExercise)
+    .post(ensureAuthenticated, upload.single('image'), adminController.posts.addExercise)
+
+  // View exercises by category
+  adminRouter.route('/exercises/:category')
+    .get(ensureAuthenticated, adminController.gets.viewExercisesByCategory)
+
+  // Edit exercises
+  adminRouter.route('/exercises/edit/:exerciseName')
+    .get(ensureAuthenticated, adminController.gets.editExercise)
+    .post(ensureAuthenticated, upload.single('image'), adminController.patches.editExercise)
+
+    return adminRouter
 }
 
 module.exports = router()

@@ -1,0 +1,13 @@
+extends ../layout
+block title 
+  title Administration Panel
+block style
+  link(rel='stylesheet' href='/css/mystyles/admin.css')
+block content
+  body
+    section.exercises
+      .container
+        h2.text-center Choose category to edit it's exercises
+        each category in categories
+          .list-group
+            a.list-group-item.list-group-item-action(href=`/admin/exercises/${category.DISTINCT}`)= category.DISTINCT
