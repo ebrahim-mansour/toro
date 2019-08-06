@@ -49,22 +49,18 @@ let get = {
         return res.render('trainees/beforeStartingDate');
       } else {
         let days = await Day.getDaysWorkoutsAndRestDays(traineeId);
-        // let workouts = await Workout.getCoachWorkouts(coachId);
-        // let restDays = await RestDay.getRestDays(coachId);
-        // let weeksPlans = await WeeksPlans.getWeeksPlans(coachId);
         return res.render('trainees/traineeHomePage', {
           days,
-          // workouts,
-          // restDays,
-          // weeksPlans,
-          nowDate,
-          // tomorrow
+          nowDate
         });
       }
     } else {
       let coaches = await Coach.getAllValidCoaches();
       return res.render('trainees/completeRegistration', { coaches });
     }
+  },
+  coachProfile: async (req, res) => {
+    res.send('Coach details')
   },
   getCoaches: async (req, res) => {
     let proficiency = req.query.proficiency;
@@ -110,8 +106,6 @@ let get = {
       return res.render('trainees/dayDetails', { days, dayDetails, restDay, dayNumber, nowDate });
     }
     return res.redirect('back');
-
-
   },
   getTimeSlots: async (req, res) => {
 

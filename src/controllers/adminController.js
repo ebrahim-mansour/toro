@@ -15,7 +15,21 @@ let gets = {
     })
   },
   manageCoaches: async (req, res) => {
+    // Calculating the number of trainees each coach have
     let coaches = await Coach.getAllCoaches()
+    let coachesIds = []
+    let trainees = await Trainee.getAllTrainees()
+    trainees.forEach(trainee => {
+      coachesIds.push(trainee.coachId)
+    })
+    coaches.forEach(coach => {
+      let numberOfTrainees = 0
+      for (let i = 0; i < coachesIds.length; ++i) {
+        if (coachesIds[i] == coach.coachId)
+          numberOfTrainees++;
+      }
+      coach.numberOfTrainees = numberOfTrainees
+    })
     res.render('admin/coaches', { coaches })
   },
   exercises: async (req, res) => {

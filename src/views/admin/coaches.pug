@@ -17,6 +17,7 @@ block content
                     td Proficiency
                     td Registration Date
                     td Mobile
+                    td Trainees
                     td Remove Coach
                     td Accept Coach
                 tbody
@@ -32,6 +33,7 @@ block content
                         //- Make a clean way to the phone number
                         span 0
                         span.coach-phone= coach.user.phone
+                      td= coach.numberOfTrainees
                       td
                         form(action=`/admin/coaches/delete/${coach.coachId}`)
                           button delete

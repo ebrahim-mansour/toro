@@ -85,8 +85,8 @@ block content
                   | Please enter your infomation and proceed to next step so we can build your account
                 .fieldset-content
                   .form-group
-                    p.desc
-                      | Goal:
+                    h5.desc.text-primary
+                      | Personal Goal:
                     .form-radio-flex
                       .form-radio-item
                         input#build-muscle(type='radio', name='goal', value='build muscle', required)
@@ -109,8 +109,8 @@ block content
                           h5 Fitness
                           img(class="rounded", src='/images/fitness.jpg', width="150", height="150")
                   .form-group
-                    p.desc
-                      | Programs Available:
+                    h5.desc.text-primary
+                      | Choose the program you want:
                     .form-radio-flex
                       .form-radio-item
                         input#training(type='radio', name='program', value='training', required)
@@ -136,14 +136,14 @@ block content
                 .fieldset-content
                   .form-group
                     .form-radio-flex
-                      //- each coach in coaches
-                      .form-radio-item
-                        input(id=coaches[0].coachId, type='radio', name="coachId", value=coaches[0].coachId, required)
-                        label(for=coaches[0].coachId)
-                          h5= coaches[0].user.userName
-                          img(class="rounded", src='/images/trainer-1.jpg', width=200, height=200)
-                          span
-                            button.show-profile.btn.btn-primary show profile
+                      each coach in coaches
+                        .form-radio-item
+                          input(id=coach.coachId, type='radio', name="coachId", value=coach.coachId, required)
+                          label(for=coach.coachId)
+                            h5= coach.user.userName
+                            img(class="rounded", src=coach.avatar == NULL ? '/images/trainer-1.jpg' : coach.avatar, width=200, height=200)
+                            span
+                              a(href=`/traineeProfile/coaches/${coach.coachId}`, target="_blank").show-profile.btn.btn-primary show profile
               h3 Payment method
               fieldset
                 h2 After you send the money, please send a copy of the receipt to the number you transfered to on the Whatsapp.

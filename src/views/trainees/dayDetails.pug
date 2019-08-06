@@ -32,20 +32,29 @@ block content
               span= dayNumber
             if dayDetails.workoutId != null
               .text-primary= `Workout Name: ` + days[`${dayNumber-1}`].workouts[0].workoutName
-                //
-                  form(action="/traineeProfile/getWorkout" method="POST")
-                    input(type="hidden", name="workoutId" value=dayDetails.workoutId)
-                    button(type='submit' class='btn btn-primary done')= days[`${dayNumber-1}`].workouts[0].workoutName
               .exercises
                 .container
-                  .row
+                  //
+                    .row
+                      - let i = 0;
+                      while i < exercises.length
+                        .col-sm-4.frame
+                          .workoutExercises.text-primary=`${exercises[i].exerciseName}`
+                          p
+                            span=`${exercises[i].sets} Sets `
+                            span=`${exercises[i].reps} Reps`
+                        - i++;
+                  ul.list-group
                     - let i = 0;
                     while i < exercises.length
-                      .col-sm-4.frame
-                        .workoutExercises.text-primary=`${exercises[i].exerciseName}`
+                      li.list-group-item.d-sm-inline-flex.justify-content-between.align-items-center
+                        span.badge.badge-primary.badge-pill= i + 1
+                        p.workoutExercises.text-primary=`${exercises[i].exerciseName}`
                         p
                           span=`${exercises[i].sets} Sets `
                           span=`${exercises[i].reps} Reps`
+                        img(src=exercises[i].exercise.picturePath == NULL ? '/images/noexercise.jpg' : exercises[i].exercise.picturePath, width=100, height=50)
+                        a(href=exercises[i].exercise.videoLink == NULL ? '' : exercises[i].exercise.videoLink, target="_blank") Show video
                       - i++;
             else
               .text-primary= `Rest day Name: ` + days[`${dayNumber-1}`].restDays[0].name
@@ -60,6 +69,7 @@ block content
                     source(src=restDay.video, type='video/mp4')
                     source(src=restDay.video, type='video/ogg')
                     | Your browser does not support the video tag.                
+            
             if dayDetails.status == "current"
               if dayDetails.workoutId != null
                 form(action="/traineeProfile/timeSlots/getTimeSlotsOfSpecificDay" method="POST")

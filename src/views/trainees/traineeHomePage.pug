@@ -5,53 +5,10 @@ block style
   link(rel='stylesheet' href='/css/mystyles/trainee.css')
 block content
   body
-    //
-      - let nextDay;
-      each day in days
-        if day.whenToStart == tomorrow
-          - nextDay = day.whenToStart
-
     if days.length > 0
       section.daysAdded.text-center
         .container
           p.lead Click on the number of the day to view it's exercises
-          // Old way to define exercises
-          //
-            .day.border.border-secondary.col-sm-3
-              div Day number: 
-                span= day.dayNumber
-              if day.workoutId != null
-                .text-secondary Workout Name: 
-                  form(action="/traineeProfile/getWorkout" method="POST")
-                    input(type="hidden", name="workoutId" value=day.workouts[0].workoutId)
-                    button(type='submit' class='btn btn-primary done')= day.workouts[0].workoutName
-              else
-                .text-secondary Rest: 
-                  form(action="/traineeProfile/getRestDay" method="POST")
-                    input(type="hidden", name="restDayId" value=day.restDays[0].restDayId)
-                    button(type='submit' class='btn btn-primary done')= day.restDays[0].name
-              if day.status == "current"
-                if day.workoutId != null
-                  form(action="/traineeProfile/timeSlots/getTimeSlotsOfSpecificDay" method="POST")
-                    input(type="hidden", name="dayNumber" value=day.dayNumber)
-                    button(type="submit", class="btn btn-primary done") Make request
-                  form(action="traineeProfile/getNextDayIfExists", method="POST", onsubmit="return validateMyForm()")
-                    input(type="hidden", name="dayNumber" value=day.dayNumber)
-                    button(type='submit' class='btn btn-primary done') I finished this day
-                else
-                  form(action="traineeProfile/getNextDayIfExists", method="POST", onsubmit="return validateMyForm()")
-                    input(type="hidden", name="dayNumber" value=day.dayNumber)
-                    button(type='submit' class='btn btn-primary done') I finished this day                  
-              if day.status == "current and has a private session"
-                form(action="traineeProfile/getNextDayIfExists", method="POST", onsubmit="return validateMyForm()")
-                  input(type="hidden", name="dayNumber" value=day.dayNumber)
-                  button(type='submit' class='btn btn-primary done') I finished this day
-                .hasPrivateSession.text-success Private Session
-              if day.status == "done"
-                .userFinished.text-primary Finished
-              if day.status == "done and has a private session"
-                .userFinished.text-primary Finished
-                .hasPrivateSession.text-success Private Session
           .row
             - let i = 0;
             - let j = 0;
@@ -67,30 +24,10 @@ block content
                     - j++;
                     if j % 30 == 0
                       - break
-              //
-                else
-                  p NONONONONONO
-                  while j < days.length
-                    if days[j].whenToStart <= nowDate
-                      a.day(href=`/traineeProfile/workout/${days[j].dayNumber}`)= days[j].dayNumber
-                    else
-                      span.day= days[j].dayNumber
-                    - j++;
-                    if j % 30 == 0
-                      - break
               - i++;
-
     else
       section.noDaysAdd.text-center
         .container
           h3 Your training program is going to be ready within 48 hours or less, we will email you whenever it is ready.
 
 block scripts
-  script.
-    function validateMyForm() {
-      let ask = confirm("Are you sure");
-      if (!ask) {
-        return false;
-      }
-      return true;
-    }

@@ -36,6 +36,10 @@ function router() {
   traineeProfileRouter.route('/completeRegistration')
     .post(ensureAuthenticated, traineeProfileController.posts.completeRegistration)
 
+  // Coaches profile page
+  traineeProfileRouter.route('/coaches/:coachId')
+    .get(ensureAuthenticated, traineeProfileController.gets.coachProfile)
+
   // Get coaches to choose from
   traineeProfileRouter.route('/getCoaches')
     .get(ensureAuthenticated, traineeProfileController.gets.getCoaches)
