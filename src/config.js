@@ -40,16 +40,30 @@ const operatorsAliases = {
 let config = module.exports;
 
 config.db = {
-  user: 'izxujd4earcd8i2r',
-  password: 'meul94fl14guwixl',
-  name: 'syy0w773umxa68su'
+  user: 'root', 
+  password: '',
+  name: 'rats_gym'
 };
 config.db.details = {
-  host: 'd6vscs19jtah8iwb.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  port: 3306,
+  host: 'localhost',
   dialect: 'mysql',
   define: {
     timestamps: false
   },
   operatorsAliases
 };
+
+// config.db = {
+//   user: 'toro',
+//   password: 'torotoro',
+//   name: 'toro'
+// };
+// config.db.details = {
+//   host: 'tor.cnhabkvxjgoz.us-east-2.rds.amazonaws.com',
+//   port: 3306,
+//   dialect: 'mysql',
+//   define: {
+//     timestamps: false
+//   },
+//   operatorsAliases
+// };

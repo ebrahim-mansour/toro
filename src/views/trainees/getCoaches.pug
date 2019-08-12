@@ -1,6 +1,10 @@
-.form-group
-  select(class="form-control", name="coachId", required)
-    option(value="") Choose Coach
-    if coaches
-      each coach in coaches
-        option(value=coach.coachId)= coach.user.userName
+.form-row
+  .form-radio-flex
+    each coach in coaches
+      .form-radio-item
+        input(id=coach.coachId, type='radio', name="coachId", value=coach.coachId, required)
+        label(for=coach.coachId)
+          h5= coach.user.userName
+          img(class="rounded", src=coach.avatar == NULL ? '/images/trainer-1.jpg' : coach.avatar, width=200, height=200)
+          span
+            a(href=`/traineeProfile/coaches/${coach.coachId}`, target="_blank").show-profile.btn.btn-primary show profile

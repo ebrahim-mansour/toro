@@ -9,27 +9,18 @@ block style
   
 block content
   body
-    //
-      section.completeRegistration
-        .completeRegistration-container
-          .container
-            form#completeRegistration(action="/traineeProfile/completeRegistration" method="POST"/*, enctype="multipart/form-data"*/)
-              .form-group
-                #coaches
-              .row
-                .form-group.col-sm-12
-                  input(class="btn btn-primary py-3 px-5 col-sm-12" type="submit", value="Complete Registration")
+    section.errors.text-center.container
+      .container
+        if errors
+          each error in errors
+            .alert.alert-danger= error.msg
+        if customErrors
+          each customError in customErrors
+            .alert.alert-danger= customError.msg
 
     section.registrationSteps
       .main
-        .registrationStepsContainer
-          if errors
-            each error in errors
-              .alert.alert-danger= error.msg
-          if customErrors
-            each customError in customErrors
-              .alert.alert-danger= customError.msg
-
+        .container
           form#signup-form.signup-form(action='/traineeProfile/completeRegistration', method='POST')
             div
               h3 Personal info
@@ -58,7 +49,7 @@ block content
                       option(value="beginner") Beginner
                       option(value="intermediate") Intermediate
                       option(value="expert") Expert
-              h3 More info
+              h3 Trainee extra information
               fieldset
                 h2 The more information, the more customized
                 p.desc
@@ -127,30 +118,20 @@ block content
                         label(for='fullTransformation')
                           h5 Full transformation
                           img(class="rounded", src='/images/program-3.jpeg', width="150", height="150")
-
               h3 Choose Your Coach
               fieldset
                 h2 Coaches
                 p.desc
                   | Here are our coaches
                 .fieldset-content
-                  .form-group
-                    .form-radio-flex
-                      each coach in coaches
-                        .form-radio-item
-                          input(id=coach.coachId, type='radio', name="coachId", value=coach.coachId, required)
-                          label(for=coach.coachId)
-                            h5= coach.user.userName
-                            img(class="rounded", src=coach.avatar == NULL ? '/images/trainer-1.jpg' : coach.avatar, width=200, height=200)
-                            span
-                              a(href=`/traineeProfile/coaches/${coach.coachId}`, target="_blank").show-profile.btn.btn-primary show profile
+                  #coaches
               h3 Payment method
               fieldset
                 h2 After you send the money, please send a copy of the receipt to the number you transfered to on the Whatsapp.
                 .fieldset-content.text-center
                   ul.list-group.list-group-horizontal.whatsapp-numbers
-                    li.list-group-item.h4.font-weight-bold.text-warning 012 44 77 66 50
-                    li.list-group-item.h4.font-weight-bold.text-danger 010 66 00 84 16
+                    li.list-group-item.h4.font-weight-bold.text-warning 012 899 49 582
+                    li.list-group-item.h4.font-weight-bold.text-danger 010 269 59 185
                   p.h4
                     ins
                       strong You should send 
@@ -179,18 +160,18 @@ block scripts
     fullTransformation.addEventListener('click', () => {
       price.innerText = '150 EGP ';
     })
-  //
-    script.
-      let programs = document.querySelectorAll('input[name="program"]');
-      for (let i = 0; i < programs.length; i++) {
-        programs[i].addEventListener("click", function() {
-          xmlhttp = new XMLHttpRequest();
-          xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              document.getElementById("coaches").innerHTML = this.responseText;
-            }
-          };
-          xmlhttp.open("GET","/traineeProfile/getCoaches?proficiency="+programs[i].value,true);
-          xmlhttp.send();
-        })
-      }
+    document.getElementsByClassName('steps')[0].classList.add('d-none', 'd-sm-block');
+  script.
+    let goal = document.querySelectorAll('input[name="goal"]');
+    for (let i = 0; i < goal.length; i++) {
+      goal[i].addEventListener("click", function() {
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("coaches").innerHTML = this.responseText;
+          }
+        };
+        xmlhttp.open("GET","/traineeProfile/getCoaches?proficiency="+goal[i].value,true);
+        xmlhttp.send();
+      })
+    }

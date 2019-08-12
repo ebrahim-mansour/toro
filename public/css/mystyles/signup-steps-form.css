@@ -114,6 +114,11 @@ body {
   -o-background-size: cover;
   background-size: cover;  
 }
+.registrationSteps .main .container {
+  padding-left: 0px;
+  padding-right: 0px;
+  max-width: 1400px;
+}
 .main {
   /*padding: 50px 0;*/
   position: relative;
@@ -229,7 +234,7 @@ input {
     width: 1090px; }
 
 .content {
-  min-height: 600px; }
+  min-height: 700px; }
 
 .steps ul {
   flex-direction: column;
@@ -246,7 +251,7 @@ input {
     z-index: 99; }
     .steps ul li a {
       text-decoration: none;
-      color: #222; }
+      color: #000; }
   .steps ul:after {
     position: absolute;
     content: '';
@@ -289,24 +294,20 @@ input {
     background: #ebebeb;
     color: #999;
     margin-right: 15px;
-    border: 5px solid #fff;
     font-weight: bold; }
   .title .step-text {
     font-weight: bold;
     color: #999; }
 
 .current .title .step-number {
-  background: #4966b1;
+  background: #e5ce48;
   color: #fff; }
 .current .title .step-text {
-  color: #4966b1; }
+  color: #e5ce48; }
 
 .content h3 {
   display: none; }
-/*
-.content, .actions {
-  background: #f8f8f8; }
-*/
+
 .actions {
   padding-bottom: 90px; }
   .actions ul {
@@ -320,12 +321,12 @@ input {
         float: left; }
         .actions ul li:first-child a {
           background: #e8e8e8;
-          color: #999; }
+          color: #000; }
       .actions ul li a {
         width: 140px;
         height: 50px;
-        color: #fff;
-        background: #4966b1;
+        color: #000;
+        background: #e5ce48;
         align-items: center;
         -moz-align-items: center;
         -webkit-align-items: center;
@@ -354,8 +355,8 @@ input {
     position: absolute;
     left: -9999px; }
   .form-radio-flex input + label {
-    margin: 0px;
-    /* width: 223px; */
+    width: 100%;
+    margin: 0px auto;
     /*height: 133px;*/
     box-sizing: border-box;
     position: relative;
@@ -377,7 +378,7 @@ input {
   .form-radio-flex input:focus + label {
     outline: none; }
   .form-radio-flex input:hover {
-    border: 1px solid #4966b1; }
+    border: 1px solid #e5ce48; }
 
 label.error {
   display: block;
@@ -455,7 +456,7 @@ input.error {
   #slider-margin .noUi-marker-horizontal.noUi-marker-large, #slider-margin .noUi-marker-horizontal.noUi-marker {
     height: 0px; }
   #slider-margin .noUi-connect {
-    background: #4966b1; }
+    background: #e5ce48; }
   #slider-margin .noUi-connects {
     border-radius: 0px;
     -moz-border-radius: 0px;
@@ -470,7 +471,7 @@ input.error {
     outline: none;
     border: none;
     right: -15px;
-    border: 1px solid #4966b1;
+    border: 1px solid #e5ce48;
     border-radius: 0px; }
     #slider-margin .noUi-handle:after, #slider-margin .noUi-handle:before {
       width: 0px; }
@@ -479,7 +480,7 @@ input.error {
       border: none;
       background: transparent;
       font-size: 16px;
-      color: #4966b1;
+      color: #e5ce48;
       padding: 0px; }
   #slider-margin .noUi-pips {
     width: 96%; }
@@ -517,16 +518,18 @@ input.error {
   #find_bank {
     width: 100%; }
 
-  .form-radio-flex input + label {
+  /* .form-radio-flex input + label {
     width: 190px;
-    height: 120px; } }
+    height: 120px; }  */
+  }
 @media screen and (max-width: 992px) {
   .content {
-    height: 900px; }
+    min-height: 900px; }
 
-  .form-radio-flex input + label {
+  /* .form-radio-flex input + label {
     width: 100px;
-    height: 65px; } }
+    height: 65px; } */
+  }
 @media screen and (max-width: 768px) {
   #steps-uid-0-p-0 .form-row, #steps-uid-0-p-0 .form-group, #steps-uid-0-p-0 .form-date {
     width: 100%; }
@@ -557,7 +560,7 @@ input.error {
     -ms-flex-direction: column; }
 
   .content {
-    height: 1050px; }
+    min-height: 850px; }
 
   #find_bank {
     margin-bottom: 20px; }
@@ -570,9 +573,12 @@ input.error {
 
   .form-radio-flex .form-radio-item {
     padding: 0 5px; }
-
-  .form-radio-flex input + label {
+  #steps-uid-0-p-2 .form-radio-item, #steps-uid-0-p-3 .form-radio-item {
+    margin: 5px auto;
+  }
+  /* .form-radio-flex input + label {
     width: 90px;
-    height: 61px; } }
+    height: 61px; }  */
+  }
 
 /*# sourceMappingURL=style.css.map */
