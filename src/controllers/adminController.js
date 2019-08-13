@@ -86,37 +86,46 @@ let patches = {
     // Validation
     req.checkBody('name', 'Exercise Name is required').notEmpty()
     req.checkBody('category', 'Category is required').notEmpty()
-    req.checkBody('videoLink', 'videoLink is required').notEmpty()
+    // req.checkBody('videoLink', 'videoLink is required').notEmpty()
 
     let errors = req.validationErrors()
     let customErrors = []
 
     if (req.file) {
-      if (req.file.size > 500000) {
-        customErrors.push('File size should not be more than 500k kilobyte')
+      if (req.file.size > 900000) {
+        customErrors.push('File size should not be more than 900k kilobyte')
       }
       if (!req.file.originalname.match(/\.(png|jpg|jpeg)$/)) {
         customErrors.push('File must be an image')
       }
-    } else {
-      customErrors.push('Image is required')
     }
 
     if (errors || customErrors.length > 0) {
-      let path = req.file.path
-      fs.unlink(path, async (err) => {
-        if (err) {
-          console.error(err)
-        } else {
-          let categories = await Exercise.getDistinctNamesOfCategories()
-          let exercise = await Exercise.findExerciseByName(name)
-          return res.render('admin/editExercise', { errors, customErrors, exercise, categories, name, category, videoUrl })
-        }
-      })
+      if (req.file) {
+        let path = req.file.path
+        fs.unlink(path, async (err) => {
+          if (err) {
+            console.error(err)
+          } else {
+            let categories = await Exercise.getDistinctNamesOfCategories()
+            let exercise = await Exercise.findExerciseByName(name)
+            return res.render('admin/editExercise', { errors, customErrors, exercise, categories, name, category, videoUrl })
+          }
+        })  
+      } else {
+        let categories = await Exercise.getDistinctNamesOfCategories()
+        let exercise = await Exercise.findExerciseByName(name)
+        return res.render('admin/editExercise', { errors, customErrors, exercise, categories, name, category, videoUrl })
+      }
     } else {
       let picPath = req.file.path
       let newPicPath = picPath.slice(6)
-      let videoLink = videoUrl.replace('watch?v=', 'embed/')
+      let videoLink
+      if (videoUrl) {
+        videoLink = videoUrl.replace('watch?v=', 'embed/')
+      } else {
+        videoLink = null
+      }
 
       await Exercise.editExercise(name, category, newPicPath, videoLink)
       return res.redirect(`/admin/exercises/${category}`)
