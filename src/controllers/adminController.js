@@ -62,6 +62,14 @@ let deletes = {
       }
     })
     res.redirect('back')
+  },
+  deleteExercise: async (req, res) => {
+    Exercise.destroy({
+      where: {
+        name: req.params.exerciseName
+      }
+    })
+    res.redirect('back')
   }
 }
 let patches = {
@@ -79,7 +87,8 @@ let patches = {
     res.redirect('back')
   },
   editExercise: async (req, res) => {
-    let name = req.body.name
+    let oldExerciseName = req.params.exerciseName
+    let newExerciseName = req.body.name
     let category = req.body.category
     let videoUrl = req.body.videoLink
 
@@ -118,8 +127,14 @@ let patches = {
         return res.render('admin/editExercise', { errors, customErrors, exercise, categories, name, category, videoUrl })
       }
     } else {
-      let picPath = req.file.path
-      let newPicPath = picPath.slice(6)
+      let picPath
+      let newPicPath
+      if (req.file) {
+        picPath = req.file.path
+        newPicPath = picPath.slice(6)
+      } else {
+        newPicPath = null
+      }
       let videoLink
       if (videoUrl) {
         videoLink = videoUrl.replace('watch?v=', 'embed/')
@@ -127,7 +142,7 @@ let patches = {
         videoLink = null
       }
 
-      await Exercise.editExercise(name, category, newPicPath, videoLink)
+      await Exercise.editExercise(oldExerciseName, newExerciseName, category, newPicPath, videoLink)
       return res.redirect(`/admin/exercises/${category}`)
     }
   }

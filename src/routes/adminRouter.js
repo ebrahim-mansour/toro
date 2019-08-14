@@ -65,6 +65,9 @@ function router() {
     .get(ensureAuthenticated, adminController.gets.editExercise)
     .post(ensureAuthenticated, upload.single('image'), adminController.patches.editExercise)
 
+  adminRouter.route('/exercises/delete/:exerciseName')
+    .post(ensureAuthenticated, adminController.deletes.deleteExercise)
+
     return adminRouter
 }
 

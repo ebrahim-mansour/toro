@@ -39,16 +39,17 @@ module.exports.findExerciseByName = async (name) => {
     }
   })
 }
-module.exports.editExercise = async (name, category, picturePath, videoLink) => {
+module.exports.editExercise = async (oldExerciseName, newExerciseName, category, picturePath, videoLink) => {
   ExercisesModel.update(
     {
+      name: newExerciseName,
       category,
       picturePath,
       videoLink
     },
     {
       where: {
-        name
+        name: oldExerciseName
       }
     }
   )
