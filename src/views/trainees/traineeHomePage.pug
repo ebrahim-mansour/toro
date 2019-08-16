@@ -5,7 +5,11 @@ block style
   link(rel='stylesheet' href='/css/mystyles/trainee.css')
 block content
   body
-    if days.length > 0
+    if (days.length > 0 && traineePayingInfo.traineesPayingInfo.renewalDate.getTime() <= today.getTime())
+      section.text-center
+        .container
+          h3(style="margin: 140px auto") شخلل عشان تشوف التمارين
+    else if days.length > 0
       section.daysAdded.text-center
         .container
           p.lead Click on the number of the day to view it's exercises

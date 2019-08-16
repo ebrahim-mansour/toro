@@ -18,13 +18,13 @@ block content
             th(scope='col') Height
         tbody
           tr
-            td(scope='row')= traineeInfo[0].user.userName
-            td= traineeInfo[0].startingDate
-            td= traineeInfo[0].program
-            td= traineeInfo[0].gender
-            td= traineeInfo[0].age
-            td= traineeInfo[0].weight
-            td= traineeInfo[0].height
+            td(scope='row')= traineeInfo.user.userName
+            td= traineeInfo.startingDate
+            td= traineeInfo.program
+            td= traineeInfo.gender
+            td= traineeInfo.age
+            td= traineeInfo.weight
+            td= traineeInfo.height
 
       section.addMethods
         .createMethods.text-center
@@ -40,7 +40,7 @@ block content
             .addByDay.col-md-12
               form#addDay(action="/coachProfile/addDay" method="POST")
                 .form-group
-                  input(type="hidden", name="traineeId", value=`${traineeInfo[0].traineeId}`)
+                  input(type="hidden", name="traineeId", value=`${traineeInfo.traineeId}`)
                   select(class="form-control", name="workoutId", required)
                     option(value="", style="background:rgba(0,0,0,0.5);") Select Workout
                       each workout in workouts
@@ -50,7 +50,7 @@ block content
             .addRestDay.col-md-12
               form#addRestDay(action="/coachProfile/addRestDay" method="POST")
                 .form-group
-                  input(type="hidden", name="traineeId", value=`${traineeInfo[0].traineeId}`)
+                  input(type="hidden", name="traineeId", value=`${traineeInfo.traineeId}`)
                   select(class="form-control", name="restDayId", required)
                     option(value="", style="background:rgba(0,0,0,0.5);") Select Rest Day
                       each restDay in restDays
@@ -59,7 +59,7 @@ block content
             .addByWeek.col-md-12
               form#addWeek(action="/coachProfile/addWeek" method="POST")
                 .form-group
-                  input(type="hidden", name="traineeId", value=`${traineeInfo[0].traineeId}`)
+                  input(type="hidden", name="traineeId", value=`${traineeInfo.traineeId}`)
                   select(class="form-control", name="weekPlanId", required)
                     option(value="", style="background:rgba(0,0,0,0.5);") Select Week
                       each weekPlan in weeksPlans
@@ -105,7 +105,7 @@ block content
         section.noDaysAdd.text-center
           h3 You Haven't added any days
       form#resetDays(action="/coachProfile/resetDays", method="post", onsubmit="return ensureResetDays()")
-        input(type="hidden", name="traineeId", value=`${traineeInfo[0].traineeId}`)
+        input(type="hidden", name="traineeId", value=`${traineeInfo.traineeId}`)
         button.resetDays(class="btn btn-danger py-3 px-5 col-sm-12", type="submit" form="resetDays") Reset Days
 
 block scripts

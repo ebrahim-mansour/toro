@@ -23,8 +23,7 @@ block content
                 tbody
                   each coach in coaches
                     tr
-                      td
-                        a(href=`/coachProfile/manageTrainee/${coach.coachId}`)= coach.user.userName
+                      td.text-primary= coach.user.userName
                       td
                         span.coach-proficiency= coach.proficiency
                       td

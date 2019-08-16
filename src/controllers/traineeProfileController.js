@@ -14,7 +14,7 @@ const DayHours = require('../models/reservedHours');
 let get = {
   settings: async (req, res) => {
     let traineeId = req.user.traineeId;
-    let proficiency = req.user.program;
+    let proficiency = req.user.goal;
     let coaches = await Coach.getCoachesByProficiencies(proficiency);
     let trainee = await Login.getLoginData(traineeId);
     return res.render('trainees/settings', {
@@ -26,6 +26,7 @@ let get = {
 
     // Get the current date
     let nowDate = new Date();
+    let today = new Date();
     let day = nowDate.getDate();
     let nextDay = nowDate.getDate() + 1;
     let month = nowDate.getMonth() + 1; //January is 0!
@@ -49,9 +50,12 @@ let get = {
         return res.render('trainees/beforeStartingDate');
       } else {
         let days = await Day.getDaysWorkoutsAndRestDays(traineeId);
+        let traineePayingInfo = await Trainee.getTraineePayingInfo(traineeId)
         return res.render('trainees/traineeHomePage', {
+          traineePayingInfo,
           days,
-          nowDate
+          nowDate,
+          today
         });
       }
     } else {
@@ -217,7 +221,7 @@ let post = {
             User.updateSettings(firstName, lastName, userName, phone, traineeId);
             // Removing the old workouts when changing the trainer
             let traineeCurrentCoachId = await Trainee.getTraineeInfo(traineeId);
-            if (coachId != traineeCurrentCoachId[0].coachId) {
+            if (coachId != traineeCurrentCoachId.coachId) {
               Trainee.updateSettings(coachId, traineeId);
               Trainee.changeStatus(traineeId, "new");
               Day.removeTraineeDays(traineeId);
@@ -240,7 +244,7 @@ let post = {
         User.updateSettings(firstName, lastName, userName, phone, traineeId);
         // Removing the old workouts when changing the trainer
         let traineeCurrentCoachId = await Trainee.getTraineeInfo(traineeId);
-        if (coachId != traineeCurrentCoachId[0].coachId) {
+        if (coachId != traineeCurrentCoachId.coachId) {
           Trainee.updateSettings(coachId, traineeId);
           Trainee.changeStatus(traineeId, "new");
           Day.removeTraineeDays(traineeId);

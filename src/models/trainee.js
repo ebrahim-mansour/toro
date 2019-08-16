@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 
 const User = require('./users');
+const TraineePayingInfoModel = require('./traineePayingInfo')
 
 const db = require('../services/database');
 const Op = Sequelize.Op;
@@ -66,10 +67,17 @@ const modelDefinition = {
   injuries: {
     type: Sequelize.STRING
   },
+  paid: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: 0
+  }
 };
 
 // 2: Define the Trainee model.
 const TraineeModel = module.exports = db.define('trainees', modelDefinition);
+
+TraineePayingInfoModel.hasMany(TraineeModel, { foreignKey: 'traineeId' })
+TraineeModel.belongsTo(TraineePayingInfoModel, { foreignKey: 'traineeId' })
 
 // Get the current date
 let nowDate = new Date();
@@ -133,12 +141,23 @@ module.exports.startNow = (traineeId, currentDate) => {
   );
 }
 module.exports.getTraineeInfo = (traineeId) => {
-  return TraineeModel.findAll({
+  return TraineeModel.findOne({
     where: {
       traineeId
     },
     include: {
       model: User,
+      required: true
+    }
+  });
+}
+module.exports.getTraineePayingInfo = (traineeId) => {  
+  return TraineeModel.findOne({
+    where: {
+      traineeId
+    },
+    include: {
+      model: TraineePayingInfoModel,
       required: true
     }
   });
@@ -157,7 +176,8 @@ module.exports.getTraineesOfSpecificCoach = (coachId) => {
       startingDate: {
         [Op.lte]: nowDate
       },
-      coachId: coachId
+      coachId: coachId,
+      paid: true
     },
     include: {
       model: User,
@@ -189,4 +209,14 @@ module.exports.getAllTraineesIds = () => {
       ['traineeId', 'ASC']
     ],
   });
+}
+module.exports.activateProgram = (traineeId) => {
+  TraineeModel.update(
+    { paid: true },
+    {
+      where: {
+        traineeId
+      }
+    }
+  );
 }

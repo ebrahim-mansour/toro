@@ -65,10 +65,24 @@ function router() {
     .get(ensureAuthenticated, adminController.gets.editExercise)
     .post(ensureAuthenticated, upload.single('image'), adminController.patches.editExercise)
 
+  // Delete exercises
   adminRouter.route('/exercises/delete/:exerciseName')
     .post(ensureAuthenticated, adminController.deletes.deleteExercise)
 
-    return adminRouter
+  // View all trainees
+  adminRouter.route('/trainees')
+    .get(ensureAuthenticated, adminController.gets.viewTrainees)
+
+  // Manage trainee page
+  adminRouter.route('/trainees/:traineeId')
+    .get(ensureAuthenticated, adminController.gets.manageTrainee)
+
+
+  // Manage trainee page
+  adminRouter.route('/trainees/activate/:traineeId')
+    .post(ensureAuthenticated, adminController.posts.activateTrainee)
+
+  return adminRouter
 }
 
 module.exports = router()

@@ -4,6 +4,7 @@ const fs = require('fs')
 const Coach = require('../models/coache')
 const Trainee = require('../models/trainee')
 const Exercise = require('../models/exercises')
+const TraineePayingInfo = require('../models/traineePayingInfo')
 
 let gets = {
   dashboard: async (req, res) => {
@@ -52,6 +53,17 @@ let gets = {
       return res.redirect('back')
     }
     return res.render('admin/editExercise', { exercise, categories })
+  },
+  viewTrainees: async (req, res) => {
+    let trainees = await Trainee.getAllTrainees()
+    return res.render('admin/trainees', { trainees })
+  },
+  manageTrainee: async (req, res) => {
+    let traineeId = req.params.traineeId
+    let traineeInfo = await Trainee.getTraineeInfo(traineeId)
+    let traineePayingInfo = await Trainee.getTraineePayingInfo(traineeId)
+    
+    return res.render('admin/traineeInfo', { traineeInfo, traineePayingInfo })
   }
 }
 let deletes = {
@@ -198,6 +210,29 @@ let posts = {
         res.redirect('back')
       }
     }
+  },
+  activateTrainee: async (req, res) => {
+    let traineeId = req.params.traineeId
+    let program = req.body.program
+    let amount
+    if (program == 'full transformation') {
+      amount = 150
+    } else {
+      amount = 100
+    }
+    let traineePayingInfo = new TraineePayingInfo({
+      traineeId,
+      program,
+      amount
+    })
+
+    // Adding trainee paying info to database
+    TraineePayingInfo.activateProgram(traineePayingInfo)
+
+    // Make the trainee available to his coach
+    Trainee.activateProgram(traineeId)
+
+    return res.redirect('/admin/trainees')
   }
 }
 

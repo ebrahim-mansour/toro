@@ -3,7 +3,7 @@
   position: relative;
 }
 
-/* All Coach Pages */
+/* All Admin Pages */
 .dropdown .dropbtn {
   font-size: 13px;  
   border: none;
@@ -35,4 +35,10 @@
 }
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+/* Trainee info */
+#activate-program {
+  font-size: 18px;
+  margin-bottom: 15px;
 }

@@ -1,0 +1,56 @@
+extends ../layout
+block title 
+  title Administration Panel
+block style
+  link(rel='stylesheet' href='/css/mystyles/admin.css')
+block content
+  body
+    if traineeInfo
+      section.manage-trainee.text-center
+        .container
+          h3 Personal info
+          fieldset
+            .fieldset-content
+              .form-group
+                label(class="form-control")=`Username: ${traineeInfo.user.userName}`
+                label(class="form-control")=`Phone: 0${traineeInfo.user.phone}`
+                label#registrationDate(class="form-control")=`Registration Date: ${traineeInfo.user.registrationDate}`
+                label(class="form-control")=`Gender: ${traineeInfo.gender}`
+                label(class="form-control")=`Weight: ${traineeInfo.weight} Kg`
+                label(class="form-control")=`Height: ${traineeInfo.height} Cm`
+                label(class="form-control")=`Age: ${traineeInfo.age} years`
+                label(class="form-control")=`Starting Date: ${traineeInfo.startingDate}`
+                label(class="form-control")=`Experience: ${traineeInfo.experience}`
+                label(class="form-control")=`Goal: ${traineeInfo.goal}`
+                label(class="form-control")=`Program: ${traineeInfo.program}`
+          h3 Trainee extra information
+          fieldset
+            .fieldset-content
+              .form-group
+                textarea(class="form-control", placeholder="Time s(he) goes to job, Not Given", readonly)= traineeInfo.workTime
+                textarea(class="form-control", placeholder="Time s(he) finishes job, Not Given", readonly)= traineeInfo.workFinishTime
+                textarea(class="form-control", placeholder="Time s(he) goes to the gym, Not Given", readonly)= traineeInfo.gymTime
+                textarea(class="form-control", placeholder="Time s(he) usually sleep, Not Given", readonly)= traineeInfo.sleepTime
+                textarea(class="form-control", placeholder="History with supplements, Not Given", readonly)= traineeInfo.supplements
+                textarea(class="form-control", placeholder="Any sports or other activities, Not Given", readonly)= traineeInfo.sports
+                textarea(class="form-control", placeholder="Allergies or injuries, Not Given", readonly)= traineeInfo.injuries
+          h3 Payment
+          fieldset
+            .fieldset-content
+              .form-group
+                if traineePayingInfo
+                  label#renewalDate(class="form-control")=`Renewal Date: ${traineePayingInfo.traineesPayingInfo.renewalDate}`
+                if traineeInfo.program
+                  form(action=`/admin/trainees/activate/${traineeInfo.traineeId}`, method="post")
+                    input(type="hidden", name="program", value=traineeInfo.program)
+                    button#activate-program(class="btn btn-primary py-3 px-5", type="submit")= `Activate ${traineeInfo.program} plan`
+                else
+                  h4.text-danger Cannot activate before completing the registration form
+    else
+      h2.text-center(style="margin: 138px auto") Does not exist
+
+block scripts
+  script.
+    document.getElementById('registrationDate').innerHTML = document.getElementById('registrationDate').innerHTML.replace(' GMT+0200 (Eastern European Standard Time)', '')
+    document.getElementById('renewalDate').innerHTML = document.getElementById('renewalDate').innerHTML.replace(' GMT+0200 (Eastern European Standard Time)', '')
+    

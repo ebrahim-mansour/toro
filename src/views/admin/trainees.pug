@@ -1,0 +1,23 @@
+extends ../layout
+block title 
+  title Administration Panel
+block style
+  link(rel='stylesheet' href='/css/mystyles/admin.css')
+block content
+  body
+    section.manage-trainees.text-center
+      .container
+        .trainees
+          if trainees.length > 0
+            .row
+              table.col-sm-12.trainee
+                thead
+                  tr
+                    td Traine name
+                tbody
+                  each trainee in trainees
+                    tr
+                      td
+                        a(href=`/admin/trainees/${trainee.traineeId}`)= trainee.user.userName
+          else
+            .noTrainees There are no trainees untill now.
