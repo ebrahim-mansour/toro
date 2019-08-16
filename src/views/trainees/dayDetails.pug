@@ -13,9 +13,9 @@ block content
           .row
             - let i = 0;
             - let j = 0;
-            - let numberOfLoops = Math.ceil(days.length / 30);
+            - let numberOfLoops = Math.ceil(days.length / 10);
             while i < numberOfLoops
-              if j == 0 || j % 30 == 0
+              if j == 0 || j % 10 == 0
                 .week.col-sm-12
                   while j < days.length
                     if days[j].whenToStart <= nowDate
@@ -23,7 +23,7 @@ block content
                     else
                       span.day= days[j].dayNumber
                     - j++;
-                    if j % 30 == 0
+                    if j % 10 == 0
                       - break
               - i++;
 
