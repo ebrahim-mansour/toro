@@ -5,7 +5,11 @@ block style
   link(rel='stylesheet' href='/css/mystyles/trainee.css')
 block content
   body
-    if (days.length > 0 && traineePayingInfo.traineesPayingInfo.renewalDate.getTime() <= today.getTime())
+    if !traineePayingInfo
+      section.text-center
+        .container
+          h3(style="margin: 140px auto") شخلل عشان تشوف التمارين
+    else if (traineePayingInfo && days.length > 0 && traineePayingInfo.traineesPayingInfo.renewalDate.getTime() <= today.getTime())
       section.text-center
         .container
           h3(style="margin: 140px auto") شخلل عشان تشوف التمارين
@@ -33,5 +37,3 @@ block content
       section.noDaysAdd.text-center
         .container
           h3 Your training program is going to be ready within 48 hours or less, we will email you whenever it is ready.
-
-block scripts

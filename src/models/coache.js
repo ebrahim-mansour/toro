@@ -19,6 +19,9 @@ const modelDefinition = {
   validity: {
     type: Sequelize.BOOLEAN,
     defaultValue: 0
+  },
+  avatar: {
+    type: Sequelize.STRING
   }
 };
 

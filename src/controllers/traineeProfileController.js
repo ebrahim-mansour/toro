@@ -69,6 +69,8 @@ let get = {
   getCoaches: async (req, res) => {
     let proficiency = req.query.proficiency;
     let coaches = await Coach.getCoachesByProficiencies(proficiency);
+    console.log(coaches);
+    
     return res.render('trainees/getCoaches', { coaches: coaches });
   },
   dayDetails: async (req, res) => {
